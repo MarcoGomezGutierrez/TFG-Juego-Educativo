@@ -1,0 +1,14 @@
+:root {
+  --color-background: #80FF4E;
+  --color-header: #49FF00;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-background);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
