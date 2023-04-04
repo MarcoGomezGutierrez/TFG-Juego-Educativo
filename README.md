@@ -9,3 +9,9 @@ cd app
 ```
 npm start
 ```
+
+Librerias:
+
+```
+npm install react-router-dom
+```

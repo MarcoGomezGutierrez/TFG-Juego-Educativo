@@ -1,46 +1,22 @@
 import React, { Component } from "react";
-import "../styles/Header.css"
-import data from "../other/header.json"
+import { Outlet, Link } from 'react-router-dom';
+import "../styles/layout/header.css";
 
-function selectLanguage(language) {
-  if (language === 'es-ES') {
-    return data.es;
-  } else return data.en;
-}
-
-const Arrow = () => {
-  return (
-    <div className="arrow">
-      <div className="firstLine"/>
-      <div className="secondLine"/>
-    </div>
-  )
-}
 
 class Header extends Component {
-  constructor() {
-    super();
-    this.language = selectLanguage(navigator.language);
-  }
-
-  Arrow() {
-    return (
-      <div className="arrow">
-        <div className="firstLine"/>
-        <div className="secondLine"/>
-      </div>
-    )
-  }
 
   render() {
     return (
-      <div className="navbar">
-        <div className="item title">Primary</div>
-        <div className="item button">
-          {this.language}
-          <Arrow/>
+      <>
+        <div className="navbar">
+          <div className="item title">Primary</div>
+          <div className="item">
+            <Link to="/login" className="button">Sign in</Link>
+            <div className="button border">Sign up</div>
+          </div>
         </div>
-      </div>
+        <Outlet/>
+      </>
     );
   }
   
