@@ -13,6 +13,37 @@
     
 }
 
+.fade-out-up {
+        animation: fadeOutUp 0.3s ease-out forwards;
+    }
+
+    .fade-out-down {
+        animation: fadeOutDown 0.3s ease-out forwards;
+    }
+
+    /*Animacion del Header de desvanecimiento hacia arriba*/
+    @keyframes fadeOutUp {
+        0% {
+        opacity: 1;
+        transform: translateY(0);
+        }
+        100% {
+        opacity: 0;
+        transform: translateY(-100%);
+        }
+    }
+
+    @keyframes fadeOutDown {
+        0% {
+        opacity: 0;
+        transform: translateY(-100%);
+        }
+        100% {
+        opacity: 1;
+        transform: translateY(0);
+        }
+    }
+
 .item {
     margin: 20px auto;
     display: flex;
@@ -34,6 +65,7 @@
     color: black;
     
     border-radius: 10px;
+    border: none;
 }
 
 .button:hover {
@@ -43,14 +75,14 @@
 
 .border:hover {
     color:black;
-    background-color: #50bbd8;
+    background-color: var(--color-button-hover);
 }
 
 .border {
     border: 2px solid black;
     border-radius: 5px;
     padding: 5px 10px;
-    background-color: #235390;
+    background-color: var(--color-button);
     color: #ffffff;
 }
 

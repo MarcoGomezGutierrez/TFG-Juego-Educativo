@@ -15,3 +15,9 @@ Librerias:
 ```
 npm install react-router-dom
 ```
+
+Leer variables de entorno:
+
+```
+npm install dotenv
+```

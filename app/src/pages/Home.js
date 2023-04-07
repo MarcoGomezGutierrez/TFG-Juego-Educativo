@@ -1,14 +1,89 @@
 import React, { Component } from "react";
-import '../styles/App.css';
 import Layout from "../components/Layout";
 
 class Home extends Component {
+    
     render() {
         return(
             <Layout>
-                <div>
-                    Home
-                </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
+                <div> Home </div>
             </Layout>
         )
     }

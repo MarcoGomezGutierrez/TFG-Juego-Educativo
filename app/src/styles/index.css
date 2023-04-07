@@ -1,6 +1,8 @@
 :root {
   --color-background: #7ccd18f1;
   --color-header: #58CC02;
+  --color-button: #235390;
+  --color-button-hover: #50bbd8;
 }
 
 body {
