@@ -1,48 +1,41 @@
-import React, { Component } from "react";
-import "../styles/Header.css"
-import data from "../other/header.json"
+import React, { useEffect, useState} from "react";
+import { Outlet, Link } from 'react-router-dom';
+import "../styles/layout/header.css";
 
-function selectLanguage(language) {
-  if (language === 'es-ES') {
-    return data.es;
-  } else return data.en;
-}
 
-const Arrow = () => {
+function Header() {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [showHeader, setShowHeader] = useState(""); // Inicialmente empieza en vacio para que en la primera carga no se reproduzca la animación
+
+  //Detectar si la página hace scroll, si hace scroll hacia abajo ocultar el header y hacer la animación, si hace scroll hacia arriba lo muestra
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentPosition = window.pageYOffset;
+      setShowHeader(currentPosition <= scrollPosition || currentPosition < 10);
+      setScrollPosition(currentPosition);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
+
   return (
-    <div className="arrow">
-      <div className="firstLine"/>
-      <div className="secondLine"/>
-    </div>
-  )
-}
-
-class Header extends Component {
-  constructor() {
-    super();
-    this.language = selectLanguage(navigator.language);
-  }
-
-  Arrow() {
-    return (
-      <div className="arrow">
-        <div className="firstLine"/>
-        <div className="secondLine"/>
-      </div>
-    )
-  }
-
-  render() {
-    return (
-      <div className="navbar">
+    <>
+      <header className={`navbar ${
+          showHeader === true ? "fade-out-down" : showHeader === false ? "fade-out-up" : ""
+        }`}>
         <div className="item title">Primary</div>
-        <div className="item button">
-          {this.language}
-          <Arrow/>
+        <div className="item">
+          <Link to="/sign-in" className="button">Sign in</Link>
+          <Link to="/sign-up" className="button border">Sign up</Link>
         </div>
-      </div>
-    );
-  }
+      </header>
+      <Outlet/>
+    </>
+  );
   
 }
 
