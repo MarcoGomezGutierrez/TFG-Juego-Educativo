@@ -1,14 +1,33 @@
 # TFG-Juego-Educativo
 Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Informática. Este proyecto será un videojuego educativo, desarrollado con React para todas las plataformas (móvil, tablet, ordenador)
 
-Correr Proyecto en React:
+Correr Aplicación:
+
+- Servidor:
+
+```
+cd server
+```
+```
+npm i
+```
+```
+node index.js
+```
+
+- Aplicación:
 
 ```
 cd app
 ```
 ```
+npm i
+```
+```
 npm start
 ```
+
+Estructura de carpetas del proyecto:
 
 ```
 .
@@ -37,7 +56,10 @@ npm start
 |       └── 🗎 index.js
 │   ├── 🗎 package-lock.json
 |   └── 🗎 package.json
-│       
+├── 📁 server
+│   ├── 🗎 index.js
+│   ├── 🗎 package-lock.json
+|   └── 🗎 package.json
 ├── 🗎 .gitignore
 └── 🗎 README.md
 ```
