@@ -3,6 +3,8 @@
 # dependencies
 /app/node_modules
 /server/node_modules
+/server/.env
+/server/*.info
 /app/.pnp
 /app/.pnp.js
 

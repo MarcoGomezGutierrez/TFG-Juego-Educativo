@@ -1,0 +1,97 @@
+body {
+    background-color: var(--color-background-loby);
+}
+
+/* Webkit */
+::-webkit-scrollbar {
+    background-color: #B3D5AC;
+    width: 10px;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #404D3E;
+    border-radius: 10px;
+  }
+  
+  /* Firefox */
+  ::-moz-scrollbar {
+    background-color: #B3D5AC;
+    min-width: 10px;
+    max-width: 10px;
+    border-radius: 10px;
+  }
+  
+  ::-moz-scrollbar-thumb {
+    background-color: #404D3E;
+    border-radius: 10px;
+  }
+
+/*Centrar el contenido en el centro de la pantalla*/
+.loby {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.mainContainer {
+    background: var(--color-main-container);
+
+    width: 100vh;
+    height: 50vh;
+    /*height: 100%;*/
+
+    border: 3px solid var(--color-main-container-border);
+    border-radius: 10px;
+
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+    justify-content: center;
+    align-items: center;
+    
+    
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.grupo {
+    display: flex;
+    /* Calcula el ancho del grupo siendo (ancho + borde-del-boton + gap) * agrupacion-de-nivel 
+    de esta forma los niveles quedan agrupados de 10 en 10 y queden alineados correctamente
+    */
+    width: calc((50px + 2px + 20px) * 10);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    gap: 20px;
+}
+
+.label {
+    background: var(--color-button-background);
+    width: 50px;
+    height: 50px;
+
+    border-radius: 8px;
+    border: 2px solid var(--color-button-border);
+    margin-bottom: 5px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.label:hover {
+    cursor: pointer;
+}
+
+
+/*Esto garantiza que el margen solo se aplicará cuando sea necesario y que no se superpondrá en la pantalla antes de que se requiera el desplazamiento.*/
+@media screen and (min-height: calc(50vh + 200px)) {
+    .loby {
+      padding: 100px 0;
+    }
+  }
+

@@ -3,6 +3,12 @@
   --color-header: #58CC02;
   --color-button: #235390;
   --color-button-hover: #50bbd8;
+  
+  --color-background-loby: #E1F293;
+  --color-main-container: #79CC68;
+  --color-main-container-border: #6AB35B;
+  --color-button-background: #538C48;
+  --color-button-border: #2D4D27;
 }
 
 body {

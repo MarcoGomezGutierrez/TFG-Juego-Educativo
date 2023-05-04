@@ -110,3 +110,9 @@ npm install jsonwebtoken
 ```
 npm install cors
 ```
+
+- Manejo de Base de Datos:
+
+```
+npm install mssql
+```

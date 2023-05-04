@@ -4,8 +4,24 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const jwt = require('jsonwebtoken');
+const sql = require('mssql');
 
 const SECRET_KEY = 'mysecretkey';
+
+const config = {
+  user: 'tfg',
+  password: '8ccbeccd93047af8e7a73064aec345ab57d5a5443417f562f8a0c39fdc5a6136',
+  server: 'DESKTOP-ADGVC7E\SQLEXPRESS',
+  database: 'TFG',
+}
+
+sql.connect(config, err => {
+  if (err) {
+      console.error(err);
+      return;
+  }
+  console.log('Conexión a la base de datos establecida');
+});
 
 // Configura el middleware para procesar los datos de solicitud POST en formato JSON
 app.use(express.json(), cors());
