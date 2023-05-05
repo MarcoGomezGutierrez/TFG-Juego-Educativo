@@ -3,31 +3,97 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
 Correr Aplicación:
 
+- Docker:
+
+    - Levantar docker:
+
+        ```
+        docker-compose up -d
+        ```
+
+    - Salir contenedor docker:
+
+        ```
+        docker-compose down
+        ```
+
+    - Eliminar contenedor docker:
+
+        ```
+        docker-compose down --rmi all
+        ```
+
+    - Ver contenedores docker:
+
+        ```
+        docker ps
+        ```
+
+    - Ejecutar contenedor docker en terminal integrada:
+
+        ```
+        docker exec -it <nombre-contenedor> bash
+        ```
+
+        ```
+        docker exec -it tfg-juego-educativo-db-1 bash
+        ```
+
+- MySQL:
+
+    - Comprobar:
+
+        ```
+        mysql -u <usuario-base-de-datos> -p <nombre-base-de-datos>
+        ```
+
+        ```
+        mysql -u root -p tfg_database
+        ```
+
+        - Te pedira la contraseña para verificar tu identidaz
+
 - Servidor:
 
-```
-cd server
-```
-```
-npm i
-```
-```
-node index.js
-```
+    - Abrir la carpeta
+
+        ```
+        cd server
+        ```
+
+    - Instalar dependencias
+
+        ```
+        npm i
+        ```
+
+    - Ejecutar el servidor
+
+        ```
+        node src/index.js
+        ```
 
 - Aplicación:
 
-```
-cd app
-```
-```
-npm i
-```
-```
-npm start
-```
+    - Abrir la carpeta del proyecto
 
-Estructura de carpetas del proyecto:
+        ```
+        cd client
+        ```
+    
+    - Instalar dependencias
+
+        ```
+        npm i
+        ```
+
+    - Iniciar aplicación
+
+        ```
+        npm start
+        ```
+
+- Estructura de carpetas del proyecto:
 
 ```
 .
@@ -64,55 +130,43 @@ Estructura de carpetas del proyecto:
 └── 🗎 README.md
 ```
 
-Librerias App:
+- Librerias Cliente:
 
-- Entrelazar diferentes páginas manteniendo los estados de los componentes:
+    - Entrelazar diferentes páginas manteniendo los estados de los componentes:
 
-```
-npm install react-router-dom
-```
+        ```
+        npm install react-router-dom
+        ```
 
-- Leer variables de entorno:
+    - Leer variables de entorno:
 
-```
-npm install dotenv
-```
+        ```
+        npm install dotenv
+        ```
 
-- Instalar Sockets para React y conectarse al servidor:
+    - Instalar Sockets para React y conectarse al servidor:
 
-```
-npm install socket.io-client
-npm install axios
-```
+        ```
+        npm install socket.io-client
+        npm install axios
+        ```
 
-Librerias Servidor:
+- Librerias Servidor:
 
-- Express:
+    - Express:
 
-```
-npm install express@4
-```
+        ```
+        npm install express@4
+        ```
 
-- Sockets:
+    - Sockets:
 
-```
-npm install socket.io
-```
+        ```
+        npm install socket.io
+        ```
 
-- JsonWebToken:
+    - Manejo de Base de Datos MySQL:
 
-```
-npm install jsonwebtoken
-```
-
-- Instalar permisos política de Cors:
-
-```
-npm install cors
-```
-
-- Manejo de Base de Datos:
-
-```
-npm install mssql
-```
+        ```
+        npm install mysql
+        ```
