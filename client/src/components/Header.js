@@ -29,8 +29,8 @@ function Header() {
         }`}>
         <div className="item title">Primary</div>
         <div className="item">
-          <Link to="/sign-in" className="button">Sign in</Link>
-          <Link to="/sign-up" className="button border">Sign up</Link>
+          <Link to="/sign-in" className="button">Iniciar Sesión</Link>
+          <Link to="/sign-up" className="button border">Registrarse</Link>
         </div>
       </header>
       <Outlet/>

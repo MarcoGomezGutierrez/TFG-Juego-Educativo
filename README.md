@@ -1,14 +1,99 @@
 # TFG-Juego-Educativo
 Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Informática. Este proyecto será un videojuego educativo, desarrollado con React para todas las plataformas (móvil, tablet, ordenador)
 
-Correr Proyecto en React:
+Correr Aplicación:
 
-```
-cd app
-```
-```
-npm start
-```
+- Docker:
+
+    - Levantar docker:
+
+        ```
+        docker-compose up -d
+        ```
+
+    - Salir contenedor docker:
+
+        ```
+        docker-compose down
+        ```
+
+    - Eliminar contenedor docker:
+
+        ```
+        docker-compose down --rmi all
+        ```
+
+    - Ver contenedores docker:
+
+        ```
+        docker ps
+        ```
+
+    - Ejecutar contenedor docker en terminal integrada:
+
+        ```
+        docker exec -it <nombre-contenedor> bash
+        ```
+
+        ```
+        docker exec -it tfg-juego-educativo-db-1 bash
+        ```
+
+- MySQL:
+
+    - Comprobar:
+
+        ```
+        mysql -u <usuario-base-de-datos> -p <nombre-base-de-datos>
+        ```
+
+        ```
+        mysql -u root -p tfg_database
+        ```
+
+        - Te pedira la contraseña para verificar tu identidaz
+
+- Servidor:
+
+    - Abrir la carpeta
+
+        ```
+        cd server
+        ```
+
+    - Instalar dependencias
+
+        ```
+        npm i
+        ```
+
+    - Ejecutar el servidor
+
+        ```
+        node src/index.js
+        ```
+
+- Aplicación:
+
+    - Abrir la carpeta del proyecto
+
+        ```
+        cd client
+        ```
+    
+    - Instalar dependencias
+
+        ```
+        npm i
+        ```
+
+    - Iniciar aplicación
+
+        ```
+        npm start
+        ```
+
+- Estructura de carpetas del proyecto:
 
 ```
 .
@@ -37,54 +122,51 @@ npm start
 |       └── 🗎 index.js
 │   ├── 🗎 package-lock.json
 |   └── 🗎 package.json
-│       
+├── 📁 server
+│   ├── 🗎 index.js
+│   ├── 🗎 package-lock.json
+|   └── 🗎 package.json
 ├── 🗎 .gitignore
 └── 🗎 README.md
 ```
 
-Librerias App:
+- Librerias Cliente:
 
-- Entrelazar diferentes páginas manteniendo los estados de los componentes:
+    - Entrelazar diferentes páginas manteniendo los estados de los componentes:
 
-```
-npm install react-router-dom
-```
+        ```
+        npm install react-router-dom
+        ```
 
-- Leer variables de entorno:
+    - Leer variables de entorno:
 
-```
-npm install dotenv
-```
+        ```
+        npm install dotenv
+        ```
 
-- Instalar Sockets para React y conectarse al servidor:
+    - Instalar Sockets para React y conectarse al servidor:
 
-```
-npm install socket.io-client
-npm install axios
-```
+        ```
+        npm install socket.io-client
+        npm install axios
+        ```
 
-Librerias Servidor:
+- Librerias Servidor:
 
-- Express:
+    - Express:
 
-```
-npm install express@4
-```
+        ```
+        npm install express@4
+        ```
 
-- Sockets:
+    - Sockets:
 
-```
-npm install socket.io
-```
+        ```
+        npm install socket.io
+        ```
 
-- JsonWebToken:
+    - Manejo de Base de Datos MySQL:
 
-```
-npm install jsonwebtoken
-```
-
-- Instalar permisos política de Cors:
-
-```
-npm install cors
-```
+        ```
+        npm install mysql
+        ```
