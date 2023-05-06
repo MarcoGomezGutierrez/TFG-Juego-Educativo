@@ -6,7 +6,7 @@ class Home extends Component {
     render() {
         return(
             <Layout>
-                <div> Me llamo Marco Gomez Gutierrez </div>
+                <div> Home </div>
             </Layout>
         )
     }

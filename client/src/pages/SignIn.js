@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Outlet, Link } from 'react-router-dom';
 //import { Outlet, Link } from 'react-router-dom';
 import '../styles/log.css';
-import axios from 'axios';
 
 class SignIn extends Component {
 
@@ -28,23 +27,7 @@ class SignIn extends Component {
         // Usuario y Contraseña
         const username = this.state.username;
         const password = this.state.password;
-        
-        // Peticion para el inicio de sesión
-        try {
-            const response = await axios.post('http://localhost:3000/register', {
-              username,
-              password,
-            });
-            this.setState({
-                token: response.data.token
-            }, () => {
-                console.log('Username:', username);
-                console.log('Password:', password);
-                console.log('Token:', this.state.token);
-            });
-          } catch (error) {
-            console.error(error);
-          }
+        console.log(username, password);
     }
 
     BackToHome() {
