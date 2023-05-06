@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const io = require('socket.io')(http);
 const encrypt = require('./other/encrypt');
 const router = require('./module/router');
+const pretty = require('express-prettify');
 
 const connection = require('./module/connection')
 
@@ -17,6 +18,9 @@ app.use(express.json());
 
 // Configura el middleware para procesar los datos de solicitud POST en formato JSON
 app.use(cors());
+
+// Ver formato json en response pretty
+app.use(pretty({ query: 'pretty' }));
 
 // Configura una ruta para manejar la solicitud POST del cliente para registrar un nuevo usuario
 app.use('/app', router);

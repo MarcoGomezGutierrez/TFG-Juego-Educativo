@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Outlet, Link } from 'react-router-dom';
-//import { Outlet, Link } from 'react-router-dom';
 import '../styles/log.css';
+import axios from "axios";
+import { sha256 } from '../other/encrypt';
 
 class SignIn extends Component {
 
@@ -9,8 +10,7 @@ class SignIn extends Component {
         super(props);
         this.state = {
             username:"",
-            password:"",
-            token:""
+            password:""
         }
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -26,8 +26,23 @@ class SignIn extends Component {
         
         // Usuario y Contraseña
         const username = this.state.username;
-        const password = this.state.password;
-        console.log(username, password);
+        const password = sha256(this.state.password);
+        
+        try {
+            const response = await axios.post('http://localhost:8080/app/login', {
+              username,
+              password
+            });
+            if (response.status === 200) {
+                const user = { token: response.data.token, username: response.data.username, email: response.data.email, msg: response.data.msg};
+                localStorage.setItem("user", JSON.stringify(user));
+                window.location = "./loby";
+            } else {
+                console.log(response.data.msg);
+            }
+          } catch (error) {
+            console.error(error);
+          }
     }
 
     BackToHome() {

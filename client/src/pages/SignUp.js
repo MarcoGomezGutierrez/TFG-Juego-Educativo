@@ -9,7 +9,6 @@ class SignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: "",
             username: "",
             password: "",
             email: ""
@@ -31,7 +30,7 @@ class SignUp extends React.Component {
         const email = this.state.email;
         const password = sha256(this.state.password);
         
-        // Peticion para el inicio de sesión
+        // Peticion para el registro de usuario
         try {
             const response = await axios.post('http://localhost:8080/app/signup', {
               username,
@@ -39,12 +38,9 @@ class SignUp extends React.Component {
               password
             });
             if (response.status === 200) {
-                this.setState({
-                    token: response.data.token
-                }, () => {
-                    localStorage.setItem("token", response.data.token);
-                    window.location = "./loby";
-                });
+                const user = { token: response.data.token, username: response.data.username, email: response.data.email, msg: response.data.msg };
+                localStorage.setItem("user", JSON.stringify(user));
+                window.location = "./loby";
             } else {
                 console.log(response.data.msg);
             }

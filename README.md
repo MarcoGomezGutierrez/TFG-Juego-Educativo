@@ -194,9 +194,9 @@ Correr Aplicación:
         ```
         npm install cors
         ```
-
-    - Validación de inicio de sesión:
+        
+    - Texto json formato Pretty:
 
         ```
-        npm install bcryptjs
+        npm install express-prettify
         ```
