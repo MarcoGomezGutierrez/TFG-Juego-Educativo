@@ -7,6 +7,8 @@ CREATE TABLE users (
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
 
+DELETE FROM users WHERE id = 1;
+
 /*
 connection.query(`SHOW TABLES LIKE 'usuarios'`, (error, results, fields) => {
   if (error) throw error;

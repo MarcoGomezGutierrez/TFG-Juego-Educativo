@@ -5,7 +5,8 @@ const connection = mysql.createConnection({
   por: '3306',
   user: 'root',
   password: 'password',
-  database: 'tfg_database'
+  database: 'tfg_database',
+  multipleStatements: true
 });
 
 connection.connect((error) => {

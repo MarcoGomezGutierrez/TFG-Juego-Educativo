@@ -40,9 +40,9 @@ class SignIn extends Component {
             } else {
                 console.log(response.data.msg);
             }
-          } catch (error) {
+        } catch (error) {
             console.error(error);
-          }
+        }
     }
 
     BackToHome() {
