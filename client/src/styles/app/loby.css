@@ -74,9 +74,11 @@ body {
     width: 50px;
     height: 50px;
 
+    color: black;
     border-radius: 8px;
     border: 2px solid var(--color-button-border);
     margin-bottom: 5px;
+    text-decoration: none;
     
     display: flex;
     justify-content: center;
@@ -85,6 +87,33 @@ body {
 
 .label:hover {
     cursor: pointer;
+    background-color: var(--color-main-container);
+}
+
+.configurationPanel {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  margin: 30px;
+}
+
+.editButton {
+  position: relative;
+  margin: 15px;
+  padding: 5px;
+
+  color: black;
+
+  border: 2px solid var(--color-button-border);
+  background-color: var(--color-button-background);
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.editButton:hover {
+  cursor: pointer;
+  background-color: var(--color-background-loby);
 }
 
 

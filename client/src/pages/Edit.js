@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../styles/app/edit.css";
+import { Outlet, Link } from 'react-router-dom';
 import axios from "axios";
 
 class Edit extends Component {
@@ -112,9 +113,18 @@ class Edit extends Component {
         }
     }
 
+    BackToLoby() {
+        return (
+            <Link to="/loby" className="circle">
+                <div className="arrow"/>
+            </Link>
+        );
+    }
+
     render() {
         return (
             <main>
+                {this.BackToLoby()}
                 <div className="form-container">
                     <h1>Editar Preguntas</h1>
                     <form onSubmit={this.handleSubmit} className="form">
@@ -268,9 +278,10 @@ class Edit extends Component {
                                 className="check"
                             />
                         </div>
-                        <input type="submit" value="Insertar" className="button" />
+                        <input type="submit" value="Insertar" className="buttonSubmit" />
                     </form>
                 </div>
+                <Outlet/>
             </main>
         )
     }

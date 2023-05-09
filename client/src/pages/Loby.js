@@ -14,34 +14,51 @@ class Loby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labels: 500
+      labels: 500,
+      access: false,
+      data: null
     }
+  }
+
+  async componentDidMount() {
     try {
       const users = JSON.parse(localStorage.getItem("user"));
       const token = users.token;
-
-      axios.post('http://localhost:8080/app/loby', {
-        token
-      })
-        .then(response => {
-          if (response.status === 200) {
-            console.log(response.data.msg);
-          } else {
-            console.log(response.data.msg);
-            window.location = "./sign-in"
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          window.location = "./sign-in"
-        });
+  
+      const lobyResponse = await this.requestServer('http://localhost:8080/app/loby', token, "post");
+      if (!lobyResponse) {
+        localStorage.removeItem("user");
+        window.location = "./sign-in";
+      }
+  
+      const editResponse = await this.requestServer('http://localhost:8080/app/edit', token, "post");
+      if (editResponse) {
+        this.setState({ access: true });
+      }
+  
+      const temariosResponse = await this.requestServer('http://localhost:8080/game/temarios', null, "get");
+      this.setState({data: temariosResponse.results});
     } catch (err) {
       console.error(err);
+      this.setState({ access: false });
       window.location = "./sign-in"
     }
-
   }
 
+  async requestServer(url, token, server) {
+    try {
+      let response;
+      if (server === "post") {
+        response = await axios.post(url, { token });
+      } else if (server === "get") {
+        response = await axios.get(url);
+      }
+      return response.data;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  }
 
   niveles() {
     const nuevosNiveles = [];
@@ -70,12 +87,31 @@ class Loby extends Component {
     return nuevosNiveles;
   }
 
+  configuration() {
+    return (
+      <div className="configurationPanel">
+        <Link to="/sign-in" className="editButton">Logout</Link>
+        {this.editAccess()}
+      </div>
+    );
+  }
+
+  editAccess() {
+    if (this.state.access) {
+      return (<Link to="/edit" className="editButton">Edit Page</Link>)
+    } else {
+      return (<></>)
+    }
+  }
+
   render() {
     return (
       <main className="loby">
+        {this.configuration()}
         <div className="mainContainer">
           {this.niveles()}
         </div>
+        <button onClick={() => console.log(this.state.data[0].nombre_temario)}>Click</button>
         <Outlet />
       </main>
     )
