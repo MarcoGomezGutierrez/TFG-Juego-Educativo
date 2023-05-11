@@ -3,20 +3,19 @@ import "../styles/app/loby.css";
 import { Outlet, Link } from 'react-router-dom';
 import axios from "axios";
 
-const Nivel = ({ num, value }) => (
+/*const Nivel = ({ num, value }) => (
   <Link to={"/game"} state={{ value: value }} className="label" key={`nivel-${num / 10}`}>
     {num}
   </Link>
-);
+);*/
 
 class Loby extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      labels: 500,
       access: false,
-      data: null
+      data: []
     }
   }
 
@@ -24,20 +23,20 @@ class Loby extends Component {
     try {
       const users = JSON.parse(localStorage.getItem("user"));
       const token = users.token;
-  
+
       const lobyResponse = await this.requestServer('http://localhost:8080/app/loby', token, "post");
       if (!lobyResponse) {
         localStorage.removeItem("user");
         window.location = "./sign-in";
       }
-  
+
       const editResponse = await this.requestServer('http://localhost:8080/app/edit', token, "post");
       if (editResponse) {
         this.setState({ access: true });
       }
-  
-      const temariosResponse = await this.requestServer('http://localhost:8080/game/temarios', null, "get");
-      this.setState({data: temariosResponse.results});
+
+      const temariosResponse = await this.requestServer('http://localhost:8080/game/temarios-agrupados', null, "get");
+      this.setState({ data: temariosResponse.data });
     } catch (err) {
       console.error(err);
       this.setState({ access: false });
@@ -60,42 +59,17 @@ class Loby extends Component {
     }
   }
 
-  niveles() {
-    const nuevosNiveles = [];
-    let grupoActual = [];
-
-    for (let i = 1; i <= this.state.labels; i++) {
-      grupoActual.push(<Nivel num={i} value={`value1-${i}`} />);
-      if (i % 10 === 0) {
-        nuevosNiveles.push(
-          <div className="grupo" key={`grupo-${i / 10}`}>
-            {grupoActual}
-          </div>
-        );
-        grupoActual = [];
-      }
-    }
-
-    if (grupoActual.length > 0) {
-      nuevosNiveles.push(
-        <div className="grupo" key={`grupo-${nuevosNiveles.length + 1}`}>
-          {grupoActual}
-        </div>
-      );
-    }
-
-    return nuevosNiveles;
-  }
-
+  // Imprime el boton de Cerrar Sesión y de edición de la Base de Datos
   configuration() {
     return (
       <div className="configurationPanel">
-        <Link to="/sign-in" className="editButton">Logout</Link>
+        <Link to="/sign-in" className="editButton">Cerrar Sesión</Link>
         {this.editAccess()}
       </div>
     );
   }
 
+  // Método que comprueba si el usuario tiene acceso al apartado de edición de la base de datos
   editAccess() {
     if (this.state.access) {
       return (<Link to="/edit" className="editButton">Edit Page</Link>)
@@ -104,14 +78,28 @@ class Loby extends Component {
     }
   }
 
+  renderTemarioButton = (temario) => {
+    return (
+      <div key={temario.nombre_temario} className="dropdown">
+        <button className="dropdown-btn"> {temario.nombre_temario} </button>
+        <div className="dropdown-content">
+          {temario.niveles.map((nivel) => (
+            <Link to={`/game/${temario.nombre_temario + nivel.nivel}`} state={{ temario: temario.nombre_temario, nivel: nivel.nivel, preguntas: nivel.preguntas }} key={nivel.nivel} className="dropdown-content-nivel">{nivel.nivel}</Link>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   render() {
+    const { data } = this.state;
+
     return (
       <main className="loby">
         {this.configuration()}
         <div className="mainContainer">
-          {this.niveles()}
+          {data.map((temario) => this.renderTemarioButton(temario))}
         </div>
-        <button onClick={() => console.log(this.state.data[0].nombre_temario)}>Click</button>
         <Outlet />
       </main>
     )

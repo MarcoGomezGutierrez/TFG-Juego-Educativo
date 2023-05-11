@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db  = require('../module/connection');
+const db = require('../module/connection');
 
 router.get('/temarios', (req, res) => {
     try {
@@ -30,10 +30,96 @@ router.get('/temarios', (req, res) => {
                 results
             });
         });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
     }
 });
+
+router.get('/temarios-agrupados', (req, res) => {
+    try {
+        db.query(`
+        SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta,
+           r.texto AS respuesta, r.correcta
+        FROM temarios t
+        INNER JOIN niveles n ON t.id = n.id_temario
+        INNER JOIN preguntas p ON n.id = p.id_nivel
+        INNER JOIN respuestas r ON p.id = r.id_pregunta
+        ORDER BY t.nombre, n.nombre, p.id, r.id;
+        `, (err, results) => {
+            if (err) {
+                console.error('Error al ejecutar la consulta:', error);
+                res.status(500).json({ error: 'Error al obtener los datos' });
+            }
+            const data = formatData(results);
+            res.json({ data });
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+// Función para formatear los datos obtenidos de la consulta
+function formatData(results) {
+    const data = [];
+    let currentTemario = null;
+    let currentNivel = null;
+    let currentPregunta = null;
+  
+    for (const row of results) {
+      if (row.nombre_temario !== currentTemario) {
+        currentTemario = row.nombre_temario;
+        data.push({
+          nombre_temario: currentTemario,
+          niveles: []
+        });
+        currentNivel = null;
+        currentPregunta = null;
+      }
+  
+      const temario = data[data.length - 1];
+      const niveles = temario.niveles;
+  
+      if (row.nivel !== currentNivel) {
+        currentNivel = row.nivel;
+        niveles.push({
+          nivel: currentNivel,
+          preguntas: []
+        });
+        currentPregunta = null;
+      }
+  
+      const nivel = niveles[niveles.length - 1];
+      const preguntas = nivel.preguntas;
+  
+      if (row.pregunta !== currentPregunta) {
+        currentPregunta = row.pregunta;
+        preguntas.push({
+          pregunta: currentPregunta,
+          respuestas: []
+        });
+      }
+  
+      const pregunta = preguntas[preguntas.length - 1];
+      pregunta.respuestas.push({
+        respuesta: row.respuesta,
+        correcta: row.correcta === 1
+      });
+    }
+  
+    return data;
+  }
+
+/*function transformCollectionDB(data) {
+    const resultados = data.results;
+    const temario = [];
+    
+    for (let i = 0; i < resultados.length; i++) {
+        const elementos = resultados[i];
+        console.log(elementos);
+    }
+
+    return "result";
+}*/
 
 router.post('/insert', (req, res) => {
     const { temario, nivel, pregunta, respuesta } = req.body;
@@ -60,27 +146,27 @@ router.post('/insert', (req, res) => {
             VALUES (?, ?, @id_pregunta),
                    (?, ?, @id_pregunta),
                    (?, ?, @id_pregunta),
-                   (?, ?, @id_pregunta);`, 
-            [temario, temario, temario, 
-            nivel, nivel ,nivel, 
-            pregunta, 
-            respuesta.res1.texto, respuesta.res1.correcta,
-            respuesta.res2.texto, respuesta.res2.correcta,
-            respuesta.res3.texto, respuesta.res3.correcta,
-            respuesta.res4.texto, respuesta.res4.correcta
-        ],
-        (err, results) => {
-            if (err) {
-                console.log(err);
-                return res.status(500).send({
-                    msg: 'Error interno del servidor'
+                   (?, ?, @id_pregunta);`,
+            [temario, temario, temario,
+                nivel, nivel, nivel,
+                pregunta,
+                respuesta.res1.texto, respuesta.res1.correcta,
+                respuesta.res2.texto, respuesta.res2.correcta,
+                respuesta.res3.texto, respuesta.res3.correcta,
+                respuesta.res4.texto, respuesta.res4.correcta
+            ],
+            (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send({
+                        msg: 'Error interno del servidor'
+                    });
+                }
+                return res.status(200).send({
+                    msg: 'Insertado correctamente'
                 });
-            }
-            return res.status(200).send({
-                msg: 'Insertado correctamente'
             });
-        });
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         return res.status(404).send({
             msg: 'Error interno del servidor',
