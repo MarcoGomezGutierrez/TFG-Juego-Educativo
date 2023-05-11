@@ -150,6 +150,12 @@ Correr Aplicación:
         npm install socket.io-client
         npm install axios
         ```
+    
+    - Instalar crypto para utilizar sha256 para sacar el codigo hash de la contraseña:
+
+        ```
+        npm install crypto-js
+        ```
 
 - Librerias Servidor:
 
@@ -169,4 +175,28 @@ Correr Aplicación:
 
         ```
         npm install mysql
+        ```
+
+    - Actualización del servidor sin reiniciar el servidor:
+
+        ```
+        npm install --save-dev nodemon
+        ```
+    
+    - Generación del Token:
+
+        ```
+        npm install jsonwebtoken
+        ```
+    
+    - Politica de cors para procesar json en una respuesta post:
+
+        ```
+        npm install cors
+        ```
+        
+    - Texto json formato Pretty:
+
+        ```
+        npm install express-prettify
         ```

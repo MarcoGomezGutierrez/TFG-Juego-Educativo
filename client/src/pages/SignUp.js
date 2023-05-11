@@ -1,11 +1,10 @@
 import React from "react";
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import '../styles/log.css';
-import SignIn from "./SignIn";
+import axios from "axios";
+import { sha256 } from '../other/encrypt';
 
-let key = process.env.KEY;
-
-class SignUp extends SignIn {
+class SignUp extends React.Component {
 
     constructor(props) {
         super(props);
@@ -17,14 +16,45 @@ class SignUp extends SignIn {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
+    handleChange = (event, fieldName) => {
+        this.setState({
+            [fieldName]: event.target.value
+        });
+    }
+
+    async handleSubmit(event) {
         event.preventDefault();
 
-        console.log('Email:', this.state.email);
-        console.log('Username:', this.state.username);
-        console.log('Password:', this.state.password);
+        // Usuario y Contraseña
+        const username = this.state.username;
+        const email = this.state.email;
+        const password = sha256(this.state.password);
+        
+        // Peticion para el registro de usuario
+        try {
+            const response = await axios.post('http://localhost:8080/app/signup', {
+              username,
+              email,
+              password
+            });
+            if (response.status === 200) {
+                const user = { token: response.data.token, username: response.data.username, email: response.data.email, msg: response.data.msg };
+                localStorage.setItem("user", JSON.stringify(user));
+                window.location = "./loby";
+            } else {
+                console.log(response.data.msg);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+    }
 
-        console.log("Variable de entorno:", key);
+    BackToHome() {
+        return (
+            <Link to="/" className="circle">
+                <div className="arrow"/>
+            </Link>
+        );
     }
 
     render() {

@@ -5,6 +5,7 @@ import SignUp from './SignUp.js';
 import Home from './Home.js';
 import Loby from './Loby.js';
 import Game from './Game.js';
+import Edit from './Edit.js';
 
 function App() {
 
@@ -12,10 +13,11 @@ function App() {
     <BrowserRouter>
       <Routes path="/">
         <Route index element={<Home/>}/>
-        <Route path='sign-in' element={<SignIn/>}/>
-        <Route path='sign-up' element={<SignUp/>}/>
-        <Route path='loby' element={<Loby/>}/>
-        <Route path='game' element={<Game/>}/>
+        <Route path='/sign-in' element={<SignIn/>}/>
+        <Route path='/sign-up' element={<SignUp/>}/>
+        <Route path='/loby' element={<Loby/>}/>
+        <Route path='/edit' element={<Edit/>}/>
+        <Route path='/game/:id' element={<Game/>}/>
       </Routes>
     </BrowserRouter>
   );
