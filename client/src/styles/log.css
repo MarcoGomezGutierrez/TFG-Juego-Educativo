@@ -57,7 +57,28 @@
     text-indent: 10px;
   }
   
-  .button {
-    border: 1px solid black;
+  .buttonLog {
+    background-color: var(--color-button);
+    border: none;
+    border-radius: 5px;
     margin-top: 20px;
+    border: 1px solid var(--color-background-loby);
+
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 10px;
+  }
+
+  .buttonLog:hover {
+    cursor: pointer;
+    background-color: var(--color-button-hover);
+    border-color: black;
+  }
+
+  @media (max-width: 330px) {
+    /* Estilos para tablets y dispositivos móviles */
+    .form {
+      width: 180px;
+    }
   }

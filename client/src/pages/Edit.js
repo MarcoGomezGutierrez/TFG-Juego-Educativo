@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styles/app/edit.css";
 import { Outlet, Link } from 'react-router-dom';
 import axios from "axios";
+import data from '../data/config.json';
 
 class Edit extends Component {
 
@@ -30,11 +31,12 @@ class Edit extends Component {
                 }
             }
         }
+        this.serverIP = data.serverIP;
         try {
             const users = JSON.parse(localStorage.getItem("user"));
             const token = users.token;
 
-            axios.post('http://localhost:8080/app/edit', {
+            axios.post(`${this.serverIP}/app/edit`, {
                 token
             })
                 .then(response => {
@@ -97,7 +99,7 @@ class Edit extends Component {
         const stateJson = JSON.stringify(this.state);
         console.log(stateJson);
         try {
-            const response = await axios.post('http://localhost:8080/game/insert', {
+            const response = await axios.post(`${this.serverIP}/game/insert`, {
               temario,
               nivel,
               pregunta,
@@ -111,6 +113,28 @@ class Edit extends Component {
         } catch (error) {
             console.error(error);
         }
+
+        this.setState({
+            pregunta: "",
+            respuesta: {
+                res1: {
+                    texto: "",
+                    correcta: false
+                },
+                res2: {
+                    texto: "",
+                    correcta: false
+                },
+                res3: {
+                    texto: "",
+                    correcta: false
+                },
+                res4: {
+                    texto: "",
+                    correcta: false
+                }
+            }
+        });
     }
 
     BackToLoby() {
@@ -127,7 +151,7 @@ class Edit extends Component {
                 {this.BackToLoby()}
                 <div className="form-container">
                     <h1>Editar Preguntas</h1>
-                    <form onSubmit={this.handleSubmit} className="form">
+                    <form onSubmit={this.handleSubmit} className="formEdit">
                         <div className="form-in-line">
                             <h2>Temario:</h2>
                             <input
@@ -135,7 +159,7 @@ class Edit extends Component {
                                 type="text"
                                 value={this.state.temario}
                                 onChange={(e) => this.handleChange(e, "temario")}
-                                className="box"
+                                className="boxEdit"
                             />
                         </div>
                         <div className="form-in-line">
@@ -145,7 +169,7 @@ class Edit extends Component {
                                 type="text"
                                 value={this.state.nivel}
                                 onChange={(e) => this.handleChange(e, "nivel")}
-                                className="box"
+                                className="boxEdit"
                             />
                         </div>
                         <div className="form-in-line">
@@ -155,7 +179,7 @@ class Edit extends Component {
                                 type="text"
                                 value={this.state.pregunta}
                                 onChange={(e) => this.handleChange(e, "pregunta")}
-                                className="box"
+                                className="boxEdit"
                             />
                         </div>
                         <div className="form-in-line">
@@ -172,7 +196,7 @@ class Edit extends Component {
                                         return { respuesta: newRespuestas };
                                     });
                                 }}
-                                className="box"
+                                className="boxEdit"
                             />
                             <input
                                 type="checkbox"
@@ -202,7 +226,7 @@ class Edit extends Component {
                                         return { respuesta: newRespuestas };
                                     });
                                 }}
-                                className="box"
+                                className="boxEdit"
                             />
                             <input
                                 type="checkbox"
@@ -232,7 +256,7 @@ class Edit extends Component {
                                         return { respuesta: newRespuestas };
                                     });
                                 }}
-                                className="box"
+                                className="boxEdit"
                             />
                             <input
                                 type="checkbox"
@@ -262,7 +286,7 @@ class Edit extends Component {
                                         return { respuesta: newRespuestas };
                                     });
                                 }}
-                                className="box"
+                                className="boxEdit"
                             />
                             <input
                                 type="checkbox"

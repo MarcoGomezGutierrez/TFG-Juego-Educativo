@@ -49,47 +49,100 @@
     display: flex;
 }
 
-.item .button {
+.item .buttonHeader {
     margin-inline: 10px;
 }
 
-.button {
+.buttonHeader {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    background-color: transparent;
+    background-color: var(--color-button);
 
-    font-size: large;
     text-decoration: none;
     color: black;
-    
-    border-radius: 10px;
-    border: none;
-}
 
-.button:hover {
-    cursor: pointer;
-    color: white;
-}
-
-.border:hover {
-    color:black;
-    background-color: var(--color-button-hover);
-}
-
-.border {
-    border: 2px solid black;
+    border: 2px solid transparent;
     border-radius: 5px;
+
+    font-size: 18px;
+
     padding: 5px 10px;
-    background-color: var(--color-button);
+    
     color: #ffffff;
 }
 
-.title {
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: x-large;
-    font-style: normal;
 
-    color: rgb(252, 255, 206);
+.buttonHeader:hover {
+    cursor: pointer;
+    color:black;
+    background-color: var(--color-button-hover);
+    border-color: var(--color-button);
 }
+
+.titleHeader {
+    font-family: 'Comic Sans MS', cursive; 
+    font-size: 30px; 
+    color: var(--color-button); 
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5); 
+    padding: 5px; 
+    border: 2px solid var(--color-button);
+    display: inline-block; /* Para que el ancho del título se ajuste automáticamente al contenido */
+}
+
+
+.underline-animation {
+    text-decoration: none;
+    position: relative;
+
+    font-size: 18px;
+
+    color: black;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    padding-bottom: 2px;
+  }
+  
+  /*Pintar una linea con animación*/
+  .underline-animation::before,
+  .underline-animation::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    height: 2px;
+    background-color: var(--color-button);
+    transition: right 0.3s, left 0.3s;
+  }
+  
+  .underline-animation::after {
+    right: 0;
+    left: 100%;
+    transition-delay: 0.2s; /* Retraso en la animación de desaparición */
+  }
+  
+  .underline-animation:hover::before,
+  .underline-animation:hover::after {
+    right: 0;
+    left: 0;
+  }
+
+  @media (max-width: 768px) {
+    /* Estilos para tablets y dispositivos móviles */
+    .titleHeader {
+        font-size: 28px;
+    }
+
+    .underline-animation {
+        font-size: 15px;
+    }
+
+    .buttonHeader {
+        font-size: 15px;
+    }
+  }

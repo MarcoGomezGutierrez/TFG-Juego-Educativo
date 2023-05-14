@@ -4,34 +4,38 @@ body {
 
 /* Webkit */
 ::-webkit-scrollbar {
-    background-color: #B3D5AC;
-    width: 10px;
-    border-radius: 10px;
+    background-color: transparent;
+    width: 0px;
+    border-radius: 0px;
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: #404D3E;
-    border-radius: 10px;
+    background-color: transparent;
+    border-radius: 0px;
   }
   
   /* Firefox */
   ::-moz-scrollbar {
-    background-color: #B3D5AC;
-    min-width: 10px;
-    max-width: 10px;
-    border-radius: 10px;
+    background-color: transparent;
+    min-width: 0px;
+    max-width: 0px;
+    border-radius: 0px;
   }
   
   ::-moz-scrollbar-thumb {
-    background-color: #404D3E;
-    border-radius: 10px;
+    background-color: transparent;
+    border-radius: 0px;
   }
 
 /*Centrar el contenido en el centro de la pantalla*/
 .loby {
+    /*background-image: url("../../image/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;*/
     display: flex;
     justify-content: center;
     align-items: center;
+    
     /*height: 100vh;*/
 }
 
@@ -42,10 +46,11 @@ body {
     height: 50vh;
     /*height: 100%;*/
 
-    border: 3px solid var(--color-main-container-border);
-    border-radius: 10px;
+    border: 3px solid black;
+    
 
-    overflow: auto;
+    overflow: hidden;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     /*flex-wrap: wrap;*/
@@ -56,39 +61,8 @@ body {
     
     padding-top: 30px;
     padding-bottom: 10px;
+    box-shadow: 1px 3px 7px -3px rgba(0, 0, 0, 0.703);
 }
-
-/*.grupo {
-    display: flex;
-    /* Calcula el ancho del grupo siendo (ancho + borde-del-boton + gap) * agrupacion-de-nivel 
-    de esta forma los niveles quedan agrupados de 10 en 10 y queden alineados correctamente
-    
-    width: calc((50px + 2px + 20px) * 10);
-    margin-bottom: 20px;
-    box-sizing: border-box;
-    gap: 20px;
-}*/
-
-/*.label {
-    background: var(--color-button-background);
-    width: 50px;
-    height: 50px;
-
-    color: black;
-    border-radius: 8px;
-    border: 2px solid var(--color-button-border);
-    margin-bottom: 5px;
-    text-decoration: none;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}*/
-
-/*.label:hover {
-    cursor: pointer;
-    background-color: var(--color-main-container);
-}*/
 
 .configurationPanel {
   position: absolute;
@@ -132,34 +106,38 @@ body {
   background-color: var(--color-button-background);
   width: 80%;
   
+  font-family: "Pixel";
+  font-size: 35px;
+  font-weight: 400;
+
   color: black;
   padding: 8px;
-  font-size: 25px;
-  border-radius: 5px;
-  border-color: var(--color-button-border);
+  border: 2px solid black;
   margin: 15px;
-  cursor: pointer;
+  box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
 }
 
 .dropdown-content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* Tres columnas con igual tamaño */
+  grid-template-columns: 1fr 1fr 1fr; /* Tres columnas con igual tamaño */
   width: 80%;
   gap: 10px;
   z-index: 1;
 }
 
 .dropdown-content-nivel {
+  font-family: "Pixel";
   font-size: 16px;
   text-align: center;
   color: black;
-  border-radius: 5px;
-  background-color: var(--color-button-background);
-  border-color: var(--color-button-background);
+  background-color: var(--color-buttonNivel-background);
+  
+  border: 1px solid black;
+  
   padding: 8px 12px;
   text-decoration: none;
   display: block;
-  box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.703);
+  box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
 }
 
 .dropdown-content-nivel:hover {
@@ -174,11 +152,76 @@ body {
 /*.dropdown:hover .dropdown-content {
 }*/
 
+.panelConfig {
+  z-index: 10;
+  position: relative;
+  background-color: var(--color-button-background);
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  padding: 35px 10px 30px 10px;
+  gap: 5px;
+}
+
+.gear {
+  background-color: transparent;
+  border: none;
+  background-image: url("../../image/gear.png");
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.gear:hover {
+  cursor: pointer;
+}
+
+/*Cruceta*/
+.close-button {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.close-button:before, .close-button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 2px;
+  background-color: black;
+  transform: translate(-50%, -50%);
+}
+
+.close-button:before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close-button:after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
 
 /*Esto garantiza que el margen solo se aplicará cuando sea necesario y que no se superpondrá en la pantalla antes de que se requiera el desplazamiento.*/
 @media screen and (min-height: calc(50vh + 200px)) {
     .loby {
       padding: 100px 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    /* Estilos para tablets y dispositivos móviles */
+    .mainContainer {
+      width: 80%;
+    }
+    .dropdown-content {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
