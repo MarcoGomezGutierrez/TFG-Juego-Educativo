@@ -349,7 +349,7 @@ Correr Aplicación:
         - Permitir una dirección especifica para conectarte a MySQL, la IP tiene que ser local.
 
         ```
-        sudo ufw allow from 172:26:2:23 to any port 3306
+        sudo ufw allow from 172.26.2.23 to any port 3306
         ```
 
         - Clonar el repositorio:
@@ -357,14 +357,75 @@ Correr Aplicación:
         ```
         git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
         ```
-https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image\ver-version.PNG?raw=true
-https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/main/
 
+        Clonamos y editamos el archivo .env(entramos a la ruta):
 
+        Ver directorio:
 
+        ```
+        pwd
+        ```
 
+        Ver carpetas del directorio:
 
+        ```
+        ls
+        ```
 
+        Ver carpetas y archivos ocultos:
+
+        ```
+        ls -a
+        ```
+
+        Para ubicarnos en la carpeta(TFG-Juego-Educativo/server)
+        ```
+        cd nombre_carpeta
+        ```
+
+        Si no esta creado:
+
+        ```
+        touch .env
+        ```
+
+        Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
+
+        ```
+        nano .env
+        ```
+
+        (ctrl+x, y, enter) para guardar y salir
+
+        Dentro de la carpeta server instalamos los paquetes de Node.js:
+
+        ```
+        npm install
+        ```
+
+        Entramos en src y ejecutamos pm2 para correr nuestro proyecto:
+
+        ```
+        pm2 start index.js
+        ```
+
+        Ver nuestros procesos corriendo:
+
+        ```
+        pm2 ls
+        ```
+
+        - Crear Base de Datos:
+
+        ```
+        CREATE DATABASE tfg_database;
+        ```
+
+        ```
+        SHOW DATABASES;
+        ```
+
+        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
 
 
 
