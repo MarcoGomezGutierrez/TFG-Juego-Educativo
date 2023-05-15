@@ -403,6 +403,51 @@ Correr Aplicación:
         npm install
         ```
 
+        - Crear Base de Datos:
+
+        ```
+        CREATE DATABASE tfg_database;
+        ```
+
+        ```
+        SHOW DATABASES;
+        ```
+
+        ![crear-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
+
+        Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
+
+        Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
+
+        ![exportar-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/exportar-base-datos.PNG?raw=true)
+
+        Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) y exportar la base de datos con el siguiente comando:
+
+        ```
+        mysql -u root -p tfg_database < database.sql
+        ```
+
+        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/base-datos-exportada.PNG?raw=true)
+
+        Configuración de MySQL:
+
+        ```
+        sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+        ```
+
+        Y cambiar por:
+
+        ```
+        bind-address = 127.0.0.1
+        port = 3306
+        ```
+
+        ```
+        sudo systemctl restart mysql
+        sudo netstat -tuln | grep mysql
+        ```
+
+        
         Entramos en src y ejecutamos pm2 para correr nuestro proyecto:
 
         ```
@@ -415,17 +460,9 @@ Correr Aplicación:
         pm2 ls
         ```
 
-        - Crear Base de Datos:
 
-        ```
-        CREATE DATABASE tfg_database;
-        ```
 
-        ```
-        SHOW DATABASES;
-        ```
 
-        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
 
 
 
