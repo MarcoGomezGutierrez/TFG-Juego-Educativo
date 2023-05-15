@@ -9,6 +9,10 @@ const verification = require('./module/verification');
 const game = require('./module/game');
 const pretty = require('express-prettify');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const connection = require('./module/connection');
 
 //Permitir direcciones y dominios
@@ -16,7 +20,8 @@ const allowedOrigins = ['http://localhost:3000', 'http://192.168.0.11:3000'];
 
 const SECRET_KEY = '2ae1e4c9d2f529906e37094f9ef0318a205a5339d790eff35bf9e536dd594317';
 
-const puerto = 8080;
+const IP = process.env.SERVERIP || "192.168.0.11";
+const puerto = process.env.PORT || 8080;
 
 app.use(express.json());
 
@@ -62,6 +67,6 @@ app.get('*', function (req, res) {
 });
 
 // Inicia el servidor en el puerto 8080
-http.listen(puerto, '192.168.0.11', () => {
-    console.log(`Servidor iniciado http://192.168.0.11:${puerto}/`);
+http.listen(puerto, IP, () => {
+    console.log(`Servidor iniciado http://${IP}:${puerto}/`);
 });
