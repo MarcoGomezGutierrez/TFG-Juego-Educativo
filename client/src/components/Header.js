@@ -27,10 +27,10 @@ function Header() {
       <header className={`navbar ${
           showHeader === true ? "fade-out-down" : showHeader === false ? "fade-out-up" : ""
         }`}>
-        <div className="item title">Primary</div>
+        <div className="item titleHeader">Primary</div>
         <div className="item">
-          <Link to="/sign-in" className="button">Iniciar Sesión</Link>
-          <Link to="/sign-up" className="button border">Registrarse</Link>
+          <Link to="/sign-in" className="underline-animation">Iniciar Sesión</Link>
+          <Link to="/sign-up" className="buttonHeader">Registrarse</Link>
         </div>
       </header>
       <Outlet/>

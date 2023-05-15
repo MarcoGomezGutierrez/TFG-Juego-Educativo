@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../styles/app/loby.css";
 import { Outlet, Link } from 'react-router-dom';
 import axios from "axios";
+import data from '../data/config.json';
 
 /*const Nivel = ({ num, value }) => (
   <Link to={"/game"} state={{ value: value }} className="label" key={`nivel-${num / 10}`}>
@@ -15,8 +16,10 @@ class Loby extends Component {
     super(props);
     this.state = {
       access: false,
-      data: []
+      data: [],
+      configurationActive: false
     }
+    this.serverIP = data.serverIP;
   }
 
   async componentDidMount() {
@@ -24,18 +27,18 @@ class Loby extends Component {
       const users = JSON.parse(localStorage.getItem("user"));
       const token = users.token;
 
-      const lobyResponse = await this.requestServer('http://localhost:8080/app/loby', token, "post");
+      const lobyResponse = await this.requestServer(`${this.serverIP}/app/loby`, token, "post");
       if (!lobyResponse) {
         localStorage.removeItem("user");
         window.location = "./sign-in";
       }
 
-      const editResponse = await this.requestServer('http://localhost:8080/app/edit', token, "post");
+      const editResponse = await this.requestServer(`${this.serverIP}/app/edit`, token, "post");
       if (editResponse) {
         this.setState({ access: true });
       }
 
-      const temariosResponse = await this.requestServer('http://localhost:8080/game/temarios-agrupados', null, "get");
+      const temariosResponse = await this.requestServer(`${this.serverIP}/game/temarios-agrupados`, null, "get");
       this.setState({ data: temariosResponse.data });
     } catch (err) {
       console.error(err);
@@ -59,12 +62,16 @@ class Loby extends Component {
     }
   }
 
+  cerrarSesion(event) {
+    localStorage.removeItem('user');
+  }
+
   // Imprime el boton de Cerrar Sesión y de edición de la Base de Datos
   configuration() {
     return (
       <div className="configurationPanel">
-        <Link to="/sign-in" className="editButton">Cerrar Sesión</Link>
-        {this.editAccess()}
+        {this.gear()}
+        
       </div>
     );
   }
@@ -72,10 +79,40 @@ class Loby extends Component {
   // Método que comprueba si el usuario tiene acceso al apartado de edición de la base de datos
   editAccess() {
     if (this.state.access) {
-      return (<Link to="/edit" className="editButton">Edit Page</Link>)
+      return (<Link to="/edit" className="dropdown-content-nivel">Edit Page</Link>)
     } else {
       return (<></>)
     }
+  }
+
+  handleConfiguration = (event) => {
+    this.setState(prevState => ({
+      configurationActive: !prevState.configurationActive
+    }));
+  }
+
+  gear() {
+    return (
+      <>
+      {!this.state.configurationActive ? <button onClick={(event) => this.handleConfiguration(event)} className="gear"/> : null}
+      {this.panelConfiguration()}
+      </>
+    )
+  }
+
+  panelConfiguration() {
+    if (this.state.configurationActive) {
+      return (
+        <div className="panelConfig">
+          <button class="close-button" onClick={(event) => this.handleConfiguration(event)}/>
+          <Link to="/sign-in" className="dropdown-content-nivel" onClick={(event) => this.cerrarSesion(event)}>Cerrar Sesión</Link>
+          {this.editAccess()}
+        </div>
+      )
+    } else {
+      return null;
+    }
+    
   }
 
   renderTemarioButton = (temario) => {

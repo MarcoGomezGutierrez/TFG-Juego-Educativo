@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import "../styles/app/game.css";
 import { useLocation } from 'react-router-dom';
-import { encryptDataJson, decryptDataJson } from '../other/encrypt'
+import { encryptDataJson, decryptDataJson } from '../other/encrypt';
+import { Outlet, Link } from 'react-router-dom';
 
 function Game(porps) {
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
@@ -39,7 +40,7 @@ function Game(porps) {
       localStorage.setItem(`${temario + nivel}`, transformDataToJson());
     }
   }, [respuestaSeleccionada, temario, nivel, transformDataToJson]);
-  
+
   const handleAnswer = (event, respuesta) => {
     if (respuestaSeleccionada === null) {
       setRespuestaSeleccionada(respuesta);
@@ -61,6 +62,18 @@ function Game(porps) {
     return '';
   };
 
+  // Pinta en blanco en caso de no tener 4 respuestas
+  const preguntasNivel = (pregunta, index) => {
+    if (pregunta.respuestas[index].respuesta !== "") {
+      return (<button className={`respuesta ${hoverEnabled ? 'respuesta-hover' : ''} ${detectarCorrecta(pregunta.respuestas[index])}`}
+        onClick={
+          (event) => handleAnswer(event, pregunta.respuestas[index])
+        } disabled={respuestaSeleccionada === null ? false : true}>
+        {pregunta.respuestas[index].respuesta}
+      </button>);
+    }
+    return (<></>);
+  }
   /* Controlador para seleccionar la respuesta siguiente, si es la última pregunta retorna a la página anterior, 
   si no lo es carga la siguiente pregunta*/
   const handleSiguientePregunta = () => {
@@ -74,6 +87,14 @@ function Game(porps) {
     }
   };
 
+  const back = () => {
+    return (
+        <Link to="/loby" className="circle">
+            <div className="arrow"/>
+        </Link>
+    );
+  }
+
   const renderPregunta = () => {
     const pregunta = preguntas[preguntaActual];
     const start = 0; // Índice inicial
@@ -81,21 +102,14 @@ function Game(porps) {
     const indices = Array.from({ length: end - start }, (_, index) => index + start);
 
     return (
-      <div className="mainContainer">
+      <div className="mainContainerGame">
         <div className="title">{pregunta.pregunta}</div>
         <div className="respuestas-container">
-          {indices.map((index) => (
-            <button className={`respuesta ${hoverEnabled ? 'respuesta-hover' : ''} ${detectarCorrecta(pregunta.respuestas[index])}`}
-              onClick={
-                (event) => handleAnswer(event, pregunta.respuestas[index])
-              } disabled={respuestaSeleccionada === null ? false : true}>
-              {pregunta.respuestas[index].respuesta}
-            </button>
-          ))}
+          {indices.map((index) => { return preguntasNivel(pregunta, index) })}
         </div>
         {respuestaSeleccionada !== null && (
           <div className="siguiente-pregunta">
-            <button className="button" onClick={handleSiguientePregunta}>
+            <button className="buttonGame" onClick={handleSiguientePregunta}>
               {preguntaActual + 1 !== numeroPreguntas ? "Siguiente" : "Finalizar"}
             </button>
           </div>
@@ -106,7 +120,9 @@ function Game(porps) {
 
   return (
     <main className="loby">
-      <div>{renderPregunta()}</div>
+      {back()}
+      {renderPregunta()}
+      <Outlet/>
     </main>
   );
 }

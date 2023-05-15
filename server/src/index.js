@@ -9,7 +9,10 @@ const verification = require('./module/verification');
 const game = require('./module/game');
 const pretty = require('express-prettify');
 
-const connection = require('./module/connection')
+const connection = require('./module/connection');
+
+//Permitir direcciones y dominios
+const allowedOrigins = ['http://localhost:3000', 'http://192.168.0.11:3000'];
 
 const SECRET_KEY = '2ae1e4c9d2f529906e37094f9ef0318a205a5339d790eff35bf9e536dd594317';
 
@@ -18,7 +21,9 @@ const puerto = 8080;
 app.use(express.json());
 
 // Configura el middleware para procesar los datos de solicitud POST en formato JSON
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins
+}));
 
 // Ver formato json en response pretty
 app.use(pretty({ query: 'pretty' }));
@@ -51,7 +56,12 @@ app.on('SIGINT', () => {
   });
 });
 
+// 404
+app.get('*', function (req, res) {
+  res.status(404).send('Error 404 - Recurso no encontrado');
+});
+
 // Inicia el servidor en el puerto 8080
-http.listen(puerto, () => {
-    console.log(`Servidor iniciado http://localhost:${puerto}/`);
+http.listen(puerto, '192.168.0.11', () => {
+    console.log(`Servidor iniciado http://192.168.0.11:${puerto}/`);
 });

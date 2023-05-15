@@ -3,6 +3,7 @@ import { Outlet, Link } from 'react-router-dom';
 import '../styles/log.css';
 import axios from "axios";
 import { sha256 } from '../other/encrypt';
+import data from '../data/config.json';
 
 class SignUp extends React.Component {
 
@@ -13,6 +14,7 @@ class SignUp extends React.Component {
             password: "",
             email: ""
         }
+        this.serverIP = data.serverIP;
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -32,7 +34,7 @@ class SignUp extends React.Component {
         
         // Peticion para el registro de usuario
         try {
-            const response = await axios.post('http://localhost:8080/app/signup', {
+            const response = await axios.post(`${this.serverIP}/app/signup`, {
               username,
               email,
               password
@@ -85,7 +87,7 @@ class SignUp extends React.Component {
                             onChange={(e) => this.handleChange(e, "password")}
                             className="box"
                         />
-                        <input type="submit" value="Registrarse" className="button"/>
+                        <input type="submit" value="Registrarse" className="buttonLog"/>
                     </form>
                 </div>
                 <Outlet/>

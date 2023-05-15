@@ -5,16 +5,17 @@
     height: 100vh;
 }
 
-.mainContainer {
+.mainContainerGame {
     background: var(--color-main-container);
 
     width: 100vh;
     height: 50vh;
 
-    border: 3px solid var(--color-main-container-border);
-    border-radius: 10px;
+    border: 3px solid black;
 
-    overflow: auto;
+    overflow: hidden;
+    overflow-y: scroll;
+
     display: flex;
     flex-direction: column;
     
@@ -29,18 +30,17 @@
     width: 80%;
     height: 100px;
 
-    background-color: var(--color-button-background);
-    border: 5px solid var(--color-button-border);
-    border-radius: 10px;
+    background-color: #F28F6F;
+    border: 2px solid black;
 
     align-items: center;
     justify-content: center;
     display: flex;
 
     color: rgb(27, 26, 26);
-    font-size: 25px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 900;
+    font-family: "Pixel";
+    font-size: 35px;
+    font-weight: 400;
 }
 
 .respuestas-container {
@@ -55,18 +55,14 @@
 
 .respuesta {
     height: 80px;
-    font-size: 16px;
+    font-family: "Pixel";
+    font-size: 21px;
     text-align: center;
 
     color: rgb(27, 26, 26);
 
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-
-    border: 3px solid var(--color-button-border);
-    border-radius: 10px;
-    background-color: var(--color-button-background);
+    border: 1px solid black;
+    background-color: var(--color-buttonNivel-background);
     
     margin: 5px;
 
@@ -74,22 +70,32 @@
 }
 
 .siguiente-pregunta {
-    width: 80%;
+    width: 100%;
     height: 100px;
 
-    padding-right: 20px;
     display: flex;
     align-content: center;
-    justify-content: right;
+    justify-content: center;
 }
 
-.button {
-    background-color: rgb(192, 173, 121);
-    border: 2px solid #392c24;
+.buttonGame {
+    font-family: "Pixel";
+    font-size: 15px;
+    background-color: #6A80E6;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     height: 50px;
 
     padding: 20px;
+}
+
+.buttonGame:hover {
+    cursor: pointer;
+    background-color: rgb(176, 194, 104);
+    border-color: #16110d;
 }
 
 .respuesta-hover:hover {
@@ -104,3 +110,37 @@
 .correcta {
     background-color: green;
 }
+
+@media (max-width: 768px) {
+    /* Estilos para tablets y dispositivos móviles */
+    .loby {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .mainContainerGame{
+        width: 80%;
+        height: 80%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .title {
+        text-align: center;
+        padding: 5px 5px;
+        box-sizing: border-box;
+        font-size: 20px;
+    }
+
+    .respuesta {
+        width: 85%;
+        height: auto;
+        font-size: 17px;
+    }
+
+    .respuestas-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+  }

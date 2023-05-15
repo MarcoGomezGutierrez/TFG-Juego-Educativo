@@ -3,6 +3,7 @@ import { Outlet, Link } from 'react-router-dom';
 import '../styles/log.css';
 import axios from "axios";
 import { sha256 } from '../other/encrypt';
+import data from '../data/config.json';
 
 class SignIn extends Component {
 
@@ -12,6 +13,7 @@ class SignIn extends Component {
             username:"",
             password:""
         }
+        this.serverIP = data.serverIP;
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -29,7 +31,7 @@ class SignIn extends Component {
         const password = sha256(this.state.password);
         
         try {
-            const response = await axios.post('http://localhost:8080/app/login', {
+            const response = await axios.post(`${this.serverIP}/app/login`, {
               username,
               password
             });
@@ -74,7 +76,7 @@ class SignIn extends Component {
                             onChange={(e) => this.handleChange(e, "password")}
                             className="box"
                         />
-                        <input type="submit" value="Iniciar Sesión" className="button"/>
+                        <input type="submit" value="Iniciar Sesión" className="buttonLog"/>
                     </form>
                 </div>
                 <Outlet/>
