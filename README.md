@@ -172,7 +172,7 @@ Correr Aplicación:
         npm --version
         ```
 
-        ![version-node-npm](readme-image\version-node-npm.PNG)
+        ![version-node-npm](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\version-node-npm.PNG)
 
         - Node.js en Ubuntu no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
 
@@ -187,7 +187,7 @@ Correr Aplicación:
         ```
         - En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
 
-        ![escuchar-puertos-inferiores-1024](readme-image\escuchar-puertos.PNG)
+        ![escuchar-puertos-inferiores-1024](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\escuchar-puertos.PNG)
 
         - A continuación no ejecutaremos la aplicación normal como solemos hacer con node js "npm start", "node index.js", etc. Instalaremos un modulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
 
@@ -201,7 +201,7 @@ Correr Aplicación:
         pm2 ls
         ```
 
-        ![pm2-ls](readme-image\pm2-ls.PNG)
+        ![pm2-ls](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\pm2-ls.PNG)
 
         - Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
 
@@ -209,7 +209,7 @@ Correr Aplicación:
         pm2 startup
         ```
 
-        ![pm2-global](readme-image\pm2-global.PNG)
+        ![pm2-global](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\pm2-global.PNG)
 
         Ejecutamos el comando que nos proporciona pm2:
 
@@ -219,7 +219,7 @@ Correr Aplicación:
 
         Nos mostrara que pm2 ya ha sido configurado:
 
-        ![pm2-configurado](readme-image\pm2-configurado.PNG)
+        ![pm2-configurado](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\pm2-configurado.PNG)
 
         - Queda instalar git y clonar nuestro repositorio:
 
@@ -241,7 +241,7 @@ Correr Aplicación:
 
         Instalar el paquete del repositorio que te muestra la consola:
         
-        ![instalar-paquete-mysql](readme-image\instalar-mysql.PNG)
+        ![instalar-paquete-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\instalar-mysql.PNG)
 
         ```
         sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
@@ -249,11 +249,11 @@ Correr Aplicación:
 
         Cambiar la version de MySQL, por default aparecera la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
 
-        ![configuracion-version-mysql](readme-image\configurar-mysql-1.PNG)
+        ![configuracion-version-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\configurar-mysql-1.PNG)
 
-        ![configuracion-version-mysql](readme-image\configurar-mysql-2.PNG)
+        ![configuracion-version-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\configurar-mysql-2.PNG)
         
-        ![configuracion-version-mysql](readme-image\configurar-mysql-3.PNG)
+        ![configuracion-version-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\configurar-mysql-3.PNG)
 
         Una vez instalado hay que actualizar los paquetes del sistema:
 
@@ -262,7 +262,7 @@ Correr Aplicación:
         ```
         Nos muestra un error de que la firma no se puede verificar:
 
-        ![actualizar-paquetes-mysql](readme-image\actualizar-paquetes-mysql.PNG)
+        ![actualizar-paquetes-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\actualizar-paquetes-mysql.PNG)
 
         Error que nos muestra (No copiar):
 
@@ -282,7 +282,7 @@ Correr Aplicación:
 
         Y ya estara configurado las claves:
 
-        ![actualizar-paquetes-mysql](readme-image\keys-actualizadas.PNG)
+        ![actualizar-paquetes-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\keys-actualizadas.PNG)
 
         Instalar MySQL server y te pedira configurar usuario y contraseña de la Base de Datos:
 
@@ -291,7 +291,7 @@ Correr Aplicación:
         ```
         Te pedira introducirla dos veces para que se verifique:
 
-        ![password-mysql](readme-image\root-password.PNG)
+        ![password-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\root-password.PNG)
 
         Cuando está instalado, el servicio MySQL no se inicia de forma predeterminada. Inícielo y también habilítelo para que se inicie automáticamente cada vez que se reinicie el servidor.
 
@@ -303,7 +303,7 @@ Correr Aplicación:
         sudo systemctl enable mysql
         ```
 
-        ![start-mysql](readme-image\start-mysql.PNG)
+        ![start-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\start-mysql.PNG)
 
         Hay que verificar si esta activo:
 
@@ -311,7 +311,7 @@ Correr Aplicación:
         systemctl status mysql
         ```
 
-        ![verificar-mysql](readme-image\verificar-mysql-activo.PNG)
+        ![verificar-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\verificar-mysql-activo.PNG)
 
         Asegurar su instalación de base de datos MySQL. Como ya habíamos establecido la contraseña de root, se le pedirá que la ingrese para continuar y también se le preguntará si desea cambiarla.
 
@@ -321,7 +321,7 @@ Correr Aplicación:
 
         En mi caso he dicho que quiero una seguridad Fuerte (Strong), que elimine todos los usuarios y que solo se permita los usuarios root, también que resetee los privilegios de las tablas.
 
-        ![configuracion-mysql](readme-image\configuracion-mysql.PNG)
+        ![configuracion-mysql](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\configuracion-mysql.PNG)
 
         Ya puedes usar MySQL (siempre te pedira la contraseña):
 
@@ -332,11 +332,11 @@ Correr Aplicación:
         ```
         SHOW DATABASES;
         ```
-        ![ver-mysql-db](readme-image\mysql-databases.PNG)
+        ![ver-mysql-db](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\mysql-databases.PNG)
 
         Ver la version que se haya instalado correctamente:
 
-        ![ver-mysql-version](readme-image\ver-version.PNG)
+        ![ver-mysql-version](https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main/readme-image\ver-version.PNG)
 
         Para habilitar que MySQL se pueda acceder remotamente:
 
@@ -358,6 +358,7 @@ Correr Aplicación:
         git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
         ```
 
+https://raw.githubusercontent.com/MarcoGomezGutierrez/TFG-Juego-Educativo/tree/main
 
 
 
