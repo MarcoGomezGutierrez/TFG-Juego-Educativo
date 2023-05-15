@@ -8,10 +8,7 @@ const router = require('./module/router');
 const verification = require('./module/verification');
 const game = require('./module/game');
 const pretty = require('express-prettify');
-
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+require('dotenv').config();
 
 const connection = require('./module/connection');
 
