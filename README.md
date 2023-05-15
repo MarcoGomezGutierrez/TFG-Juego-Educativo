@@ -1,7 +1,75 @@
 # TFG-Juego-Educativo
 Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Informática. Este proyecto será un videojuego educativo, desarrollado con React para todas las plataformas (móvil, tablet, ordenador)
 
-Correr Aplicación:
+## Estructura de carpetas del proyecto:
+
+```
+.
+├── 📁 client
+│   └── 📁 public
+│       └── 🗎 index.html
+|   └── 📁 src
+|       └── 📁 components
+|           ├── 🗎 Footer.js
+|           ├── 🗎 Header.js
+|           └── 🗎 Layout.js
+|       └── 📁 image
+|           ├── 🗎 04B_30__.TTF
+|           ├── 🗎 background.jpg
+|           ├── 🗎 gear.png
+|           ├── 🗎 rainyhearts.ttf
+|           └── 🗎 upheavtt.ttf
+|       └── 📁 other
+|           ├── 🗎 encrypt.js
+|           └── 🗎 generateKey.js
+|       └── 📁 pages
+|           ├── 🗎 App.js
+|           ├── 🗎 Edit.js
+|           ├── 🗎 Game.js
+|           ├── 🗎 Home.js
+|           ├── 🗎 Loby.js
+|           ├── 🗎 SignIn.js
+|           └── 🗎 SignUp.js
+|       └── 📁 styles
+|           └── 📁 app
+|               ├── 🗎 edit.css
+|               ├── 🗎 game.css
+|               └── 🗎 loby.css
+|           └── 📁 layout
+|               ├── 🗎 footer.css
+|               ├── 🗎 header.css
+|               └── 🗎 layout.css
+|           ├── 🗎 index.css
+|           └── 🗎 log.css
+|       └── 🗎 index.js
+│   ├── 🗎 Dockerfile
+│   ├── 🗎 package-lock.json
+|   └── 🗎 package.json
+├── 📁 readme-image
+|   ├── 🗎 images for README.md
+|   └── 🗎 ...
+├── 📁 server
+|   └── 📁 src
+|       └── 📁 db
+|           └── 📁 export
+|               └── 🗎 database.sql
+|       └── 📁 module
+|           ├── 🗎 connection.js
+|           ├── 🗎 game.js
+|           ├── 🗎 router.js
+|           └── 🗎 verification.js
+|       └── 🗎 index.js
+│   ├── 🗎 .dockerignore
+│   ├── 🗎 .env
+│   ├── 🗎 Dockerfile
+│   ├── 🗎 package-lock.json
+|   └── 🗎 package.json
+├── 🗎 .gitignore
+├── 🗎 docker-compose.yml
+└── 🗎 README.md
+```
+
+## Ejecutar Proyecto Localmente: ##
 
 - Docker:
 
@@ -93,117 +161,80 @@ Correr Aplicación:
         npm start
         ```
 
-- Estructura de carpetas del proyecto:
+## Despliegue en AWS Lightsail, Servidor y DB ##
 
-```
-.
-├── 📁 .devcontainer
-│   └── 🗎 devcontainer.json
-├── 📁 app
-│   └── 📁 public
-│       └── 🗎 index.html
-|   └── 📁 src
-|       └── 📁 components
-|           ├── 🗎 Footer.js
-|           ├── 🗎 Header.js
-|           └── 🗎 Layout.js
-|       └── 📁 pages
-|           ├── 🗎 App.js
-|           ├── 🗎 Home.js
-|           ├── 🗎 SignIn.js
-|           └── 🗎 SignUp.js
-|       └── 📁 styles
-|           └── 📁 layout
-|               ├── 🗎 footer.css
-|               ├── 🗎 header.css
-|               └── 🗎 layout.css
-|           ├── 🗎 index.css
-|           └── 🗎 log.css
-|       └── 🗎 index.js
-│   ├── 🗎 package-lock.json
-|   └── 🗎 package.json
-├── 📁 server
-│   ├── 🗎 index.js
-│   ├── 🗎 package-lock.json
-|   └── 🗎 package.json
-├── 🗎 .gitignore
-└── 🗎 README.md
-```
+- Amazon Lightsail(creación de una máquina virtual con Debian):
 
-- Despliegue en AWS:
+    Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estatica para que cada vez que se reinicie el servidor no cambie la IP.
 
-    - Amazon Lightsail(creación de una máquina virtual con Debian):
+    Los pasos a seguir posteriormente es configurar la terminal del servidor:
 
-        Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estatica para que cada vez que se reinicie el servidor no cambie la IP.
+    - Actualizar la lista de paquetes del Sistema Operativo:
 
-        Los pasos a seguir posteriormente es configurar la terminal del servidor:
+    ```
+    sudo apt-get update
+    ```
 
-        - Actualizar la lista de paquetes del Sistema Operativo:
+    - Actualizar los paquetes:
+    
+    ```
+    sudo apt-get upgrade
+    ```
 
-        ```
-        sudo apt-get update
-        ```
+    - Instalar Node js en nuestra versión(v18.12.1):
 
-        - Actualizar los paquetes:
-        
-        ```
-        sudo apt-get upgrade
-        ```
+    ```
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+    ```
 
-        - Instalar Node js en nuestra versión(v18.12.1):
+    - Despues te pedira instalar el gestor de paquetes npm:
 
-        ```
-        curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-        ```
+    ```
+    sudo apt-get install -y nodejs
+    ```
 
-        - Despues te pedira instalar el gestor de paquetes npm:
+    - Comprobar tanto si ha sido instalado node y npm:
 
-        ```
-        sudo apt-get install -y nodejs
-        ```
+    ```
+    node --version
+    ```
 
-        - Comprobar tanto si ha sido instalado node y npm:
+    ```
+    npm --version
+    ```
 
-        ```
-        node --version
-        ```
+    ![version-node-npm](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/version-node-npm.PNG?raw=true)
 
-        ```
-        npm --version
-        ```
+    Node.js en Debian no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
 
-        ![version-node-npm](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/version-node-npm.PNG?raw=true)
+    ```
+    sudo apt-get install libcap2-bin
+    ```
 
-        - Node.js en Ubuntu no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
+    Configurar Node.js para que pueda ejecutar puertos inferiores al 1024.
 
-        ```
-        sudo apt-get install libcap2-bin
-        ```
+    ```
+    sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
+    ```
+    En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
 
-        - Configurar Node.js para que pueda ejecutar puertos inferiores al 1024.
+    ![escuchar-puertos-inferiores-1024](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/escuchar-puertos.PNG?raw=true)
 
-        ```
-        sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
-        ```
-        - En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
+    A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
 
-        ![escuchar-puertos-inferiores-1024](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/escuchar-puertos.PNG?raw=true)
+    ```
+    sudo npm install pm2 -g
+    ```
 
-        - A continuación no ejecutaremos la aplicación normal como solemos hacer con node js "npm start", "node index.js", etc. Instalaremos un modulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
+    Podemos poner el siguiente comando para ver los procesos que esten en ejecución. Por ahora no hay ningún proceso activo:
 
-        ```
-        sudo npm install pm2 -g
-        ```
+    ```
+    pm2 ls
+    ```
 
-        Podemos poner el siguiente comando para ver los procesos que esten en ejecución. Por ahora no hay ningún proceso activo:
+    ![pm2-ls](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-ls.PNG?raw=true)
 
-        ```
-        pm2 ls
-        ```
-
-        ![pm2-ls](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-ls.PNG?raw=true)
-
-        - Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
+    - Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
 
         ```
         pm2 startup
@@ -221,7 +252,7 @@ Correr Aplicación:
 
         ![pm2-configurado](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-configurado.PNG?raw=true)
 
-        - Queda instalar git y clonar nuestro repositorio:
+    - Queda instalar git y clonar nuestro repositorio:
 
         ```
         sudo apt-get install git
@@ -231,7 +262,7 @@ Correr Aplicación:
         git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
         ```
 
-        - Instalar MySQL en Debian (https://computingforgeeks.com/how-to-install-mysql-on-debian-linux-system/):
+    - Instalar MySQL en Debian (https://computingforgeeks.com/how-to-install-mysql-on-debian-linux-system/):
 
         Instalar el paquete de instalación que soporta Debian 11 y Debian 10:
 
@@ -352,7 +383,53 @@ Correr Aplicación:
         sudo ufw allow from 172.26.2.23 to any port 3306
         ```
 
-        - Clonar el repositorio:
+    - Crear Base de Datos:
+
+        ```
+        CREATE DATABASE tfg_database;
+        ```
+
+        ```
+        SHOW DATABASES;
+        ```
+
+        ![crear-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
+
+        Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
+
+        Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
+
+        ![exportar-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/exportar-base-datos.PNG?raw=true)
+
+        Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
+
+        ```
+        mysql -u root -p tfg_database < database.sql
+        ```
+
+        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/base-datos-exportada.PNG?raw=true)
+
+        Configuración de MySQL:
+
+        ```
+        sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+        ```
+
+        Y cambiar por:
+
+        ```
+        bind-address = 127.0.0.1
+        port = 3306
+        ```
+
+        Reiniciar y levantar MySQL de nuevo para que se apliquen los cambios:
+        
+        ```
+        sudo systemctl restart mysql
+        sudo netstat -tuln | grep mysql
+        ```
+
+    - Clonar el repositorio:
 
         ```
         git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
@@ -403,51 +480,6 @@ Correr Aplicación:
         npm install
         ```
 
-        - Crear Base de Datos:
-
-        ```
-        CREATE DATABASE tfg_database;
-        ```
-
-        ```
-        SHOW DATABASES;
-        ```
-
-        ![crear-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
-
-        Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
-
-        Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
-
-        ![exportar-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/exportar-base-datos.PNG?raw=true)
-
-        Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) y exportar la base de datos con el siguiente comando:
-
-        ```
-        mysql -u root -p tfg_database < database.sql
-        ```
-
-        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/base-datos-exportada.PNG?raw=true)
-
-        Configuración de MySQL:
-
-        ```
-        sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-        ```
-
-        Y cambiar por:
-
-        ```
-        bind-address = 127.0.0.1
-        port = 3306
-        ```
-
-        ```
-        sudo systemctl restart mysql
-        sudo netstat -tuln | grep mysql
-        ```
-
-        
         Entramos en src y ejecutamos pm2 para correr nuestro proyecto:
 
         ```
@@ -460,16 +492,9 @@ Correr Aplicación:
         pm2 ls
         ```
 
+        ![pm2-ls](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-connection.PNG?raw=true)
 
-
-
-
-
-
-
-
-
-
+## Gestionar Paquetes de Instalación ##
 
 - Librerias Cliente:
 
