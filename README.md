@@ -138,7 +138,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     - Ejecutar el servidor
 
         ```
-        node src/index.js
+        npm start
         ```
 
 - Aplicación:
@@ -161,7 +161,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         npm start
         ```
 
-## Despliegue en AWS Lightsail, Servidor y DB ##
+## Despliegue en AWS Lightsail: Servidor y DB ##
 
 - Amazon Lightsail(creación de una máquina virtual con Debian):
 
@@ -468,6 +468,8 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
 
+        **- Importante: El archivo .env no puede tener espacios entre "=", saltos de línea, ect. El formato del documento tiene que estar todo junto, sino dejara de funcionar y el servidor no encontrara el archivo .env**
+        
         ```
         nano .env
         ```
