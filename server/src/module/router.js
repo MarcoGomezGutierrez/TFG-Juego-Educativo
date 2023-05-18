@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db  = require('../module/connection');
 const jwt = require('jsonwebtoken');
+//require('dotenv').config();
 
 const SECRET_KEY = "my-token-password";
 
@@ -31,7 +32,7 @@ router.post('/login', (req, res) => {
                         msg: '¡El usuario no existe!'
                     });
                 } else if (password === result[0]['password']) /*Confirmar contraseña*/ {
-                    const token = jwt.sign({username},SECRET_KEY,{ expiresIn: '1h' });
+                    const token = jwt.sign({username},SECRET_KEY,{ expiresIn: '5h' });
                     return res.status(200).send({
                         msg: '¡Has iniciado sesión correctamente!',
                         token,

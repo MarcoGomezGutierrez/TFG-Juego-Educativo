@@ -29,28 +29,24 @@ class Edit extends Component {
                     texto: "",
                     correcta: false
                 }
-            }
+            },
+            cuatroRespuestas: true
         }
+
         this.serverIP = data.serverIP;
+    }
+
+    async componentDidMount() {
         try {
             const users = JSON.parse(localStorage.getItem("user"));
             const token = users.token;
 
-            axios.post(`${this.serverIP}/app/edit`, {
+            const response = await axios.post(`${this.serverIP}/app/verification`, {
                 token
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        console.log(response.data.msg);
-                    } else {
-                        console.log(response.data.msg);
-                        window.location = "./loby"
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    window.location = "./loby"
-                });
+            });
+            if (!response.data.access) {
+                window.location = "./loby";
+            }
         } catch (err) {
             console.error(err);
             window.location = "./loby"
@@ -84,7 +80,7 @@ class Edit extends Component {
         const correctas = [cor1, cor2, cor3, cor4];
         const n_corr = correctas.filter(valor => valor === true).length;
 
-        if (!temario || !nivel || !pregunta || !res1 || !res2 || !res3 || !res4) {
+        if ((!temario || !nivel || !pregunta || !res1 || !res2 || !res3 || !res4) && this.state.cuatroRespuestas) {
             alert("Por favor, rellena todos los campos.");
             return;
         }
@@ -94,16 +90,16 @@ class Edit extends Component {
             return;
         }
 
-        
+
 
         const stateJson = JSON.stringify(this.state);
         console.log(stateJson);
         try {
             const response = await axios.post(`${this.serverIP}/game/insert`, {
-              temario,
-              nivel,
-              pregunta,
-              respuesta
+                temario,
+                nivel,
+                pregunta,
+                respuesta
             });
             if (response.status === 200) {
                 console.log(response.data.msg);
@@ -133,14 +129,15 @@ class Edit extends Component {
                     texto: "",
                     correcta: false
                 }
-            }
+            },
+            cuatroRespuestas: true
         });
     }
 
     BackToLoby() {
         return (
             <Link to="/loby" className="circle">
-                <div className="arrow"/>
+                <div className="arrow" />
             </Link>
         );
     }
@@ -152,6 +149,16 @@ class Edit extends Component {
                 <div className="form-container">
                     <h1>Editar Preguntas</h1>
                     <form onSubmit={this.handleSubmit} className="formEdit">
+                        <input
+                            type="checkbox"
+                            checked={this.state.cuatroRespuestas}
+                            onChange={(e) => {
+                                this.setState(prevState => ({
+                                    cuatroRespuestas: !prevState.cuatroRespuestas
+                                }));
+                            }}
+                            className="check"
+                        />
                         <div className="form-in-line">
                             <h2>Temario:</h2>
                             <input
@@ -305,7 +312,7 @@ class Edit extends Component {
                         <input type="submit" value="Insertar" className="buttonSubmit" />
                     </form>
                 </div>
-                <Outlet/>
+                <Outlet />
             </main>
         )
     }

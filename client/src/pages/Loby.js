@@ -4,46 +4,39 @@ import { Outlet, Link } from 'react-router-dom';
 import axios from "axios";
 import data from '../data/config.json';
 
-/*const Nivel = ({ num, value }) => (
-  <Link to={"/game"} state={{ value: value }} className="label" key={`nivel-${num / 10}`}>
-    {num}
-  </Link>
-);*/
 
 class Loby extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      access: false,
-      data: [],
-      configurationActive: false
+      access: false, //Tener acceso a los servicios de administrador, modificar la base de datos desde el cliente
+      data: [], //Almacenar la respuesta del Servidor
+      configurationActive: false //Manejar el panel de configuración
     }
-    this.serverIP = data.serverIP;
+    this.serverIP = data.serverIP; // Manejo de la IP de la API REST
   }
 
+  // Cada vez que carga la página hacer estos pasos
   async componentDidMount() {
     try {
+      // Traerme el Token guardado en el Local Storage
       const users = JSON.parse(localStorage.getItem("user"));
       const token = users.token;
 
-      const lobyResponse = await this.requestServer(`${this.serverIP}/app/loby`, token, "post");
-      if (!lobyResponse) {
+      /* Hacer una única petición a la API REST, validando la sesión y devolviendo si puede editar o no la base de datos.
+        Devuelve en caso de que haya una sesión valida, los datos de la base de datos.
+      */
+      const temariosResponse = await this.requestServer(`${this.serverIP}/game/temarios-agrupados`, token, "post");
+      if (!temariosResponse) {
         localStorage.removeItem("user");
         window.location = "./sign-in";
+      } else if (temariosResponse.access) {
+        await this.setState({ access: true });
       }
-
-      const editResponse = await this.requestServer(`${this.serverIP}/app/edit`, token, "post");
-      if (editResponse) {
-        this.setState({ access: true });
-      }
-
-      const temariosResponse = await this.requestServer(`${this.serverIP}/game/temarios-agrupados`, null, "get");
       this.setState({ data: temariosResponse.data });
-    } catch (err) {
-      console.error(err);
-      this.setState({ access: false });
-      window.location = "./sign-in"
+    } catch (err) { // Si hay algún error desloguear
+      window.location = "./sign-in";
     }
   }
 
@@ -53,7 +46,7 @@ class Loby extends Component {
       if (server === "post") {
         response = await axios.post(url, { token });
       } else if (server === "get") {
-        response = await axios.get(url);
+        response = await axios.get(url, { token });
       }
       return response.data;
     } catch (err) {
@@ -104,7 +97,7 @@ class Loby extends Component {
     if (this.state.configurationActive) {
       return (
         <div className="panelConfig">
-          <button class="close-button" onClick={(event) => this.handleConfiguration(event)}/>
+          <button className="close-button" onClick={(event) => this.handleConfiguration(event)}/>
           <Link to="/sign-in" className="dropdown-content-nivel" onClick={(event) => this.cerrarSesion(event)}>Cerrar Sesión</Link>
           {this.editAccess()}
         </div>
@@ -127,6 +120,7 @@ class Loby extends Component {
       </div>
     );
   };
+
 
   render() {
     const { data } = this.state;

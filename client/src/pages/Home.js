@@ -14,7 +14,7 @@ class Home extends Component {
             En caso de una sesión abierta: redirigir a la pestaña loby
             En caso de no existir una sesión o una sesión que haya caducado: se queda en la página actual.
             */
-            const response = await axios.post(`${this.serverIP}/app/loby`, {
+            const response = await axios.post(`${this.serverIP}/app/verification`, {
                 token
             });
             console.log(response.status)

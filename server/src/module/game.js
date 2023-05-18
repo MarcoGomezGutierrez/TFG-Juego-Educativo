@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { verificationToken } = require('./verification');
 const db = require('../module/connection');
 
 router.get('/temarios', (req, res) => {
@@ -35,7 +36,52 @@ router.get('/temarios', (req, res) => {
     }
 });
 
-router.get('/temarios-agrupados', (req, res) => {
+// Si el usuario esta registrado y hay un token valido devolvemos si tiene acceso para editar la base de datos y los datos de la base de datos
+router.post('/temarios-agrupados', (req, res) => {
+    const { token } = req.body;
+    let verification = verificationToken(token);
+    if (verification === null) {
+        return res.status(401).send({
+            msg: "Token no válido, sesión expirada"
+        });
+    }
+    getTemariosAgrupados((data) => {
+        return res.status(200).send({
+            msg: verification ? "Token autorizado" : "Token no autorizado",
+            access: verification,
+            token: token,
+            data: data
+        });
+    });
+});
+
+/* Respuesta para comprobar datos rapidamente */
+if (process.env.NODE_ENV === "development") { // Solo en entorno de desarrollo, nunca en produccion
+    router.get('/test', (req, res) => {
+        try {
+            db.query(`
+            SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta,
+               r.texto AS respuesta, r.correcta
+            FROM temarios t
+            INNER JOIN niveles n ON t.id = n.id_temario
+            INNER JOIN preguntas p ON n.id = p.id_nivel
+            INNER JOIN respuestas r ON p.id = r.id_pregunta
+            ORDER BY t.nombre, n.nombre, p.id, r.id;
+            `, (err, results) => {
+                if (err) {
+                    console.error('Error al ejecutar la consulta:', error);
+                    res.status(500).json({ error: 'Error al obtener los datos' });
+                }
+                const data = formatData(results);
+                res.json({ data });
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    });
+}
+
+function getTemariosAgrupados(callback) {
     try {
         db.query(`
         SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta,
@@ -48,15 +94,16 @@ router.get('/temarios-agrupados', (req, res) => {
         `, (err, results) => {
             if (err) {
                 console.error('Error al ejecutar la consulta:', error);
-                res.status(500).json({ error: 'Error al obtener los datos' });
+                callback(null);
             }
             const data = formatData(results);
-            res.json({ data });
+            callback(data);
         });
     } catch (err) {
-        console.log(err);
+        console.error('Error al ejecutar la consulta:', err);
+        callback(null);
     }
-});
+}
 
 // Función para formatear los datos obtenidos de la consulta
 function formatData(results) {

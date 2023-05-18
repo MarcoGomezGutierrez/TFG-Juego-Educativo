@@ -2,54 +2,42 @@ const express = require('express');
 const router = express.Router();
 const db  = require('../module/connection');
 const jwt = require('jsonwebtoken');
+//require('dotenv').config();
 
 const SECRET_KEY = "my-token-password";
 
-router.post('/loby', (req, res) => {
+router.post('/verification', (req, res) => {
     const { token } = req.body;
-
-    // Verificar la validez del token
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
-        if (err) {
-            // El token no es válido
-            res.status(401).send({
-                msg: "Token no válido, sesión expirada"
-            });
-        } else {
-            // El token es válido
-            console.log('Token válido');
-            console.log(decoded); // Decodificar la información del token
-            res.status(200).send({
-                msg: "Token valido",
-                token: token
-            });
-        }
+    let verification = verificationToken(token);// Verificacion de sesion
+    if (verification === null) { // Devuelve cuando el token ha expirado o no existe ningún token
+        // El token no es válido
+        return res.status(401).send({
+            msg: "Token no válido, sesión expirada"
+        });
+    }
+    return res.status(200).send({
+        msg: "Token autorizado",
+        access: verification,// Si el access es true significa que puede editar la DB
+        token: token
     });
 });
 
-router.post('/edit', (req, res) => {
-    const { token } = req.body;
-
-    // Verificar la validez del token
+function verificationToken(token) {
+    var access = false;
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) {
             // El token no es válido
-            return res.status(401).send({
-                msg: "Token no válido, sesión expirada"
-            });
+            access = null;
         } else if (decoded.username === "admin") {
-            return res.status(200).send({
-                msg: "Token autorizado para editar la base de datos",
-                token: token
-            });
+            access = true;
         } else {
-            return res.status(401).send({
-                msg: "Sin autorización",
-                token: token
-            });
-        }
-            
+            access = false;
+        }  
     });
-});
+    return access;
+}
 
-module.exports = router;
+module.exports = { 
+    verification: router, 
+    verificationToken: verificationToken 
+};

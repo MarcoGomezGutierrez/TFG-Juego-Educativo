@@ -5,7 +5,7 @@ const http = require('http').Server(app);
 const jwt = require('jsonwebtoken');
 const io = require('socket.io')(http);
 const router = require('./module/router');
-const verification = require('./module/verification');
+const { verification } = require('./module/verification');
 const game = require('./module/game');
 const pretty = require('express-prettify');
 require('dotenv').config();

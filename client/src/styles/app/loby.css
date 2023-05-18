@@ -175,6 +175,7 @@ body {
 
 .gear:hover {
   cursor: pointer;
+  background-image: url("../../image/gear-hover.png");
 }
 
 /*Cruceta*/
@@ -209,14 +210,18 @@ body {
 }
 
 /*Esto garantiza que el margen solo se aplicará cuando sea necesario y que no se superpondrá en la pantalla antes de que se requiera el desplazamiento.*/
-@media screen and (min-height: calc(50vh + 200px)) {
+/*@media screen and (min-height: calc(50vh + 200px)) {
     .loby {
       padding: 100px 0;
     }
-  }
+  }*/
 
   @media (max-width: 768px) {
     /* Estilos para tablets y dispositivos móviles */
+    .loby {
+      padding: 100px 0;
+    }
+
     .mainContainer {
       width: 80%;
     }
