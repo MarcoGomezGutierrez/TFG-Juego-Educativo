@@ -138,7 +138,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     - Ejecutar el servidor
 
         ```
-        node src/index.js
+        npm start
         ```
 
 - Aplicación:
@@ -161,7 +161,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         npm start
         ```
 
-## Despliegue en AWS Lightsail, Servidor y DB ##
+## Despliegue en AWS Lightsail: Servidor y DB ##
 
 - Amazon Lightsail(creación de una máquina virtual con Debian):
 
@@ -203,7 +203,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     npm --version
     ```
 
-    ![version-node-npm](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/version-node-npm.PNG?raw=true)
+    ![version-node-npm](readme-image/version-node-npm.PNG)
 
     Node.js en Debian no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
 
@@ -218,7 +218,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     ```
     En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
 
-    ![escuchar-puertos-inferiores-1024](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/escuchar-puertos.PNG?raw=true)
+    ![escuchar-puertos-inferiores-1024](readme-image/escuchar-puertos.PNG)
 
     A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
 
@@ -232,7 +232,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     pm2 ls
     ```
 
-    ![pm2-ls](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-ls.PNG?raw=true)
+    ![pm2-ls](readme-image/pm2-ls.PNG)
 
     - Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
 
@@ -240,7 +240,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         pm2 startup
         ```
 
-        ![pm2-global](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-global.PNG?raw=true)
+        ![pm2-global](readme-image/pm2-global.PNG)
 
         Ejecutamos el comando que nos proporciona pm2:
 
@@ -250,7 +250,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Nos mostrara que pm2 ya ha sido configurado:
 
-        ![pm2-configurado](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-configurado.PNG?raw=true)
+        ![pm2-configurado](readme-image/pm2-configurado.PNG)
 
     - Queda instalar git y clonar nuestro repositorio:
 
@@ -272,7 +272,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Instalar el paquete del repositorio que te muestra la consola:
         
-        ![instalar-paquete-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/instalar-mysql.PNG?raw=true)
+        ![instalar-paquete-mysql](readme-image/instalar-mysql.PNG)
 
         ```
         sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
@@ -280,11 +280,11 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Cambiar la version de MySQL, por default aparecera la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
 
-        ![configuracion-version-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/configurar-mysql-1.PNG?raw=true)
+        ![configuracion-version-mysql](readme-image/configurar-mysql-1.PNG)
 
-        ![configuracion-version-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/configurar-mysql-2.PNG?raw=true)
+        ![configuracion-version-mysql](readme-image/configurar-mysql-2.PNG)
         
-        ![configuracion-version-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/configurar-mysql-3.PNG?raw=true)
+        ![configuracion-version-mysql](readme-image/configurar-mysql-3.PNG)
 
         Una vez instalado hay que actualizar los paquetes del sistema:
 
@@ -293,7 +293,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         ```
         Nos muestra un error de que la firma no se puede verificar:
 
-        ![actualizar-paquetes-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/actualizar-paquetes-mysql.PNG?raw=true)
+        ![actualizar-paquetes-mysql](readme-image/actualizar-paquetes-mysql.PNG)
 
         Error que nos muestra (No copiar):
 
@@ -313,7 +313,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Y ya estara configurado las claves:
 
-        ![actualizar-paquetes-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/keys-actualizadas.PNG?raw=true)
+        ![actualizar-paquetes-mysql](readme-image/keys-actualizadas.PNG)
 
         Instalar MySQL server y te pedira configurar usuario y contraseña de la Base de Datos:
 
@@ -322,7 +322,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         ```
         Te pedira introducirla dos veces para que se verifique:
 
-        ![password-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/root-password.PNG?raw=true)
+        ![password-mysql](readme-image/root-password.PNG)
 
         Cuando está instalado, el servicio MySQL no se inicia de forma predeterminada. Inícielo y también habilítelo para que se inicie automáticamente cada vez que se reinicie el servidor.
 
@@ -334,7 +334,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         sudo systemctl enable mysql
         ```
 
-        ![start-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/start-mysql.PNG?raw=true)
+        ![start-mysql](readme-image/start-mysql.PNG)
 
         Hay que verificar si esta activo:
 
@@ -342,7 +342,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         systemctl status mysql
         ```
 
-        ![verificar-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/verificar-mysql-activo.PNG?raw=true)
+        ![verificar-mysql](readme-image/verificar-mysql-activo.PNG)
 
         Asegurar su instalación de base de datos MySQL. Como ya habíamos establecido la contraseña de root, se le pedirá que la ingrese para continuar y también se le preguntará si desea cambiarla.
 
@@ -352,7 +352,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         En mi caso he dicho que quiero una seguridad Fuerte (Strong), que elimine todos los usuarios y que solo se permita los usuarios root, también que resetee los privilegios de las tablas.
 
-        ![configuracion-mysql](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/configuracion-mysql.PNG?raw=true)
+        ![configuracion-mysql](readme-image/configuracion-mysql.PNG)
 
         Ya puedes usar MySQL (siempre te pedira la contraseña):
 
@@ -363,11 +363,11 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         ```
         SHOW DATABASES;
         ```
-        ![ver-mysql-db](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/mysql-databases.PNG?raw=true)
+        ![ver-mysql-db](readme-image/mysql-databases.PNG)
 
         Ver la version que se haya instalado correctamente:
 
-        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/ver-version.PNG?raw=true)
+        ![ver-mysql-version](readme-image/ver-version.PNG)
 
         Para habilitar que MySQL se pueda acceder remotamente:
 
@@ -393,13 +393,13 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         SHOW DATABASES;
         ```
 
-        ![crear-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/crear-base-de-datos.PNG?raw=true)
+        ![crear-base-datos](readme-image/crear-base-de-datos.PNG)
 
         Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
 
         Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
 
-        ![exportar-base-datos](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/exportar-base-datos.PNG?raw=true)
+        ![exportar-base-datos](readme-image/exportar-base-datos.PNG)
 
         Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
 
@@ -407,7 +407,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         mysql -u root -p tfg_database < database.sql
         ```
 
-        ![ver-mysql-version](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/base-datos-exportada.PNG?raw=true)
+        ![ver-mysql-version](readme-image/base-datos-exportada.PNG)
 
         Configuración de MySQL:
 
@@ -468,6 +468,8 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
 
+        **- Importante: El archivo .env no puede tener espacios entre "=", saltos de línea, ect. El formato del documento tiene que estar todo junto, sino dejara de funcionar y el servidor no encontrara el archivo .env**
+        
         ```
         nano .env
         ```
@@ -492,7 +494,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         pm2 ls
         ```
 
-        ![pm2-ls](https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo/blob/main/readme-image/pm2-connection.PNG?raw=true)
+        ![pm2-ls](readme-image/pm2-connection.PNG)
 
 ## Gestionar Paquetes de Instalación ##
 
