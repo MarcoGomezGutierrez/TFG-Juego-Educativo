@@ -28,7 +28,8 @@
 
 .title {
     width: 80%;
-    height: 100px;
+    min-height: 100px;
+    height: auto;
 
     background-color: var(--color-button-background);
     border: 2px solid black;

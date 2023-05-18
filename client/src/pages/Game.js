@@ -24,18 +24,18 @@ function Game(porps) {
   const numeroPreguntas = preguntas.length;
 
   // Encriptar el contenido e insertarlo en el local storage para guardar la selección del usuario
-  const transformDataToJson = useCallback(() => {
+  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, number, answer) => {
     const data = {
       preguntaActual: preguntaActual,
-      hover: hoverEnabled,
+      hover: hover,
       respuestaSeleccionada: respuestaSeleccionada,
-      mostrarNumeroAleatorio: false,
-      randomNumber: null,
-      answers: []
+      mostrarNumeroAleatorio: mostrar,
+      randomNumber: number,
+      answers: answer
     };
     return encryptDataJson(data);
     //return JSON.stringify(data);
-  }, [preguntaActual, hoverEnabled, respuestaSeleccionada]);
+  };
   
   useEffect(() => {
     // Recuperar la respuesta seleccionada del Local Storage al cargar la página
@@ -51,77 +51,65 @@ function Game(porps) {
     }
   }, [temario, nivel]);
 
-  useEffect(() => {
-    /* Guardar la respuesta seleccionada en el Local Storage al cambiarla
-      Solo funcionara en caso de que respuestaSeleccionada cambie de valor
-    */
-    if (respuestaSeleccionada) {
-      localStorage.setItem(`${temario + nivel}`, transformDataToJson());
-    }
-  }, [respuestaSeleccionada, temario, nivel, transformDataToJson]);
+  // Función callback para refactorizar el código
+  const generateMathAnswer = useCallback((callback) => {
+    const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
+    let jsonResponse = "";
+      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
+        jsonResponse = decryptDataJson(respuestaGuardada);
+        if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
+          setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
+          setRandomNumber(jsonResponse.randomNumber);
+          setAnswers(jsonResponse.answers);
+          return;
+        } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
+      }
+      setMostrarNumeroAleatorio(true);
+      const {question, answer} = callback; //Genero una pregunta nueva y sus respuestas
+      setRandomNumber(question);
+      setAnswers(answer);
+      localStorage.setItem(
+        `${temario + nivel}`, 
+        transformDataToJson(respuestaGuardada ? jsonResponse.preguntaActual : preguntaActual, hoverEnabled, respuestaSeleccionada, true, question, answer)
+      ); // Las guardo en el local storage para evitar que al recargar la página se pierda
+  },[nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual]);
 
   useEffect(() => {
     // Manejar temarios de Matemáticas
     const pregunta = preguntas[preguntaActual];
     const text = pregunta.pregunta;
-    const metodo = text.match(/(\$.*?\$)/); // Busco en el texto una sentencia que este entre simbolos del $mitexto$
-    // Miro que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo el valor de mostrarNumeroAleatorio para cuando se clica en una respuesta y no cambie
+    const metodo = text.match(/(\$.*?\$)/); // Buscar en el texto una sentencia que este entre simbolos del $mitexto$
+    // Mirar que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo el valor de mostrarNumeroAleatorio para cuando se clica en una respuesta y no cambie
     if (metodo !== null && metodo[0] === "$descomposicion$" && !mostrarNumeroAleatorio) { 
-      const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
-      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-        const jsonResponse = decryptDataJson(respuestaGuardada);
-        if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
-          setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
-          setRandomNumber(jsonResponse.randomNumber);
-          setAnswers(jsonResponse.answers);
-          return;
-        } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
-      }
-      setMostrarNumeroAleatorio(true);
-      const {number, answer} = Matematicas.generateFourDigitRandomNumber(); //Genero una pregunta nueva y sus respuestas
-      setRandomNumber(number);
-      setAnswers(answer);
-      const data = {
-        preguntaActual: preguntaActual,
-        hover: hoverEnabled,
-        respuestaSeleccionada: respuestaSeleccionada,
-        mostrarNumeroAleatorio: true,
-        randomNumber: number,
-        answers: answer
-      };
-      localStorage.setItem(`${temario + nivel}`, encryptDataJson(data)); // Las guardo en el local storage para evitar que al recargar la página se pierda
+      generateMathAnswer(Matematicas.generateFourDigitRandomQuestion()); //Generar una pregunta nueva y sus respuestas
     } else if (metodo !== null && metodo[0] === "$composicion$" && !mostrarNumeroAleatorio) {
-      const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
-      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-        const jsonResponse = decryptDataJson(respuestaGuardada);
-        if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
-          setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
-          setRandomNumber(jsonResponse.randomNumber);
-          setAnswers(jsonResponse.answers);
-          return;
-        } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
-      }
-      setMostrarNumeroAleatorio(true);
-      const {number, answer} = Matematicas.generateFourDigitComposicionRandomNumber(); //Genero una pregunta nueva y sus respuestas
-      console.log(number)
-      setRandomNumber(number);
-      setAnswers(answer);
-      const data = {
-        preguntaActual: preguntaActual,
-        hover: hoverEnabled,
-        respuestaSeleccionada: respuestaSeleccionada,
-        mostrarNumeroAleatorio: true,
-        randomNumber: number,
-        answers: answer
-      };
-      localStorage.setItem(`${temario + nivel}`, encryptDataJson(data));
+      generateMathAnswer(Matematicas.generateFourDigitComposicionRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$numeroOrdinal$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateOrdinalRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$resta$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateRestaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$proximaCentena$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateNearestCentenaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$estimacionProblema$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateEstimationProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$problemaQuitarKg$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateKgProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
     }
-  }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, transformDataToJson]);
+  }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, generateMathAnswer]);
 
   const handleAnswer = (event, respuesta) => {
     if (respuestaSeleccionada === null) {
       setRespuestaSeleccionada(respuesta);
       setHoverEnabled(false);
+      const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
+      let jsonResponse = "";
+      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
+        jsonResponse = decryptDataJson(respuestaGuardada);
+        localStorage.setItem(
+          `${temario + nivel}`, 
+          transformDataToJson(jsonResponse.preguntaActual, false, respuesta, true, jsonResponse.randomNumber, jsonResponse.answers)
+        );
+      } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
     }
   };
 
@@ -148,7 +136,12 @@ function Game(porps) {
       setRespuestaSeleccionada(null);
       setHoverEnabled(true);
       setMostrarNumeroAleatorio(false);
+      setRandomNumber(null);
       setAnswers([]);
+      localStorage.setItem(
+        `${temario + nivel}`, 
+        transformDataToJson(preguntaActual + 1, true, null, false, null, [])
+      );
     } else {
       localStorage.removeItem(`${temario + nivel}`);
       window.location = '/loby';
@@ -166,7 +159,7 @@ function Game(porps) {
 
   // Pinta en blanco en caso de no tener 4 respuestas
   const preguntasNivel = (pregunta, index) => {
-    if (answers.length !== 0) pregunta.respuestas[index].respuesta = answers[index];
+    if (answers.length !== 0 && answers[index]) pregunta.respuestas[index].respuesta = answers[index];
     if (pregunta.respuestas[index].respuesta !== "") {
       return (
         <button key={index} className={`respuesta ${hoverEnabled ? 'respuesta-hover' : ''} ${detectarCorrecta(pregunta.respuestas[index])}`}
@@ -188,7 +181,13 @@ function Game(porps) {
       .replace(/~(.*?)~/g, '<span style="text-decoration: underline; text-underline-offset: 3px;">$1</span>') // Subrayado
       .replace(/\*(.*?)\*/g, '<span style="text-decoration: underline; text-underline-offset: 3px;">$1</span>') // Negrita (Subrayado por el tipo de letra)
       .replace(/\$(.*?)\$/g, (match, capturedText) => {
-        if (capturedText === "descomposicion" || capturedText === "composicion") {
+        if (capturedText === "descomposicion" 
+        || capturedText === "composicion" 
+        || capturedText === "numeroOrdinal" 
+        || capturedText === "resta" 
+        || capturedText === "proximaCentena"
+        || capturedText === "estimacionProblema"
+        || capturedText === "problemaQuitarKg") {
           return `${randomNumber}`;
         } else {
           return "";
