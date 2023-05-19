@@ -545,5 +545,33 @@
             "third": "Añaden",
             "fourth": ". ¿Cuántos kilos de peras tienen ahora?"
         }
+    ],
+    "kgComidaAproximada":[
+        {
+            "first":"Si un elefante come entre",
+            "second":"de vegetales al día"
+        },
+        {
+            "first":"Si una jirafa come entre",
+            "second":"de vegetales al día"
+        },
+        {
+            "first":"Si un vaca come entre",
+            "second":"de vegetales al día"
+        }
+    ],
+    "billetes": [
+        {
+            "billete":5
+        },
+        {
+            "billete":10
+        },
+        {
+            "billete":20
+        },
+        {
+            "billete":50
+        }
     ]
 }

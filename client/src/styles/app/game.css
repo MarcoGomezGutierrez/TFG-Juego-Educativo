@@ -111,6 +111,66 @@
     background-color: green;
 }
 
+.image-container {
+    width: 300px;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .image-container img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .title-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .button-icon {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    border: none;
+    background-color: transparent;
+  }
+
+  .icono-svg {
+    width: 28px;
+    height: 28px;
+    fill: none; /* Inicialmente, establece el color de relleno en "none" */
+    stroke: black;
+    background-color: #ababab;
+    border-radius: 5px;
+  }
+  
+  .icono-svg:not(.no-fill) {
+    fill: black; /* Color de relleno para el interior del SVG */
+  }
+
+  .icono-svg:hover {
+    cursor: pointer;
+    background-color: #7d7d7d;
+    width: 30px;
+    height: 30px;
+  }
+
 @media (max-width: 768px) {
     /* Estilos para tablets y dispositivos móviles */
     .loby {

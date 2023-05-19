@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { verificationToken } = require('./verification');
 const db = require('../module/connection');
+const fileUpload = require('express-fileupload');
+const path = require('path');
 
 router.get('/temarios', (req, res) => {
     try {
@@ -60,13 +62,12 @@ if (process.env.NODE_ENV === "development") { // Solo en entorno de desarrollo, 
     router.get('/test', (req, res) => {
         try {
             db.query(`
-            SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta,
-               r.texto AS respuesta, r.correcta
+            SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta, p.url_imagen AS url_imagen, r.texto AS respuesta, r.correcta
             FROM temarios t
             INNER JOIN niveles n ON t.id = n.id_temario
             INNER JOIN preguntas p ON n.id = p.id_nivel
             INNER JOIN respuestas r ON p.id = r.id_pregunta
-            ORDER BY t.nombre, n.nombre, p.id, r.id;
+            ORDER BY t.nombre, CAST(SUBSTRING(n.nombre, 6) AS UNSIGNED), p.id, r.id;
             `, (err, results) => {
                 if (err) {
                     console.error('Error al ejecutar la consulta:', error);
@@ -81,32 +82,38 @@ if (process.env.NODE_ENV === "development") { // Solo en entorno de desarrollo, 
     });
 }
 
+/**
+ * Lo que hace la consulta SQL es traer todo el contenido de las tablas unidas en 1, y utilizo CAST(SUBSTRING)
+ * para extraer el número que está al final del Tema, luego Tema tiene 4 caracteres + 1 que es el espacio + 1 
+ * que es donde empieza el número y consiguiendo Ordenar los Niveles correctamente. Porque lo que pasaría si 
+ * dejo puesto n.nombre directamente si tengo un Tema 11 me lo añadiría seguido del Tema 1.
+ * @param {*} callback 
+ */
 function getTemariosAgrupados(callback) {
     try {
-        db.query(`
-        SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta,
-           r.texto AS respuesta, r.correcta
+      db.query(`
+        SELECT t.nombre AS nombre_temario, n.nombre AS nivel, p.enunciado AS pregunta, p.url_imagen AS url_imagen, r.texto AS respuesta, r.correcta
         FROM temarios t
         INNER JOIN niveles n ON t.id = n.id_temario
         INNER JOIN preguntas p ON n.id = p.id_nivel
         INNER JOIN respuestas r ON p.id = r.id_pregunta
-        ORDER BY t.nombre, n.nombre, p.id, r.id;
-        `, (err, results) => {
-            if (err) {
-                console.error('Error al ejecutar la consulta:', error);
-                callback(null);
-            }
-            const data = formatData(results);
-            callback(data);
-        });
+        ORDER BY t.nombre, CAST(SUBSTRING(n.nombre, 6) AS UNSIGNED), p.id, r.id;
+      `, (err, results) => {
+        if (err) {
+          console.error('Error al ejecutar la consulta:', error);
+          callback(null);
+        }
+        const data = formatData(results);
+        callback(data);
+      });
     } catch (err) {
-        console.error('Error al ejecutar la consulta:', err);
-        callback(null);
+      console.error('Error al ejecutar la consulta:', err);
+      callback(null);
     }
-}
-
-// Función para formatear los datos obtenidos de la consulta
-function formatData(results) {
+  }
+  
+  // Función para formatear los datos obtenidos de la consulta
+  function formatData(results) {
     const data = [];
     let currentTemario = null;
     let currentNivel = null;
@@ -137,11 +144,11 @@ function formatData(results) {
   
       const nivel = niveles[niveles.length - 1];
       const preguntas = nivel.preguntas;
-  
       if (row.pregunta !== currentPregunta) {
         currentPregunta = row.pregunta;
         preguntas.push({
           pregunta: currentPregunta,
+          url_imagen: row.url_imagen, // Agregar la propiedad url_imagen en el objeto pregunta
           respuestas: []
         });
       }
@@ -169,11 +176,11 @@ function formatData(results) {
 }*/
 
 router.post('/insert', (req, res) => {
-    const { temario, nivel, pregunta, respuesta } = req.body;
-    console.log(respuesta);
+    const { temario, nivel, pregunta, respuesta, url_imagen } = req.body;
+
     try {
-        db.query(
-            `INSERT INTO temarios (nombre)
+        let sql = `
+            INSERT INTO temarios (nombre)
             SELECT ?
             WHERE NOT EXISTS (SELECT 1 FROM temarios WHERE nombre = ?);
             
@@ -185,7 +192,8 @@ router.post('/insert', (req, res) => {
             
             SELECT id INTO @id_nivel FROM niveles WHERE nombre = ? && id_temario = @id_temario;
             
-            INSERT INTO preguntas (enunciado, id_nivel) VALUES(?, @id_nivel);
+            INSERT INTO preguntas (enunciado, id_nivel, url_imagen)
+            VALUES (?, @id_nivel, ?);
             
             SELECT LAST_INSERT_ID() INTO @id_pregunta;
             
@@ -193,32 +201,37 @@ router.post('/insert', (req, res) => {
             VALUES (?, ?, @id_pregunta),
                    (?, ?, @id_pregunta),
                    (?, ?, @id_pregunta),
-                   (?, ?, @id_pregunta);`,
-            [temario, temario, temario,
-                nivel, nivel, nivel,
-                pregunta,
-                respuesta.res1.texto, respuesta.res1.correcta,
-                respuesta.res2.texto, respuesta.res2.correcta,
-                respuesta.res3.texto, respuesta.res3.correcta,
-                respuesta.res4.texto, respuesta.res4.correcta
-            ],
-            (err, results) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(500).send({
-                        msg: 'Error interno del servidor'
-                    });
-                }
-                return res.status(200).send({
-                    msg: 'Insertado correctamente'
+                   (?, ?, @id_pregunta);`;
+
+        let values = [
+            temario, temario, temario,
+            nivel, nivel, nivel,
+            pregunta,
+            url_imagen,
+            respuesta.res1.texto, respuesta.res1.correcta,
+            respuesta.res2.texto, respuesta.res2.correcta,
+            respuesta.res3.texto, respuesta.res3.correcta,
+            respuesta.res4.texto, respuesta.res4.correcta
+        ];
+
+        // Inserto los valores en la base de datos
+        db.query(sql, values, (err, results) => {
+            if (err) {
+                console.log(err);
+                return res.status(500).send({
+                    msg: 'Error interno del servidor'
                 });
+            }
+            return res.status(200).send({
+                msg: 'Insertado correctamente'
             });
+        });
     } catch (err) {
         console.log(err);
         return res.status(404).send({
             msg: 'Error interno del servidor',
             err: err
-        })
+        });
     }
 });
 

@@ -525,6 +525,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
         npm install crypto-js
         ```
 
+
 - Librerias Servidor:
 
     - Express:
@@ -573,4 +574,9 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
         ```
         npm install dotenv -D
+        ```
+    - Instalar gestor para subir imagenes al servidor:
+
+        ```
+        npm install express-fileupload
         ```

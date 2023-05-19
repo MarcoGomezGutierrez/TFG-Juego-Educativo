@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { ReactComponent as IconoSvg } from '../image/icons/imagen.svg';
 import "../styles/app/game.css";
 import { useLocation } from 'react-router-dom';
 import { encryptDataJson, decryptDataJson } from '../other/encrypt';
@@ -17,6 +18,8 @@ function Game(porps) {
   const [mostrarNumeroAleatorio, setMostrarNumeroAleatorio] = useState(false); // Agregar estado para controlar que no se cambien los números de las preguntas
   const [randomNumber, setRandomNumber] = useState(null);
   const [answers, setAnswers] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState('');
 
   const { state } = useLocation();
   const { temario, nivel, preguntas } = state || {};
@@ -94,6 +97,26 @@ function Game(porps) {
       generateMathAnswer(Matematicas.generateEstimationProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
     } else if (metodo !== null && metodo[0] === "$problemaQuitarKg$" && !mostrarNumeroAleatorio) {
       generateMathAnswer(Matematicas.generateKgProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$multiplicacion$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateMultiplicationRandomQuestion(1, 10, 1, 10)); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$dobleTriple$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateDobleTripleRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$multiplicacionUpgrade$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateMultiplicationRandomQuestion(10, 90, 2, 9)); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$kgComidaAproximada$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateKgComidaAproximadaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$billetes$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateBilletesRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$division$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "division")); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$divisionExacta$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "exacta")); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$divisionResto$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "resto")); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$divisionFraccion$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateFraccionRandomQuestion()); //Generar una pregunta nueva y sus respuestas
+    } else if (metodo !== null && metodo[0] === "$divisionGrande$" && !mostrarNumeroAleatorio) {
+      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(1000, 10000, 1, 10, "division")); //Generar una pregunta nueva y sus respuestas
     }
   }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, generateMathAnswer]);
 
@@ -138,6 +161,7 @@ function Game(porps) {
       setMostrarNumeroAleatorio(false);
       setRandomNumber(null);
       setAnswers([]);
+      setShowImage(false);
       localStorage.setItem(
         `${temario + nivel}`, 
         transformDataToJson(preguntaActual + 1, true, null, false, null, [])
@@ -173,8 +197,28 @@ function Game(porps) {
     return (<></>);
   }
 
+  const ImageContainer = ({ imageUrl, onClose }) => {
+    return (
+      <div className="image-container">
+        <img src={require(`../image/preguntas/${imageUrl}`)} alt="Imagen" />
+        <span className="close" onClick={onClose}>&times;</span>
+      </div>
+    );
+  };
+
+  const handleImageClick = (imageUrl) => {
+    setSelectedImageUrl(imageUrl);
+    setShowImage(true);
+  };
+
+  const handleCloseImage = () => {
+    setShowImage(false);
+    setSelectedImageUrl('');
+  };
+
   const renderPregunta = () => {
     const pregunta = preguntas[preguntaActual];
+
     // Buscar el símbolo ~ para subrayar el texto
     const text = pregunta.pregunta;
     const highlightedText = text
@@ -187,15 +231,33 @@ function Game(porps) {
         || capturedText === "resta" 
         || capturedText === "proximaCentena"
         || capturedText === "estimacionProblema"
-        || capturedText === "problemaQuitarKg") {
-          return `${randomNumber}`;
+        || capturedText === "problemaQuitarKg"
+        || capturedText === "multiplicacion"
+        || capturedText === "multiplicacionUpgrade"
+        || capturedText === "dobleTriple"
+        || capturedText === "kgComidaAproximada"
+        || capturedText === "billetes"
+        || capturedText === "division"
+        || capturedText === "divisionExacta"
+        || capturedText === "divisionResto"
+        || capturedText === "divisionFraccion"
+        || capturedText === "divisionGrande"
+        ) {
+          return `<br>${randomNumber}`;
         } else {
           return "";
         }
       });
     return (
       <div className="mainContainerGame">
-        <div className="title" dangerouslySetInnerHTML={{ __html: highlightedText }}></div>
+        <div className='title-image'>
+          <div className="title" dangerouslySetInnerHTML={{ __html: highlightedText }}></div>
+          {pregunta.url_imagen !== null ? 
+            <button className='button-icon' onClick={() => handleImageClick(pregunta.url_imagen)}>
+              <IconoSvg className="icono-svg" />
+            </button> : ""}
+          {showImage && <ImageContainer imageUrl={selectedImageUrl} onClose={handleCloseImage} />}
+        </div>
         <div className="respuestas-container">
           {indices.map((index) => { return preguntasNivel(pregunta, index) })}
         </div>

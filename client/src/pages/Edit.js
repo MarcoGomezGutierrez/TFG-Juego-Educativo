@@ -12,6 +12,8 @@ class Edit extends Component {
             temario: "",
             nivel: "",
             pregunta: "",
+            url_imagen: null,
+            archivo_imagen: null,
             respuesta: {
                 res1: {
                     texto: "",
@@ -30,7 +32,8 @@ class Edit extends Component {
                     correcta: false
                 }
             },
-            cuatroRespuestas: true
+            cuatroRespuestas: true,
+            imagen: null
         }
 
         this.serverIP = data.serverIP;
@@ -59,13 +62,30 @@ class Edit extends Component {
         });
     }
 
+    handleImagenChange = (event) => {
+        const archivo = event.target.files[0];
+        const reader = new FileReader();
+        try {
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    this.setState({
+                        archivo_imagen: archivo,
+                        imagen: reader.result,
+                        url_imagen: archivo.name
+                    });
+                }
+            };
+
+            if (archivo) {
+                reader.readAsDataURL(archivo);
+            }
+        } catch (err) { }
+    };
+
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const temario = this.state.temario;
-        const nivel = this.state.nivel;
-        const pregunta = this.state.pregunta;
-        const respuesta = this.state.respuesta;
+        const { temario, nivel, pregunta, url_imagen, respuesta } = this.state;
 
         const res1 = this.state.respuesta.res1.texto;
         const res2 = this.state.respuesta.res2.texto;
@@ -90,16 +110,13 @@ class Edit extends Component {
             return;
         }
 
-
-
-        const stateJson = JSON.stringify(this.state);
-        console.log(stateJson);
         try {
             const response = await axios.post(`${this.serverIP}/game/insert`, {
                 temario,
                 nivel,
                 pregunta,
-                respuesta
+                respuesta,
+                url_imagen
             });
             if (response.status === 200) {
                 console.log(response.data.msg);
@@ -130,6 +147,9 @@ class Edit extends Component {
                     correcta: false
                 }
             },
+            url_imagen: null,
+            archivo_imagen: null,
+            imagen: null,
             cuatroRespuestas: true
         });
     }
@@ -143,22 +163,28 @@ class Edit extends Component {
     }
 
     render() {
+        const { imagen } = this.state;
         return (
             <main>
                 {this.BackToLoby()}
                 <div className="form-container">
                     <h1>Editar Preguntas</h1>
                     <form onSubmit={this.handleSubmit} className="formEdit">
-                        <input
-                            type="checkbox"
-                            checked={this.state.cuatroRespuestas}
-                            onChange={(e) => {
-                                this.setState(prevState => ({
-                                    cuatroRespuestas: !prevState.cuatroRespuestas
-                                }));
-                            }}
-                            className="check"
-                        />
+                        <div className="form-in-line">
+                            <h2>Obligatorio rellenar todo:</h2>
+                            <input
+                                type="checkbox"
+                                checked={this.state.cuatroRespuestas}
+                                onChange={(e) => {
+                                    this.setState(prevState => ({
+                                        cuatroRespuestas: !prevState.cuatroRespuestas
+                                    }));
+                                }}
+                                className="check"
+                            />
+                            <input type="file" onChange={this.handleImagenChange} />
+                            {imagen && <img src={imagen} style={{ maxWidth: '300px', height: 'auto' }} alt="Vista previa de la imagen" />}
+                        </div>
                         <div className="form-in-line">
                             <h2>Temario:</h2>
                             <input
