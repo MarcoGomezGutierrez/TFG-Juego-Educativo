@@ -20,7 +20,7 @@ class Matematicas {
     static generateFourDigitRandomQuestion() {
         const min = 1000;
         const max = 9999;
-        const question = Math.floor(Math.random() * (max - min + 1) + min);
+        const question = this.generateRandomNumber(min, max);
         const answer = this.generateAnwserDescomposicion(this.separateDigits(question));
         return { question, answer };
     }
@@ -35,7 +35,7 @@ class Matematicas {
     static generateFourDigitComposicionRandomQuestion() {
         const min = 1000;
         const max = 9999;
-        const num = Math.floor(Math.random() * (max - min + 1) + min);
+        const num = this.generateRandomNumber(min, max);
         const { question, answer } = this.generateAnwserComposicion(this.separateDigits(num));
         return { question, answer };
     }
@@ -241,7 +241,7 @@ class Matematicas {
         const json = data.billetes;
         const index1 = this.generateRandomNumber(0, json.length - 1);
         let index2 = this.generateRandomNumber(0, json.length - 1);
-        while (index2 === index1) {
+        while (index2 === index1) { //Asegurarse que no salgan billetes repetidos
             index2 = this.generateRandomNumber(0, json.length - 1);
         }
         const resultJson1 = data.billetes[index1];
@@ -258,6 +258,16 @@ class Matematicas {
         }
     }
 
+    /**
+     * Método que se encarga de generar todas las preguntas de división, mediante una palabra clave, puedo generar
+     * un resultado de resto, si es exacta, etc.
+     * @param {*} min1 
+     * @param {*} max1 
+     * @param {*} min2 
+     * @param {*} max2 
+     * @param {*} tipo 
+     * @returns 
+     */
     static generateDivisionesRandomQuestion(min1, max1, min2, max2, tipo) {
         const num1 = this.generateRandomNumber(min1, max1);
         const num2 = this.generateRandomNumber(min2, max2);
@@ -266,7 +276,7 @@ class Matematicas {
         const question = `${num1}:${num2}`;
 
         if (tipo === "division") {
-            const result = parseInt(num1/num2);
+            const result = parseInt(num1 / num2);
             return {
                 question: question,
                 answer: this.generarOpcionesDistorsion(result, 5)
@@ -275,7 +285,7 @@ class Matematicas {
             const exacta = this.isDivisionExacta(num1, num2);
             return {
                 question: question,
-                answer: [exacta ? "Es exacta": "Es entera", !exacta ? "Es exacta":"Es entera" ]
+                answer: [exacta ? "Es exacta" : "Es entera", !exacta ? "Es exacta" : "Es entera"]
             }
         } else if (tipo === "resto") {
             const result = this.getResto(num1, num2);
@@ -286,6 +296,11 @@ class Matematicas {
         }
     }
 
+    /**
+     * Generación de preguntas para las fracciones de: Calcuala la mitad de x número, 
+     * el tercio de x o el cuarto de x
+     * @returns 
+     */
     static generateFraccionRandomQuestion() {
         const num1 = this.generateRandomNumber(10, 100);
         const num2 = this.generateRandomNumber(2, 4);
@@ -309,6 +324,341 @@ class Matematicas {
             answer: this.generarOpcionesDistorsion(result, 5)
         }
     }
+
+    /**
+     * Conversión de unidades, pasar de m a cm, de cm a m y cm, etc.
+     * @param {*} min 
+     * @param {*} max 
+     * @param {*} tipo 
+     * @returns 
+     */
+    static generateConversionUnionRandomQuestion(min, max, tipo) {
+        var num1 = 0;
+        var num2 = 0;
+        var question = "";
+        var answer = [];
+        switch (tipo) {
+            case "conversionUnion":
+                num1 = 1;
+                num2 = this.generateRandomNumber(min, max);
+                question = `${num1} m y ${num2} cm`;
+                answer = this.convertirUnidadesMedidasGrandesAPequeñas(num1, num2, "cm", 100);
+                return {
+                    question: question,
+                    answer: answer
+                }
+            case "conversionSeparacionCm":
+                num1 = this.generateRandomNumber(min, max);
+                question = `${num1} cm`;
+                answer = this.convertirUnidadesMedidasPequeñasAGrandes(num1, 100, "m", "cm");
+                return {
+                    question: question,
+                    answer: answer
+                }
+            case "conversionSeparacionMmm":
+                num1 = this.generateRandomNumber(min, max);
+                question = `${num1} mm`;
+                answer = this.convertirUnidadesMedidasPequeñasAGrandes(num1, 10, "cm", "mm");
+                return {
+                    question: question,
+                    answer: answer
+                }
+            case "conversionUnionProblema":
+                num1 = 1; //m
+                num2 = this.generateRandomNumber(min, max); //cm
+                var num3 = this.generateRandomNumber(min, max); //cm
+                question = ` ${num3} cm y la cuerda verde ${num1} m y ${num2} cm.`;
+                answer = this.convertirUnidadesMedidasGrandesAPequeñas(num1, num2 + num3, "cm", 100);
+                return {
+                    question: question,
+                    answer: answer
+                }
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 
+     * @param {*} tipo 
+     * @returns 
+     */
+    static generateKgLitrosProblemasRandomQuestion(tipo) {
+        const kg = this.generateRandomNumber(1, 5);
+        const mediosKg = this.generateRandomNumber(1, 5);
+        const cuartosKg = this.generateRandomNumber(1, 5);
+
+        const question = `${kg} ${tipo} + ${mediosKg} medios ${tipo} + ${cuartosKg} cuartos de ${tipo}`;
+        const result = kg + (mediosKg * 1 / 2) + (cuartosKg * 1 / 4);
+        const respuestaFalsa1 = kg + ((mediosKg + this.generateRandomNumber(1, 2)) * 1 / 2) + ((cuartosKg + this.generateRandomNumber(1, 2)) * 1 / 4);
+        const respuestaFalsa2 = kg + ((mediosKg - this.generateRandomNumber(1, 2)) * 1 / 2) + ((cuartosKg + this.generateRandomNumber(1, 2)) * 1 / 4);
+        const respuestaFalsa3 = kg + ((mediosKg + this.generateRandomNumber(1, 2)) * 1 / 2) + ((cuartosKg - this.generateRandomNumber(1, 2)) * 1 / 4);
+
+        const answer = [
+            this.convertirKilosLitrosAFracciones(result, tipo),
+            this.convertirKilosLitrosAFracciones(respuestaFalsa1, tipo),
+            this.convertirKilosLitrosAFracciones(respuestaFalsa2, tipo),
+            this.convertirKilosLitrosAFracciones(respuestaFalsa3, tipo)
+        ]
+
+        return {
+            question: question,
+            answer: answer
+        }
+    }
+
+    /**
+     * 
+     * @returns 
+     */
+    static generateLitroPrecioProblemasRandomQuestion() {
+        const precio = this.generateRandomNumber(1, 10, true);
+        const fraccion = this.generateRandomNumber(2, 4);
+        var fraccionText = "";
+
+        if (fraccion === 2) {
+            fraccionText = "medio litro";
+        } else if (fraccion === 3) {
+            fraccionText = "un tercio de litro";
+        } else {
+            fraccionText = "un cuarto de litro";
+        }
+
+        const question = `${precio}€ ¿Cuánto cuesta ${fraccionText}`;
+        const result = precio * (1 / fraccion);
+        const respuestaFalsa1 = precio * (1 / fraccion) + 1;
+        const respuestaFalsa2 = precio * (1 / (fraccion - 1));
+        const respuestaFalsa3 = precio * (1 / (fraccion + 1));
+
+        const answer = [
+            parseFloat(result.toFixed(2)),
+            parseFloat(respuestaFalsa1.toFixed(2)),
+            parseFloat(respuestaFalsa2.toFixed(2)),
+            parseFloat(respuestaFalsa3.toFixed(2)),
+        ]
+
+        return {
+            question: question,
+            answer: answer
+        }
+    }
+
+    static generarHoraProblema(tipo) {
+        if (tipo === "calcularTiempo") {
+            var { hora1, hora2 } = this.generarHoraAleatoria();
+            const question = `${hora1} y las ${hora2}`;
+            const result = this.calcularTiempoMinutos(hora1, hora2);
+            const answer = [
+                this.convertirMinutosAHoras(result),
+                this.convertirMinutosAHoras(result + this.generateRandomNumber(5, 20)),
+                this.convertirMinutosAHoras(Math.abs(result - this.generateRandomNumber(5, 20))),
+                this.convertirMinutosAHoras(result + this.generateRandomNumber(1, 4))
+            ]
+            return {
+                question: question,
+                answer: answer
+            }
+        } else if (tipo === "cuantoTiempoMañanaTarde") {
+            var horaMañana = this.generateRandomNumber(6, 11);
+            var horaNoche = this.generateRandomNumber(19, 23);
+            const question = `${horaMañana} de la mañana y las ${horaNoche} de la noche`;
+            const result = horaNoche - horaMañana;
+            const answer = [
+                result + " h",
+                result + this.generateRandomNumber(2, 3) + " h",
+                result - this.generateRandomNumber(2, 3) + " h",
+                result + (this.generateRandomNumber(0, 1) ? +1:-1) + " h"
+            ]
+            return {
+                question: question,
+                answer: answer
+            }
+        } else if (tipo === "convertirTiempo") {
+            const hora = this.generateRandomNumber(1, 23);
+            const minuto = this.generateRandomNumber(1, 59);
+            const question = `${hora} h y ${minuto} min`;
+            const result = this.convertirTiempo(hora, minuto);
+            const answer = [
+                result + " min",
+                result + this.generateRandomNumber(5, 20) + " min",
+                result - this.generateRandomNumber(5, 20) + " min",
+                result + this.generateRandomNumber(1, 4) + " min",
+            ]
+            return {
+                question: question,
+                answer: answer
+            }
+        }
+    }
+
+    /**
+     * Generar problemas de pago x dinero por algo y me devuelven x dinero, en billetes y monedas. 
+     * Y se trata de saber cuanto costaba el producto. Almacenado en math.json los billetes y 
+     * monedas que hay. En este caso, se genera un valor aleatorio para que no siempre me traiga 
+     * el mismo billete o moneda.
+     */
+    static generarCambioBilletesRandomQuestion() {
+        const pago = this.generateRandomNumber(150, 300);
+        const billetes = data.billetes;
+        const monedas = data.monedas;
+        const index1 = this.generateRandomNumber(0, billetes.length - 1);
+        let index2 = this.generateRandomNumber(0, billetes.length - 1);
+        while (index2 === index1) { //Asegurarse que no salgan billetes repetidos
+            index2 = this.generateRandomNumber(0, billetes.length - 1);
+        }
+        const index3 = this.generateRandomNumber(0, monedas.length - 1);
+        const numBillete1 = this.generateRandomNumber(1, 2);
+        const numBillete2 = this.generateRandomNumber(1, 2);
+        const numMonedas = this.generateRandomNumber(1, 2);
+        const billete1 = billetes[index1].billete;
+        const billete2 = billetes[index2].billete;
+        const moneda = monedas[index3].moneda;
+
+        const question = `${pago}€ por un televisor y me dan de cambio ${numBillete1} ${numBillete1 === 1 ? "billete" : "billetes"} de ${billete1}, ${numBillete2} ${numBillete2 === 1 ? "billete" : "billetes"} de ${billete2} y ${numMonedas} ${numMonedas === 1 ? "moneda": "monedas"} de ${moneda}€. `;
+        const result = pago - ((numBillete1 * billete1) + (numBillete2 * billete2) + (numMonedas * moneda));
+        const answer = [
+            result + " €",
+            result + this.generateRandomNumber(10, 20) + " €",
+            result - this.generateRandomNumber(10,20) + " €",
+            result + (this.generateRandomNumber(0, 1) ? + this.generateRandomNumber(21, 50) : - this.generateRandomNumber(21, 50)) + " €"
+        ]
+
+        return {
+            question: question,
+            answer: answer
+        }
+    }
+
+    static generarAlquilerRandomQuestion() {
+        const alquilerPorHora = this.generateRandomNumber(5, 20); //€ la hora
+        let duracionAlquiler = this.generateRandomNumber(2, 5);
+        const half = this.generateRandomNumber(0, 1);
+        const question = `${alquilerPorHora} € la hora. ¿Cuánto cuesta alquilar una bicicleta ${duracionAlquiler} horas${half === 1 ? " y media": ""} ?`;
+
+        if (half === 1) {
+            duracionAlquiler = duracionAlquiler + 0.5;
+        }
+
+        const costeTotalAlquiler = alquilerPorHora * duracionAlquiler;
+
+        const answer = [
+            costeTotalAlquiler + " €",
+            costeTotalAlquiler + this.generateRandomNumber(1, 3) + " €",
+            costeTotalAlquiler - this.generateRandomNumber(1, 3) + " €",
+            costeTotalAlquiler + (this.generateRandomNumber(0, 1) ? + this.generateRandomNumber(4, 5) : - this.generateRandomNumber(4, 5)) + " €",
+        ]
+
+        return {
+            question: question,
+            answer: answer
+        }
+
+    }
+
+    static calcularTiempoMinutos(inicio, fin) {
+        var inicioHoras = parseInt(inicio.split(':')[0]);
+        var inicioMinutos = parseInt(inicio.split(':')[1]);
+
+        var finHoras = parseInt(fin.split(':')[0]);
+        var finMinutos = parseInt(fin.split(':')[1]);
+
+        var tiempoTotalMinutos = (finHoras * 60 + finMinutos) - (inicioHoras * 60 + inicioMinutos);
+
+        return tiempoTotalMinutos;
+    }
+
+    static convertirMinutosAHoras(minutos) {
+        var horas = Math.floor(minutos / 60);
+        var minutosRestantes = minutos % 60;
+        var result = "";
+        if (horas !== 0) {
+            result = horas + " h ";
+        }
+        if (minutos !== 0) {
+            result = result + minutosRestantes + " min";
+        }
+
+        return result;
+    }
+
+    static convertirTiempo(horas, minutos) {
+        var tiempoTotalMinutos = (horas * 60) + minutos;
+        return tiempoTotalMinutos;
+    }
+
+    static generarHoraAleatoria() {
+        var hora1 = Math.floor(Math.random() * 24); // Genera un número aleatorio entre 0 y 23 para la primera hora
+        var minuto1 = Math.floor(Math.random() * 60); // Genera un número aleatorio entre 0 y 59 para los minutos de la primera hora
+
+        var hora2 = Math.floor(Math.random() * 24); // Genera un número aleatorio entre 0 y 23 para la segunda hora
+        var minuto2 = Math.floor(Math.random() * 60); // Genera un número aleatorio entre 0 y 59 para los minutos de la segunda hora
+
+        // Compara las horas generadas y las reordena si es necesario
+        if (hora1 > hora2 || (hora1 === hora2 && minuto1 > minuto2)) {
+            var tempHora = hora1;
+            var tempMinuto = minuto1;
+            hora1 = hora2;
+            minuto1 = minuto2;
+            hora2 = tempHora;
+            minuto2 = tempMinuto;
+        }
+
+        // Formatea las horas y los minutos para que tengan siempre dos dígitos
+        var horaFormateada1 = hora1.toString().padStart(2, '0');
+        var minutoFormateado1 = minuto1.toString().padStart(2, '0');
+        var horaFormateada2 = hora2.toString().padStart(2, '0');
+        var minutoFormateado2 = minuto2.toString().padStart(2, '0');
+
+        return {
+            hora1: horaFormateada1 + ':' + minutoFormateado1,
+            hora2: horaFormateada2 + ':' + minutoFormateado2
+        };
+    }
+
+    static convertirKilosLitrosAFracciones(value, tipo) {
+        var entero = Math.floor(value); // Obtiene la parte entera de los kilos
+        var fraccion = value - entero; // Obtiene la parte decimal de los kilos
+
+        if (fraccion === 0.5) {
+            return `${entero} ${tipo} y medio`;
+        } else if (fraccion === 0.25) {
+            return `${entero} ${tipo} y un cuarto`;
+        } else if (fraccion === 0.75) {
+            return `${entero} ${tipo} y tres cuartos`;
+        } else {
+            return `${entero} ${tipo}`; // Si no hay una fracción específica, solo muestra los kilos o litros
+        }
+    }
+
+    static convertirUnidadesMedidasGrandesAPequeñas(unidad1, unidad2, conversion, trasnform) {
+        var totalUnidad = unidad1 * trasnform + unidad2;
+
+        var respuestas = [totalUnidad + " " + conversion];
+        var respuestaFalsa1 = (unidad1 + unidad2) + " " + conversion;
+        var respuestaFalsa2 = (unidad1) + "" + (unidad2 * 10) + " " + conversion;
+        var respuestaFalsa3 = (unidad1) + "" + (unidad2 * 100) + " " + conversion;
+
+        respuestas.push(respuestaFalsa1, respuestaFalsa2, respuestaFalsa3);
+
+        return respuestas;
+    }
+
+    static convertirUnidadesMedidasPequeñasAGrandes(num, trasnform, unidad1, unidad2) {
+        var metros = Math.floor(num / trasnform); // Obtiene la parte entera de la división
+        var centimetros = num % trasnform; // Obtiene el resto de la división
+
+        var respuestas = [metros + " " + unidad1 + " y " + centimetros + " " + unidad2];
+
+        // Generar respuestas falsas
+        var respuestaFalsa1 = (metros * 10 + Math.floor(centimetros / 10)) + " " + unidad1 + " y " + (centimetros % 10) + " " + unidad2;
+        var respuestaFalsa2 = (metros * 10 + Math.floor(centimetros / 10)) + " " + unidad1 + " y " + (centimetros * 10) + " " + unidad2;
+        var respuestaFalsa3 = metros + " " + unidad1 + " y " + (centimetros * 100) + " " + unidad2;
+
+        respuestas.push(respuestaFalsa1, respuestaFalsa2, respuestaFalsa3);
+
+        return respuestas;
+    }
+
 
     static isDivisionExacta(dividendo, divisor) {
         return dividendo % divisor === 0;
@@ -405,10 +755,19 @@ class Matematicas {
     }
 
     // Generar un número aleatorio entre los dos valores
-    static generateRandomNumber(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+    static generateRandomNumber(min, max, decimal = false) {
+        if (decimal) {
+            var numeroAleatorio = Math.random();
+            var diferencia = max - min; // Calcula la diferencia entre el máximo y el mínimo
+            var numeroDecimal = (numeroAleatorio * diferencia) + min;
+            var numeroDecimalRedondeado = numeroDecimal.toFixed(2); // Dos decimales
+            return parseFloat(numeroDecimalRedondeado); // Decimal
+        } else {
+            min = Math.ceil(min); //Redondear hacia arriba, para asegurar que los valores esten en el rango si son decimales
+            max = Math.floor(max); // Redondear hacia abajo, para asegurar que los valores esten en el rango si son decimales
+            return Math.floor(Math.random() * (max - min + 1)) + min; // Generar un número aleatorio en el rango
+        }
+
     }
 
     static generateThreeDigits() {

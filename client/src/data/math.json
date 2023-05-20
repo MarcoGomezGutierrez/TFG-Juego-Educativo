@@ -573,5 +573,13 @@
         {
             "billete":50
         }
+    ],
+    "monedas": [
+        {
+            "moneda": 2
+        },
+        {
+            "moneda": 1
+        }
     ]
 }

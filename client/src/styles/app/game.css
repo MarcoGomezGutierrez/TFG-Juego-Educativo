@@ -9,7 +9,8 @@
     background: var(--color-main-container);
 
     width: 100vh;
-    height: 50vh;
+    min-height: 50vh;
+    height: auto;
 
     border: 3px solid black;
 
@@ -180,7 +181,7 @@
 
     .mainContainerGame{
         width: 80%;
-        height: 80%;
+        min-height: 80%;
         overflow-y: scroll;
         overflow-x: hidden;
     }

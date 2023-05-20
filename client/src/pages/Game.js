@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { encryptDataJson, decryptDataJson } from '../other/encrypt';
 import { Outlet, Link } from 'react-router-dom';
 import Matematicas from '../other/Matematicas';
+import { methodMap } from '../other/mathMethods.js';
 
 // Se saca fuera para que no se cambien los indices al pulsar ningún botón
 const start = 0; // Índice inicial
@@ -39,7 +40,7 @@ function Game(porps) {
     return encryptDataJson(data);
     //return JSON.stringify(data);
   };
-  
+
   useEffect(() => {
     // Recuperar la respuesta seleccionada del Local Storage al cargar la página
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
@@ -58,65 +59,48 @@ function Game(porps) {
   const generateMathAnswer = useCallback((callback) => {
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
     let jsonResponse = "";
-      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-        jsonResponse = decryptDataJson(respuestaGuardada);
-        if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
-          setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
-          setRandomNumber(jsonResponse.randomNumber);
-          setAnswers(jsonResponse.answers);
-          return;
-        } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
-      }
-      setMostrarNumeroAleatorio(true);
-      const {question, answer} = callback; //Genero una pregunta nueva y sus respuestas
-      setRandomNumber(question);
-      setAnswers(answer);
-      localStorage.setItem(
-        `${temario + nivel}`, 
-        transformDataToJson(respuestaGuardada ? jsonResponse.preguntaActual : preguntaActual, hoverEnabled, respuestaSeleccionada, true, question, answer)
-      ); // Las guardo en el local storage para evitar que al recargar la página se pierda
-  },[nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual]);
+    if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
+      jsonResponse = decryptDataJson(respuestaGuardada);
+      if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
+        setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
+        setRandomNumber(jsonResponse.randomNumber);
+        setAnswers(jsonResponse.answers);
+        return;
+      } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
+    }
+    setMostrarNumeroAleatorio(true);
+    const { question, answer } = callback; //Genero una pregunta nueva y sus respuestas
+    setRandomNumber(question);
+    setAnswers(answer);
+    localStorage.setItem(
+      `${temario + nivel}`,
+      transformDataToJson(respuestaGuardada ? jsonResponse.preguntaActual : preguntaActual, hoverEnabled, respuestaSeleccionada, true, question, answer)
+    ); // Las guardo en el local storage para evitar que al recargar la página se pierda
+  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual]);
+
 
   useEffect(() => {
     // Manejar temarios de Matemáticas
     const pregunta = preguntas[preguntaActual];
     const text = pregunta.pregunta;
     const metodo = text.match(/(\$.*?\$)/); // Buscar en el texto una sentencia que este entre simbolos del $mitexto$
-    // Mirar que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo el valor de mostrarNumeroAleatorio para cuando se clica en una respuesta y no cambie
-    if (metodo !== null && metodo[0] === "$descomposicion$" && !mostrarNumeroAleatorio) { 
-      generateMathAnswer(Matematicas.generateFourDigitRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$composicion$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateFourDigitComposicionRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$numeroOrdinal$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateOrdinalRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$resta$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateRestaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$proximaCentena$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateNearestCentenaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$estimacionProblema$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateEstimationProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$problemaQuitarKg$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateKgProblemRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$multiplicacion$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateMultiplicationRandomQuestion(1, 10, 1, 10)); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$dobleTriple$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateDobleTripleRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$multiplicacionUpgrade$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateMultiplicationRandomQuestion(10, 90, 2, 9)); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$kgComidaAproximada$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateKgComidaAproximadaRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$billetes$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateBilletesRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$division$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "division")); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$divisionExacta$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "exacta")); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$divisionResto$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(10, 100, 1, 10, "resto")); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$divisionFraccion$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateFraccionRandomQuestion()); //Generar una pregunta nueva y sus respuestas
-    } else if (metodo !== null && metodo[0] === "$divisionGrande$" && !mostrarNumeroAleatorio) {
-      generateMathAnswer(Matematicas.generateDivisionesRandomQuestion(1000, 10000, 1, 10, "division")); //Generar una pregunta nueva y sus respuestas
+    // 
+    /**
+     * Mirar que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo 
+     * el valor de mostrarNumeroAleatorio para cuando se clica en una respuesta y no cambie.
+     * Simplificación del código, atraves de un objeto  compruebo todo. De esta forma tengo mejor
+     * legibilidad en mi código.
+     */
+    if (metodo !== null && metodo[1] !== undefined) {
+      const methodName = metodo[1];
+      const cleanMethodName = methodName.replace(/\$/g, ''); // Eliminar los símbolos de dólar
+
+      if (methodMap.hasOwnProperty(cleanMethodName)) {
+        const { method, args } = methodMap[cleanMethodName];
+        if (!mostrarNumeroAleatorio) {
+          generateMathAnswer(Matematicas[method](...args));
+        }
+      }
     }
   }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, generateMathAnswer]);
 
@@ -129,7 +113,7 @@ function Game(porps) {
       if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
         jsonResponse = decryptDataJson(respuestaGuardada);
         localStorage.setItem(
-          `${temario + nivel}`, 
+          `${temario + nivel}`,
           transformDataToJson(jsonResponse.preguntaActual, false, respuesta, true, jsonResponse.randomNumber, jsonResponse.answers)
         );
       } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
@@ -150,7 +134,7 @@ function Game(porps) {
     return '';
   };
 
-  
+
   /* Controlador para seleccionar la respuesta siguiente, si es la última pregunta retorna a la página anterior, 
   si no lo es carga la siguiente pregunta*/
   const handleSiguientePregunta = () => {
@@ -163,7 +147,7 @@ function Game(porps) {
       setAnswers([]);
       setShowImage(false);
       localStorage.setItem(
-        `${temario + nivel}`, 
+        `${temario + nivel}`,
         transformDataToJson(preguntaActual + 1, true, null, false, null, [])
       );
     } else {
@@ -175,9 +159,9 @@ function Game(porps) {
   // Volver a la página anterior
   const back = () => {
     return (
-        <Link to="/loby" className="circle">
-            <div className="arrow"/>
-        </Link>
+      <Link to="/loby" className="circle">
+        <div className="arrow" />
+      </Link>
     );
   }
 
@@ -225,24 +209,7 @@ function Game(porps) {
       .replace(/~(.*?)~/g, '<span style="text-decoration: underline; text-underline-offset: 3px;">$1</span>') // Subrayado
       .replace(/\*(.*?)\*/g, '<span style="text-decoration: underline; text-underline-offset: 3px;">$1</span>') // Negrita (Subrayado por el tipo de letra)
       .replace(/\$(.*?)\$/g, (match, capturedText) => {
-        if (capturedText === "descomposicion" 
-        || capturedText === "composicion" 
-        || capturedText === "numeroOrdinal" 
-        || capturedText === "resta" 
-        || capturedText === "proximaCentena"
-        || capturedText === "estimacionProblema"
-        || capturedText === "problemaQuitarKg"
-        || capturedText === "multiplicacion"
-        || capturedText === "multiplicacionUpgrade"
-        || capturedText === "dobleTriple"
-        || capturedText === "kgComidaAproximada"
-        || capturedText === "billetes"
-        || capturedText === "division"
-        || capturedText === "divisionExacta"
-        || capturedText === "divisionResto"
-        || capturedText === "divisionFraccion"
-        || capturedText === "divisionGrande"
-        ) {
+        if (methodMap.hasOwnProperty(capturedText)) {
           return `<br>${randomNumber}`;
         } else {
           return "";
@@ -252,7 +219,7 @@ function Game(porps) {
       <div className="mainContainerGame">
         <div className='title-image'>
           <div className="title" dangerouslySetInnerHTML={{ __html: highlightedText }}></div>
-          {pregunta.url_imagen !== null ? 
+          {pregunta.url_imagen !== null ?
             <button className='button-icon' onClick={() => handleImageClick(pregunta.url_imagen)}>
               <IconoSvg className="icono-svg" />
             </button> : ""}
@@ -276,7 +243,7 @@ function Game(porps) {
     <main className="loby">
       {back()}
       {renderPregunta()}
-      <Outlet/>
+      <Outlet />
     </main>
   );
 }
