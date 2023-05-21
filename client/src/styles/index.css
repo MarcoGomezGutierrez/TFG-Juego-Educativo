@@ -1,23 +1,33 @@
 :root {
-  --color-background: rgb(218, 196, 173);
+  --color-background: #F5F5F5;
 
   /*Layout, Header*/
-  --color-header: #f0d5b9;
+  --color-header: #CCCCCC;
   --color-button: #f0af53;
   --color-button-hover: #efd5b1;
   
-  --color-background-loby: #75c5e6;
-  --color-main-container: #E6B175;
-  --color-main-container-border: #d6b67a;
-  --color-button-background: #B39849;
-  --color-button-border: #f0af53;
-  --color-buttonNivel-background: #75C4E6;
-  --color-buttonNivel-border: #72ad58;
+  /*Color de fondo de la aplicación*/
+  --color-background-loby: #9ad0e6;
+  /*Color de fondo del contenedor central de los temarios*/
+  --color-main-container: #6ca8c7;
+  /*Color del contenedor de los Temarios*/
+  --color-button-background: #ffd56a;
+  /*Color del botón de cada Tema*/
+  --color-buttonNivel-background: #76c8e0;
+  /*Color de fondo del contenedor central de las preguntas*/
+  --color-contenedor-central-preguntas: #F5F5F5;
+  /*Color del contenedor de cada pregunta*/
+  --color-contenedor-pregunta: #B5B5B5;
+  /*Color del contenedor de selección de respuesta*/
+  --color-contenedor-respuesta: #DBDBDB;
+  /*Color botón siguiente en la sección de preguntas*/
+  --color-boton-siguiente: #c5e8f3;
 }
 
 body {
   margin: 0;
   background-color: var(--color-background);
+  font-family: 'Roboto', sans-serif;
 }
 
 code {

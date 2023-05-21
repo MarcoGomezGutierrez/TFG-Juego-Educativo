@@ -44,7 +44,6 @@ body {
 
     width: 100vh;
     height: 50vh;
-    /*height: 100%;*/
 
     border: 3px solid black;
     
@@ -53,11 +52,6 @@ body {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    /*flex-wrap: wrap;*/
-    
-    /*justify-content: center;
-    align-items: center;*/
-    
     
     padding-top: 30px;
     padding-bottom: 10px;
@@ -110,7 +104,7 @@ body {
   font-size: 35px;
   font-weight: 400;
 
-  color: black;
+  color: #333333;
   padding: 8px;
   border: 2px solid black;
   margin: 15px;
@@ -125,11 +119,12 @@ body {
   z-index: 1;
 }
 
+/*Botón de los Temas*/
 .dropdown-content-nivel {
   font-family: "Pixel";
   font-size: 16px;
   text-align: center;
-  color: black;
+  color: #333333;
   background-color: var(--color-buttonNivel-background);
   
   border: 1px solid black;
