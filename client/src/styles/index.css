@@ -3,8 +3,9 @@
 
   /*Layout, Header*/
   --color-header: #CCCCCC;
-  --color-button: #f0af53;
-  --color-button-hover: #efd5b1;
+  --color-button: #FF6600;
+  --color-button-hover: #FF944D;
+  --color-text: #343434;
   
   /*Color de fondo de la aplicación*/
   --color-background-loby: #9ad0e6;
@@ -28,6 +29,8 @@ body {
   margin: 0;
   background-color: var(--color-background);
   font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  color: var(--color-text);
 }
 
 code {

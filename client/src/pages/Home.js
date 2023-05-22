@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import data from '../data/config.json';
+import JsonData from '../data/home.data.json'
+import AcercaNosotros from "../components/home.components";
+import '../styles/app/home.css';
 
 class Home extends Component {
 
@@ -22,13 +25,22 @@ class Home extends Component {
                 console.log(response.data.msg);
                 window.location = "./loby";
             }
-        } catch (err) {}
+        } catch (err) { }
     }
+
+
 
     render() {
         return (
             <Layout>
-                <div></div>
+                {JsonData.map((data, index) => {
+                    //Añadir los diferentes ID, dependiendo de las secciones que quieras en la página web
+                    if (data.id === "nosotros") {
+                        return (<AcercaNosotros index={index} data={data} />);
+                    } else {
+                        return (<></>)
+                    }
+                })}
             </Layout>
         )
     }

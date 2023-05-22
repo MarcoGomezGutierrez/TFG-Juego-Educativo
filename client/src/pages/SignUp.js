@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet, Link } from 'react-router-dom';
+import { ReactComponent as IconoSvg } from '../image/icons/icon-book.svg';
 import '../styles/log.css';
 import axios from "axios";
 import { sha256 } from '../other/encrypt';
@@ -31,13 +32,13 @@ class SignUp extends React.Component {
         const username = this.state.username;
         const email = this.state.email;
         const password = sha256(this.state.password);
-        
+
         // Peticion para el registro de usuario
         try {
             const response = await axios.post(`${this.serverIP}/app/signup`, {
-              username,
-              email,
-              password
+                username,
+                email,
+                password
             });
             if (response.status === 200) {
                 const user = { token: response.data.token, username: response.data.username, email: response.data.email, msg: response.data.msg };
@@ -46,25 +47,29 @@ class SignUp extends React.Component {
             } else {
                 console.log(response.data.msg);
             }
-          } catch (error) {
+        } catch (error) {
             console.error(error);
-          }
+        }
     }
 
     BackToHome() {
         return (
             <Link to="/" className="circle">
-                <div className="arrow"/>
+                <div className="arrow" />
             </Link>
         );
     }
 
     render() {
-        return(
-            <>
+        return (
+            <main className="background">
                 {this.BackToHome()}
                 <div className="login-container">
-                    <h1>Registrarse</h1>
+                    <div className="login-shadow"/>
+                    <div style={{ display: "flex", flexDirection: "row", alignItems:"center", justifyContent:"center", gap: "15px" }}>
+                        <IconoSvg style={{width: "auto", height: "50px"}}/>
+                        <h1>Registrarse</h1>
+                    </div>
                     <form onSubmit={this.handleSubmit} className="form">
                         <input
                             placeholder="Email"
@@ -73,25 +78,28 @@ class SignUp extends React.Component {
                             onChange={(e) => this.handleChange(e, "email")}
                             className="box"
                         />
-                        <input 
+                        <input
                             placeholder="Nombre de Usuario"
                             type="text"
                             value={this.state.username}
                             onChange={(e) => this.handleChange(e, "username")}
                             className="box"
                         />
-                        <input 
+                        <input
                             placeholder="Contraseña"
                             type="password"
                             value={this.state.password}
                             onChange={(e) => this.handleChange(e, "password")}
                             className="box"
                         />
-                        <input type="submit" value="Registrarse" className="buttonLog"/>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "25px" }}>
+                            <input type="submit" value="Registrarse" className="buttonLog" />
+                            <Link to="/sign-in" className="underline-animation">Tengo una cuenta</Link>
+                        </div>
                     </form>
                 </div>
-                <Outlet/>
-            </>
+                <Outlet />
+            </main>
         )
     }
 }

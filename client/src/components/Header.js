@@ -1,4 +1,5 @@
 import React, { useEffect, useState} from "react";
+import { ReactComponent as IconoWebSvg } from '../image/icons/icono-web.svg';
 import { Outlet, Link } from 'react-router-dom';
 import "../styles/layout/header.css";
 
@@ -27,7 +28,7 @@ function Header() {
       <header className={`navbar ${
           showHeader === true ? "fade-out-down" : showHeader === false ? "fade-out-up" : ""
         }`}>
-        <div className="item titleHeader">Primary</div>
+        <IconoWebSvg className="item icon-web"/>
         <div className="item">
           <Link to="/sign-in" className="underline-animation">Iniciar Sesión</Link>
           <Link to="/sign-up" className="buttonHeader">Registrarse</Link>

@@ -29,14 +29,9 @@ body {
 
 /*Centrar el contenido en el centro de la pantalla*/
 .loby {
-    /*background-image: url("../../image/background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;*/
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /*height: 100vh;*/
 }
 
 .mainContainer {
@@ -55,7 +50,6 @@ body {
     
     padding-top: 30px;
     padding-bottom: 10px;
-    box-shadow: 1px 3px 7px -3px rgba(0, 0, 0, 0.703);
 }
 
 .configurationPanel {

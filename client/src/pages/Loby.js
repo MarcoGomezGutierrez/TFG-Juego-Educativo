@@ -64,7 +64,6 @@ class Loby extends Component {
     return (
       <div className="configurationPanel">
         {this.gear()}
-        
       </div>
     );
   }
@@ -98,8 +97,8 @@ class Loby extends Component {
       return (
         <div className="panelConfig">
           <button className="close-button" onClick={(event) => this.handleConfiguration(event)}/>
-          <Link to="/sign-in" className="dropdown-content-nivel" onClick={(event) => this.cerrarSesion(event)}>Cerrar Sesión</Link>
           {this.editAccess()}
+          <Link to="/sign-in" className="dropdown-content-nivel" onClick={(event) => this.cerrarSesion(event)}>Cerrar Sesión</Link>
         </div>
       )
     } else {
