@@ -52,16 +52,16 @@
     padding: 10px;
     
     background-color: var(--color-button);
-    color: var(--color-text);
+    color: white;
     text-decoration: none;
-    
+    font-weight: 700;
     border: none;
     border-radius: 5px;
 }
 
 .acercaNosotrosContainer .button:hover {
     cursor: pointer;
-    color: white;
+    color: var(--color-text);
     background-color: var(--color-button-hover);
 }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from './Header';
-/*import Footer from './Footer';*/
+import Footer from './Footer';
 import "../styles/layout/layout.css";
 
 
@@ -13,7 +13,7 @@ class Layout extends Component {
             <div className="children">
                 {this.props.children}
             </div>
-            {/*<Footer/>*/}
+            <Footer/>
         </main>
         );
     }
