@@ -37,7 +37,21 @@ function verificationToken(token) {
     return access;
 }
 
+function getIdToken(token) {
+    var id = null;
+    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+        if (err) {
+            // El token no es válido
+            id = null;
+        } else {
+            id = decoded.id;
+        }  
+    });
+    return id;
+}
+
 module.exports = { 
     verification: router, 
-    verificationToken: verificationToken 
+    verificationToken: verificationToken,
+    getIdToken: getIdToken
 };

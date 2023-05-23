@@ -32,12 +32,13 @@ router.post('/login', (req, res) => {
                         msg: '¡El usuario no existe!'
                     });
                 } else if (password === result[0]['password']) /*Confirmar contraseña*/ {
-                    const token = jwt.sign({username},SECRET_KEY,{ expiresIn: '5h' });
+                    const token = jwt.sign({username, id: result[0]['id']},SECRET_KEY,{ expiresIn: '5h' });
                     return res.status(200).send({
                         msg: '¡Has iniciado sesión correctamente!',
                         token,
                         username: result[0]['username'],
-                        email: result[0]['email']
+                        email: result[0]['email'],
+                        id: result[0]['id']
                     });
                 } else /*Contraseña incorrecta*/ {
                     return res.status(401).send({

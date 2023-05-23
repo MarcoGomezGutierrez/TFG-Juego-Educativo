@@ -18,6 +18,25 @@ class SignIn extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    async componentDidMount() {
+        try {
+            const users = JSON.parse(localStorage.getItem("user"));
+            const token = users.token;
+            this.serverIP = data.serverIP;
+            /* Hago una petición al servidor para comprobar que el estado del token es valido y que su sesión todavía no haya expirado
+            En caso de una sesión abierta: redirigir a la pestaña loby
+            En caso de no existir una sesión o una sesión que haya caducado: se queda en la página actual.
+            */
+            const response = await axios.post(`${this.serverIP}/app/verification`, {
+                token
+            });
+            if (response.status === 200) {
+                console.log(response.data.msg);
+                window.location = "./loby";
+            }
+        } catch (err) { }
+    }
+
     handleChange = (event, fieldName) => {
         this.setState({
             [fieldName]: event.target.value
@@ -37,7 +56,7 @@ class SignIn extends Component {
                 password
             });
             if (response.status === 200) {
-                const user = { token: response.data.token, username: response.data.username, email: response.data.email, msg: response.data.msg };
+                const user = { token: response.data.token, username: response.data.username, email: response.data.email, id: response.data.id, msg: response.data.msg };
                 localStorage.setItem("user", JSON.stringify(user));
                 window.location = "./loby";
             } else {

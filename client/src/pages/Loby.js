@@ -11,7 +11,8 @@ class Loby extends Component {
     super(props);
     this.state = {
       access: false, //Tener acceso a los servicios de administrador, modificar la base de datos desde el cliente
-      data: [], //Almacenar la respuesta del Servidor
+      data: [], //Almacenar la respuesta del Servidor Temarios
+      repaso: [], //Almacenar la respuesta del Servidor Repaso
       configurationActive: false //Manejar el panel de configuración
     }
     this.serverIP = data.serverIP; // Manejo de la IP de la API REST
@@ -34,7 +35,7 @@ class Loby extends Component {
       } else if (temariosResponse.access) {
         await this.setState({ access: true });
       }
-      this.setState({ data: temariosResponse.data });
+      this.setState({ data: temariosResponse.data, repaso: temariosResponse.repaso });
     } catch (err) { // Si hay algún error desloguear
       window.location = "./sign-in";
     }
@@ -120,6 +121,14 @@ class Loby extends Component {
     );
   };
 
+  renderRepasoButton = (repaso) => {
+    return (
+      <div key="repaso-seccion" className="dropdown">
+        <Link to={`/game/${"repaso-seccion"}`} state={{ temario: "repaso", nivel: "repaso", preguntas: repaso }} key="repaso-seccion-niveles" className="btn-repaso">Repaso</Link>
+      </div>
+    );
+  }
+
 
   render() {
     const { data } = this.state;
@@ -129,6 +138,7 @@ class Loby extends Component {
         {this.configuration()}
         <div className="mainContainer">
           {data.map((temario) => this.renderTemarioButton(temario))}
+          {this.renderRepasoButton(this.state.repaso)}
         </div>
         <Outlet />
       </main>

@@ -105,6 +105,31 @@ body {
   box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
 }
 
+.btn-repaso {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+
+  background-color: var(--color-button-background);
+  width: 80%;
+  
+  font-family: "Pixel";
+  font-size: 35px;
+  font-weight: 400;
+
+  color: #333333;
+  padding: 8px;
+  border: 2px solid black;
+  margin: 15px;
+  box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
+}
+
+.btn-repaso:hover {
+  cursor: pointer;
+}
+
 .dropdown-content {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr; /* Tres columnas con igual tamaño */

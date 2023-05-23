@@ -2,11 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ReactComponent as IconoSvg } from '../image/icons/icono-image.svg';
 import "../styles/app/game.css";
 import { useLocation } from 'react-router-dom';
-import { encryptDataJson, decryptDataJson } from '../other/encrypt';
+//import { encryptDataJson, decryptDataJson } from '../other/encrypt';
 import { Outlet, Link } from 'react-router-dom';
 import Matematicas from '../other/Matematicas';
 import { methodMap } from '../other/mathMethods.js';
 import BarraHistorial from '../components/BarraHistorial';
+import jsonData from '../data/config.json';
+import axios from "axios";
 
 function Game(porps) {
   const [respuestaSeleccionada, setRespuestaSeleccionada] = useState(null);
@@ -14,21 +16,22 @@ function Game(porps) {
   const [mostrarNumeroAleatorio, setMostrarNumeroAleatorio] = useState(false); // Agregar estado para controlar que no se cambien los números de las preguntas
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState([]);
-  const [showImage, setShowImage] = useState(false);
+  const [showImage, setShowImage] = useState(false); //Visualizar la imagen en pantalla
   const [selectedImageUrl, setSelectedImageUrl] = useState('');
   const start = 0; // Índice inicial
   const end = 4; // Índice final (exclusivo)
   const [indices, setIndices] = useState(Array.from({ length: end - start }, (_, index) => index + start));
-  const [handleSort, setHandleSort] = useState(true);
+  const [handleSort, setHandleSort] = useState(true); //Manejar el desorden de las preguntas
   const { state } = useLocation(); //Traer los datos de props
   const { temario, nivel, preguntas } = state || {}; //Traer los datos y guardarlos en su tabla correspondiente
   const [preguntaActual, setPreguntaActual] = useState(0); //Manejar la pregunta actual
   const numeroPreguntas = preguntas.length; //Manejo del número de preguntas totales
   const [preguntasFalladas, setPreguntasFalladas] = useState([]); // Números de preguntas falladas
-  const [preguntasAcertadas, setPreguntasAcertadas] = useState([]); // Números de preguntas acertadas
+  const [idPreguntasFalladas, setIdPreguntasFalladas] = useState([]); // Números de preguntas falladas
+  const [preguntasAcertadas, setPreguntasAcertadas] = useState([]); // Números de preguntas acertadass
 
   // Encriptar el contenido e insertarlo en el local storage para guardar la selección del usuario
-  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, question, answer, indices, handleSort, preguntasAcertadas, preguntasFalladas) => {
+  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, question, answer, indices, handleSort, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas) => {
     const data = {
       preguntaActual: preguntaActual,
       hover: hover,
@@ -39,17 +42,19 @@ function Game(porps) {
       indices: indices,
       handleSort: handleSort,
       preguntasAcertadas: preguntasAcertadas,
-      preguntasFalladas: preguntasFalladas
+      preguntasFalladas: preguntasFalladas,
+      idPreguntasFalladas: idPreguntasFalladas
     };
-    return encryptDataJson(data);
-    //return JSON.stringify(data);
+    //return encryptDataJson(data);
+    return JSON.stringify(data);
   };
 
   useEffect(() => {
     // Recuperar la respuesta seleccionada del Local Storage al cargar la página
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
     if (respuestaGuardada) { // Si habia una pregunta ya realizada cargarla
-      const jsonResponse = decryptDataJson(respuestaGuardada);
+      //const jsonResponse = decryptDataJson(respuestaGuardada);
+      const jsonResponse = JSON.parse(respuestaGuardada);
       setPreguntaActual(jsonResponse.preguntaActual);
       setHoverEnabled(jsonResponse.hover);
       setRespuestaSeleccionada(jsonResponse.respuestaSeleccionada);
@@ -59,6 +64,7 @@ function Game(porps) {
       setHandleSort(jsonResponse.handleSort);
       setPreguntasAcertadas(jsonResponse.preguntasAcertadas);
       setPreguntasFalladas(jsonResponse.preguntasFalladas);
+      setIdPreguntasFalladas(jsonResponse.idPreguntasFalladas);
     }
   }, [temario, nivel]);
 
@@ -67,7 +73,8 @@ function Game(porps) {
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
     let jsonResponse = "";
     if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-      jsonResponse = decryptDataJson(respuestaGuardada);
+      //jsonResponse = decryptDataJson(respuestaGuardada);
+      jsonResponse = JSON.parse(respuestaGuardada);
       if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
         setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
         setQuestion(jsonResponse.question);
@@ -92,9 +99,10 @@ function Game(porps) {
         respuestaGuardada ? jsonResponse.handleSort : handleSort,
         respuestaGuardada ? jsonResponse.preguntasAcertadas : preguntasAcertadas,
         respuestaGuardada ? jsonResponse.preguntasFalladas : preguntasFalladas,
+        respuestaGuardada ? jsonResponse.idPreguntasFalladas : idPreguntasFalladas,
       )
     ); // Las guardo en el local storage para evitar que al recargar la página se pierda
-  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual, handleSort, indices, preguntasAcertadas, preguntasFalladas]);
+  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual, handleSort, indices, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas]);
 
 
   useEffect(() => {
@@ -122,19 +130,21 @@ function Game(porps) {
     }
   }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, generateMathAnswer]);
 
-  const handleAnswer = (event, respuesta) => { //Cuando el usuario selecciona alguna respuesta
+  const handleAnswer = (event, respuesta, id_pregunta) => { //Cuando el usuario selecciona alguna respuesta
     if (respuestaSeleccionada === null) {
       setRespuestaSeleccionada(respuesta);
       setHoverEnabled(false);
       if (respuesta.correcta) {
         setPreguntasAcertadas([...preguntasAcertadas, preguntaActual + 1]);
       } else {
+        setIdPreguntasFalladas([...idPreguntasFalladas, id_pregunta]); //Guardar el id_pregunta para generar la sección de repaso
         setPreguntasFalladas([...preguntasFalladas, preguntaActual + 1]);
       }
       const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
       let jsonResponse = "";
       if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-        jsonResponse = decryptDataJson(respuestaGuardada);
+        //jsonResponse = decryptDataJson(respuestaGuardada);
+        jsonResponse = JSON.parse(respuestaGuardada);
       } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
       localStorage.setItem(
         `${temario + nivel}`,
@@ -147,8 +157,9 @@ function Game(porps) {
           respuestaGuardada ? jsonResponse.answers : answers,
           indices,
           handleSort,
-          [...preguntasAcertadas, preguntaActual + 1],
-          [...preguntasFalladas, preguntaActual + 1]
+          respuesta.correcta ? [...preguntasAcertadas, preguntaActual + 1] : [...preguntasAcertadas],
+          !respuesta.correcta ? [...preguntasFalladas, preguntaActual + 1] : [...preguntasFalladas],
+          !respuesta.correcta ? [...idPreguntasFalladas, id_pregunta] : [...idPreguntasFalladas],
         )
       );
     }
@@ -171,7 +182,7 @@ function Game(porps) {
 
   /* Controlador para seleccionar la respuesta siguiente, si es la última pregunta retorna a la página anterior, 
   si no lo es carga la siguiente pregunta*/
-  const handleSiguientePregunta = () => {
+  const handleSiguientePregunta = async () => {
     if (preguntaActual + 1 !== numeroPreguntas) {
       setPreguntaActual(preguntaActual + 1);
       setRespuestaSeleccionada(null);
@@ -192,12 +203,26 @@ function Game(porps) {
           indices,
           true,
           preguntasAcertadas,
-          preguntasFalladas
+          preguntasFalladas,
+          idPreguntasFalladas
         )
       );
+    } else if (temario !== "repaso") {
+      try { // Guardar las preguntas falladas en la Base de Datos
+        const users = JSON.parse(localStorage.getItem("user"));
+        const token = users.token;
+        const serverIP = jsonData.serverIP;
+        const response = await axios.post(`${serverIP}/game/incorrectas`, {
+          token,
+          idPreguntasFalladas
+        });
+        if (response.status === 200) {
+          localStorage.removeItem(`${temario + nivel}`);
+          window.location = '/loby';
+        }
+      } catch (err) {  }
     } else {
-      localStorage.removeItem(`${temario + nivel}`);
-      window.location = '/loby';
+
     }
   };
 
@@ -217,7 +242,7 @@ function Game(porps) {
       return (
         <button key={index} className={`respuesta ${hoverEnabled ? 'respuesta-hover' : ''} ${detectarCorrecta(pregunta.respuestas[index])}`}
           onClick={
-            (event) => handleAnswer(event, pregunta.respuestas[index])
+            (event) => handleAnswer(event, pregunta.respuestas[index], pregunta.id_pregunta)
           } disabled={respuestaSeleccionada === null ? false : true}>
           {pregunta.respuestas[index].respuesta}
         </button>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Layout from "../components/Layout";
 import axios from "axios";
 import data from '../data/config.json';
-import JsonData from '../data/home.data.json'
+import JsonData from '../data/home.data.json';
 import AcercaNosotros from "../components/home.components";
 import '../styles/app/home.css';
 
@@ -20,7 +20,6 @@ class Home extends Component {
             const response = await axios.post(`${this.serverIP}/app/verification`, {
                 token
             });
-            console.log(response.status)
             if (response.status === 200) {
                 console.log(response.data.msg);
                 window.location = "./loby";
