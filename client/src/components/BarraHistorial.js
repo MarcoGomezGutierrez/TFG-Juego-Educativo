@@ -41,7 +41,7 @@ const BarraHistorial = ({ preguntaActual, numeroPreguntas, preguntasFalladas, pr
     return bolitas;
   };
 
-  return <div style={{display: "flex", flexDirection:"row", justifyContent: "center"}}>{renderBolitas()}</div>;
+  return <div style={{width: "250px", display: "flex", flexWrap: "wrap", justifyContent: "left"}}>{renderBolitas()}</div>;
 };
 
 export default BarraHistorial;

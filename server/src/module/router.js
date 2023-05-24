@@ -14,8 +14,8 @@ router.get('/users', (req, res) => {
 });
 
 // Usuario inicia sesión
-router.post('/login', (req, res) => {
-    const { username, password } = req.body;
+router.get('/login', (req, res) => {
+    const { username, password } = req.query;
     try {
         db.query(
             `SELECT * FROM users WHERE username = ?;`, [username],

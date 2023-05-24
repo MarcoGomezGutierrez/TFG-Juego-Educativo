@@ -28,7 +28,7 @@ class Loby extends Component {
       /* Hacer una única petición a la API REST, validando la sesión y devolviendo si puede editar o no la base de datos.
         Devuelve en caso de que haya una sesión valida, los datos de la base de datos.
       */
-      const temariosResponse = await this.requestServer(`${this.serverIP}/game/temarios-agrupados`, token, "post");
+      const temariosResponse = await this.requestServer(`${this.serverIP}/game/temarios-agrupados`, token, "get");
       if (!temariosResponse) {
         localStorage.removeItem("user");
         window.location = "./sign-in";
@@ -47,7 +47,12 @@ class Loby extends Component {
       if (server === "post") {
         response = await axios.post(url, { token });
       } else if (server === "get") {
-        response = await axios.get(url, { token });
+        response = await axios.get(url, {
+          data: {},
+          params: {
+            token: token
+          }
+        });
       }
       return response.data;
     } catch (err) {
@@ -87,8 +92,8 @@ class Loby extends Component {
   gear() {
     return (
       <>
-      {!this.state.configurationActive ? <button onClick={(event) => this.handleConfiguration(event)} className="gear"/> : null}
-      {this.panelConfiguration()}
+        {!this.state.configurationActive ? <button onClick={(event) => this.handleConfiguration(event)} className="gear" /> : null}
+        {this.panelConfiguration()}
       </>
     )
   }
@@ -97,7 +102,7 @@ class Loby extends Component {
     if (this.state.configurationActive) {
       return (
         <div className="panelConfig">
-          <button className="close-button" onClick={(event) => this.handleConfiguration(event)}/>
+          <button className="close-button" onClick={(event) => this.handleConfiguration(event)} />
           {this.editAccess()}
           <Link to="/sign-in" className="dropdown-content-nivel" onClick={(event) => this.cerrarSesion(event)}>Cerrar Sesión</Link>
         </div>
@@ -105,7 +110,7 @@ class Loby extends Component {
     } else {
       return null;
     }
-    
+
   }
 
   renderTemarioButton = (temario) => {
@@ -138,7 +143,7 @@ class Loby extends Component {
         {this.configuration()}
         <div className="mainContainer">
           {data.map((temario) => this.renderTemarioButton(temario))}
-          {this.renderRepasoButton(this.state.repaso)}
+          {this.state.repaso === [] ? this.renderRepasoButton(this.state.repaso) : ""}
         </div>
         <Outlet />
       </main>

@@ -6,7 +6,7 @@ import axios from "axios";
 import { sha256 } from '../other/encrypt';
 import data from '../data/config.json';
 
-class SignIn extends Component {
+class LogIn extends Component {
 
     constructor(props) {
         super(props);
@@ -51,9 +51,12 @@ class SignIn extends Component {
         const password = sha256(this.state.password);
 
         try {
-            const response = await axios.post(`${this.serverIP}/app/login`, {
-                username,
-                password
+            const response = await axios.get(`${this.serverIP}/app/login`, {
+                data: {},
+                params: {
+                    username: username,
+                    password: password
+                }
             });
             if (response.status === 200) {
                 const user = { token: response.data.token, username: response.data.username, email: response.data.email, id: response.data.id, msg: response.data.msg };
@@ -111,4 +114,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default LogIn;

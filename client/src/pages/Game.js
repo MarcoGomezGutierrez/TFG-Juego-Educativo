@@ -29,9 +29,10 @@ function Game(porps) {
   const [preguntasFalladas, setPreguntasFalladas] = useState([]); // Números de preguntas falladas
   const [idPreguntasFalladas, setIdPreguntasFalladas] = useState([]); // Números de preguntas falladas
   const [preguntasAcertadas, setPreguntasAcertadas] = useState([]); // Números de preguntas acertadass
+  const [idPreguntasAcertadas, setIdPreguntasAcertadas] = useState([]); // Números de preguntas falladas
 
   // Encriptar el contenido e insertarlo en el local storage para guardar la selección del usuario
-  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, question, answer, indices, handleSort, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas) => {
+  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, question, answer, indices, handleSort, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas, idPreguntasAcertadas) => {
     const data = {
       preguntaActual: preguntaActual,
       hover: hover,
@@ -43,7 +44,8 @@ function Game(porps) {
       handleSort: handleSort,
       preguntasAcertadas: preguntasAcertadas,
       preguntasFalladas: preguntasFalladas,
-      idPreguntasFalladas: idPreguntasFalladas
+      idPreguntasFalladas: idPreguntasFalladas,
+      idPreguntasAcertadas: idPreguntasAcertadas
     };
     //return encryptDataJson(data);
     return JSON.stringify(data);
@@ -65,6 +67,7 @@ function Game(porps) {
       setPreguntasAcertadas(jsonResponse.preguntasAcertadas);
       setPreguntasFalladas(jsonResponse.preguntasFalladas);
       setIdPreguntasFalladas(jsonResponse.idPreguntasFalladas);
+      setIdPreguntasAcertadas(jsonResponse.idPreguntasAcertadas);
     }
   }, [temario, nivel]);
 
@@ -100,9 +103,10 @@ function Game(porps) {
         respuestaGuardada ? jsonResponse.preguntasAcertadas : preguntasAcertadas,
         respuestaGuardada ? jsonResponse.preguntasFalladas : preguntasFalladas,
         respuestaGuardada ? jsonResponse.idPreguntasFalladas : idPreguntasFalladas,
+        respuestaGuardada ? jsonResponse.idPreguntasAcertadas : idPreguntasAcertadas,
       )
     ); // Las guardo en el local storage para evitar que al recargar la página se pierda
-  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual, handleSort, indices, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas]);
+  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual, handleSort, indices, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas, idPreguntasAcertadas]);
 
 
   useEffect(() => {
@@ -135,6 +139,7 @@ function Game(porps) {
       setRespuestaSeleccionada(respuesta);
       setHoverEnabled(false);
       if (respuesta.correcta) {
+        setIdPreguntasAcertadas([...idPreguntasAcertadas, id_pregunta]); //Guardar el id_pregunta para generar la eliminar en sección repaso
         setPreguntasAcertadas([...preguntasAcertadas, preguntaActual + 1]);
       } else {
         setIdPreguntasFalladas([...idPreguntasFalladas, id_pregunta]); //Guardar el id_pregunta para generar la sección de repaso
@@ -160,6 +165,7 @@ function Game(porps) {
           respuesta.correcta ? [...preguntasAcertadas, preguntaActual + 1] : [...preguntasAcertadas],
           !respuesta.correcta ? [...preguntasFalladas, preguntaActual + 1] : [...preguntasFalladas],
           !respuesta.correcta ? [...idPreguntasFalladas, id_pregunta] : [...idPreguntasFalladas],
+          respuesta.correcta ? [...idPreguntasAcertadas, id_pregunta] : [...idPreguntasAcertadas]
         )
       );
     }
@@ -204,14 +210,13 @@ function Game(porps) {
           true,
           preguntasAcertadas,
           preguntasFalladas,
-          idPreguntasFalladas
+          idPreguntasFalladas,
+          idPreguntasAcertadas
         )
       );
     } else if (temario !== "repaso") {
       try { // Guardar las preguntas falladas en la Base de Datos
-        const users = JSON.parse(localStorage.getItem("user"));
-        const token = users.token;
-        const serverIP = jsonData.serverIP;
+        const { token, serverIP } = getIpServerAndToken();
         const response = await axios.post(`${serverIP}/game/incorrectas`, {
           token,
           idPreguntasFalladas
@@ -220,11 +225,37 @@ function Game(porps) {
           localStorage.removeItem(`${temario + nivel}`);
           window.location = '/loby';
         }
-      } catch (err) {  }
+      } catch (err) { }
     } else {
-
+      try {
+        const { token, serverIP } = getIpServerAndToken();
+        console.log(idPreguntasAcertadas);
+        const response = await axios.delete(`${serverIP}/game/preguntas-repaso`, {
+          data: {},
+          params: {
+            token: token,
+            idPreguntasAcertadas: idPreguntasAcertadas
+          }
+        });
+        if (response.status === 200) {
+          localStorage.removeItem(`${temario + nivel}`);
+          window.location = '/loby';
+        }
+      } catch (err) { }
     }
   };
+
+  function getIpServerAndToken() {
+    var users;
+    var token;
+    var serverIP;
+    try {
+      users = JSON.parse(localStorage.getItem("user"));
+      token = users.token;
+      serverIP = jsonData.serverIP;
+    } catch (err) { window.location = '/'; }
+    return { token, serverIP };
+  }
 
   // Volver a la página anterior
   const back = () => {
@@ -287,7 +318,7 @@ function Game(porps) {
           return "";
         }
       });
-    highlightedText = highlightedText + (pregunta.url_imagen !== null ? '<strong class="highlightedBold">(Ver la Imagen)</strong>' : '')
+    highlightedText = highlightedText + (pregunta.url_imagen !== null ? `<strong class="highlightedBold">${temario === "Inglés" ? "(See the picture)" : "(Ver la imagen)"}</strong>` : '')
     return (
       <div className="mainContainerGame">
         <div className='title-image'>

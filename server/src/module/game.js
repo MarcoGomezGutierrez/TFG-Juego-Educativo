@@ -38,6 +38,9 @@ router.get('/temarios', (req, res) => {
   }
 });
 
+/**
+ * Creación sección de repaso
+ */
 router.post('/incorrectas', (req, res) => {
   const { token, idPreguntasFalladas } = req.body;
   const id_user = getIdToken(token);
@@ -61,9 +64,39 @@ router.post('/incorrectas', (req, res) => {
   }
 });
 
+/**
+ * Eliminación de las preguntas de repaso que el usario acierte
+ */
+router.delete('/preguntas-repaso', (req, res) => {
+  const { token, idPreguntasAcertadas } = req.query;
+  const id_user = getIdToken(token);
+  try {
+    const placeholders = idPreguntasAcertadas.map(() => '?').join(',');
+    const values = [...idPreguntasAcertadas, id_user];
+
+    db.query(
+      `DELETE FROM preguntas_falladas
+       WHERE id IN (${placeholders}) AND id_user = ?`,
+      values,
+      (err, result) => {
+        if (err) {
+          console.error('Error al ejecutar la consulta:', err);
+          res.status(500).json({ error: 'Error' });
+          return;
+        }
+
+        res.status(200).json({ success: 'Registros eliminados correctamente' });
+      }
+    );
+  } catch (err) {
+    console.error('Error al ejecutar la consulta:', err);
+    res.status(500).json({ error: 'Error' });
+  }
+});
+
 // Si el usuario esta registrado y hay un token valido devolvemos si tiene acceso para editar la base de datos y los datos de la base de datos
-router.post('/temarios-agrupados', (req, res) => {
-  const { token } = req.body;
+router.get('/temarios-agrupados', (req, res) => {
+  const { token } = req.query;
   let verification = verificationToken(token);
   if (verification === null) {
     return res.status(401).send({
@@ -163,7 +196,7 @@ function getPreguntasFalladas(id_user, callback) {
           const preguntaId = row.id;
           if (!preguntasMap.has(preguntaId)) {
             const pregunta = {
-              id: preguntaId,
+              id_pregunta: preguntaId,
               pregunta: row.pregunta,
               url_imagen: row.url_imagen,
               respuestas: []
@@ -240,18 +273,9 @@ function formatData(results) {
   return data;
 }
 
-/*function transformCollectionDB(data) {
-    const resultados = data.results;
-    const temario = [];
-    
-    for (let i = 0; i < resultados.length; i++) {
-        const elementos = resultados[i];
-        console.log(elementos);
-    }
-
-    return "result";
-}*/
-
+/**
+ * Método que inserta los datos de los Temarios, Niveles, Preguntas y Respuestas en la Base de Datos
+ */
 router.post('/insert', (req, res) => {
   const { temario, nivel, pregunta, respuesta, url_imagen } = req.body;
 
