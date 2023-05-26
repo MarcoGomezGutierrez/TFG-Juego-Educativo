@@ -1,0 +1,585 @@
+{
+    "numerosOrdinales": [
+        {
+            "numero": "Primero",
+            "respuestas": [
+                {
+                    "res": "10"
+                },
+                {
+                    "res": "1"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "21"
+                }
+            ]
+        },
+        {
+            "numero": "Segundo",
+            "respuestas": [
+                {
+                    "res": "22"
+                },
+                {
+                    "res": "2"
+                },
+                {
+                    "res": "20"
+                },
+                {
+                    "res": "12"
+                }
+            ]
+        },
+        {
+            "numero": "Tercero",
+            "respuestas": [
+                {
+                    "res": "13"
+                },
+                {
+                    "res": "3"
+                },
+                {
+                    "res": "33"
+                },
+                {
+                    "res": "30"
+                }
+            ]
+        },
+        {
+            "numero": "Cuarto",
+            "respuestas": [
+                {
+                    "res": "40"
+                },
+                {
+                    "res": "4"
+                },
+                {
+                    "res": "44"
+                },
+                {
+                    "res": "14"
+                }
+            ]
+        },
+        {
+            "numero": "Quinto",
+            "respuestas": [
+                {
+                    "res": "16"
+                },
+                {
+                    "res": "5"
+                },
+                {
+                    "res": "25"
+                },
+                {
+                    "res": "15"
+                }
+            ]
+        },
+        {
+            "numero": "Sexto",
+            "respuestas": [
+                {
+                    "res": "7"
+                },
+                {
+                    "res": "6"
+                },
+                {
+                    "res": "26"
+                },
+                {
+                    "res": "16"
+                }
+            ]
+        },
+        {
+            "numero": "Séptimo",
+            "respuestas": [
+                {
+                    "res": "27"
+                },
+                {
+                    "res": "7"
+                },
+                {
+                    "res": "16"
+                },
+                {
+                    "res": "17"
+                }
+            ]
+        },
+        {
+            "numero": "Octavo",
+            "respuestas": [
+                {
+                    "res": "18"
+                },
+                {
+                    "res": "8"
+                },
+                {
+                    "res": "9"
+                },
+                {
+                    "res": "28"
+                }
+            ]
+        },
+        {
+            "numero": "Noveno",
+            "respuestas": [
+                {
+                    "res": "19"
+                },
+                {
+                    "res": "9"
+                },
+                {
+                    "res": "29"
+                },
+                {
+                    "res": "18"
+                }
+            ]
+        },
+        {
+            "numero": "Décimo",
+            "respuestas": [
+                {
+                    "res": "1"
+                },
+                {
+                    "res": "10"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "12"
+                }
+            ]
+        },
+        {
+            "numero": "Undécimo",
+            "respuestas": [
+                {
+                    "res": "10"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "12"
+                },
+                {
+                    "res": "21"
+                }
+            ]
+        },
+        {
+            "numero": "Duodécimo",
+            "respuestas": [
+                {
+                    "res": "2"
+                },
+                {
+                    "res": "12"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "22"
+                }
+            ]
+        },
+        {
+            "numero": "Decimotercero",
+            "respuestas": [
+                {
+                    "res": "3"
+                },
+                {
+                    "res": "13"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "23"
+                }
+            ]
+        },
+        {
+            "numero": "Decimocuarto",
+            "respuestas": [
+                {
+                    "res": "4"
+                },
+                {
+                    "res": "14"
+                },
+                {
+                    "res": "13"
+                },
+                {
+                    "res": "24"
+                }
+            ]
+        },
+        {
+            "numero": "Decimoquinto",
+            "respuestas": [
+                {
+                    "res": "5"
+                },
+                {
+                    "res": "15"
+                },
+                {
+                    "res": "17"
+                },
+                {
+                    "res": "6"
+                }
+            ]
+        },
+        {
+            "numero": "Decimosexto",
+            "respuestas": [
+                {
+                    "res": "6"
+                },
+                {
+                    "res": "16"
+                },
+                {
+                    "res": "26"
+                },
+                {
+                    "res": "22"
+                }
+            ]
+        },
+        {
+            "numero": "Decimoséptimo",
+            "respuestas": [
+                {
+                    "res": "8"
+                },
+                {
+                    "res": "17"
+                },
+                {
+                    "res": "7"
+                },
+                {
+                    "res": "18"
+                }
+            ]
+        },
+        {
+            "numero": "Decimoctavo",
+            "respuestas": [
+                {
+                    "res": "17"
+                },
+                {
+                    "res": "18"
+                },
+                {
+                    "res": "8"
+                },
+                {
+                    "res": "28"
+                }
+            ]
+        },
+        {
+            "numero": "Decimonoveno",
+            "respuestas": [
+                {
+                    "res": "16"
+                },
+                {
+                    "res": "19"
+                },
+                {
+                    "res": "9"
+                },
+                {
+                    "res": "10"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo",
+            "respuestas": [
+                {
+                    "res": "2"
+                },
+                {
+                    "res": "20"
+                },
+                {
+                    "res": "12"
+                },
+                {
+                    "res": "22"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo primero",
+            "respuestas": [
+                {
+                    "res": "1"
+                },
+                {
+                    "res": "21"
+                },
+                {
+                    "res": "11"
+                },
+                {
+                    "res": "12"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo segundo",
+            "respuestas": [
+                {
+                    "res": "2"
+                },
+                {
+                    "res": "22"
+                },
+                {
+                    "res": "12"
+                },
+                {
+                    "res": "21"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo tercero",
+            "respuestas": [
+                {
+                    "res": "32"
+                },
+                {
+                    "res": "23"
+                },
+                {
+                    "res": "12"
+                },
+                {
+                    "res": "13"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo cuarto",
+            "respuestas": [
+                {
+                    "res": "14"
+                },
+                {
+                    "res": "24"
+                },
+                {
+                    "res": "42"
+                },
+                {
+                    "res": "28"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo quinto",
+            "respuestas": [
+                {
+                    "res": "15"
+                },
+                {
+                    "res": "25"
+                },
+                {
+                    "res": "5"
+                },
+                {
+                    "res": "52"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo sexto",
+            "respuestas": [
+                {
+                    "res": "16"
+                },
+                {
+                    "res": "26"
+                },
+                {
+                    "res": "6"
+                },
+                {
+                    "res": "36"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo séptimo",
+            "respuestas": [
+                {
+                    "res": "7"
+                },
+                {
+                    "res": "27"
+                },
+                {
+                    "res": "17"
+                },
+                {
+                    "res": "16"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo octavo",
+            "respuestas": [
+                {
+                    "res": "8"
+                },
+                {
+                    "res": "28"
+                },
+                {
+                    "res": "26"
+                },
+                {
+                    "res": "16"
+                }
+            ]
+        },
+        {
+            "numero": "Vigésimo noveno",
+            "respuestas": [
+                {
+                    "res": "9"
+                },
+                {
+                    "res": "29"
+                },
+                {
+                    "res": "19"
+                },
+                {
+                    "res": "17"
+                }
+            ]
+        }
+    ],
+    "estimacionProblema":[
+        {
+            "first":"¿Cuánto costará un libro de",
+            "second":"y una escoba de",
+            "third": "?"
+        },
+        {
+            "first":"¿Cuánto costará un sofá de",
+            "second":"y un armario de",
+            "third": "?"
+        },
+        {
+            "first":"¿Cuánto costará un silla de",
+            "second":"y una mesa de",
+            "third": "?"
+        },
+        {
+            "first":"¿Cuánto costará un ordenador de",
+            "second":"y un pantalla de",
+            "third": "?"
+        }
+    ],
+    "problemaQuitarKg":[
+        {
+            "word":"de kg manzanas",
+            "first":"Hay",
+            "second":"de manzanas. Se venden",
+            "third": "Añaden",
+            "fourth": ". ¿Cuántos kilos de manzanas tienen ahora?"
+        },
+        {
+            "word":"de kg platanos",
+            "first":"Hay",
+            "second":"de platanos. Se venden",
+            "third": "Añaden",
+            "fourth": ". ¿Cuántos kilos de platanos tienen ahora?"
+        },
+        {
+            "word":"de kg sandías",
+            "first":"Hay",
+            "second":"de sandías. Se venden",
+            "third": "Añaden",
+            "fourth": ". ¿Cuántos kilos de sandías tienen ahora?"
+        },
+        {
+            "word":"de kg peras",
+            "first":"Hay",
+            "second":"de peras. Se venden",
+            "third": "Añaden",
+            "fourth": ". ¿Cuántos kilos de peras tienen ahora?"
+        }
+    ],
+    "kgComidaAproximada":[
+        {
+            "first":"Si un elefante come entre",
+            "second":"de vegetales al día"
+        },
+        {
+            "first":"Si una jirafa come entre",
+            "second":"de vegetales al día"
+        },
+        {
+            "first":"Si un vaca come entre",
+            "second":"de vegetales al día"
+        }
+    ],
+    "billetes": [
+        {
+            "billete":5
+        },
+        {
+            "billete":10
+        },
+        {
+            "billete":20
+        },
+        {
+            "billete":50
+        }
+    ],
+    "monedas": [
+        {
+            "moneda": 2
+        },
+        {
+            "moneda": 1
+        }
+    ]
+}

@@ -1,67 +1,63 @@
 body {
-    background-color: var(--color-background-loby);
+  background-color: #007ced;
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  height: 120vh;
 }
 
 /* Webkit */
 ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 0px;
-    border-radius: 0px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 0px;
-  }
-  
-  /* Firefox */
-  ::-moz-scrollbar {
-    background-color: transparent;
-    min-width: 0px;
-    max-width: 0px;
-    border-radius: 0px;
-  }
-  
-  ::-moz-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 0px;
-  }
+  background-color: transparent;
+  width: 0px;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0px;
+}
+
+/* Firefox */
+::-moz-scrollbar {
+  background-color: transparent;
+  min-width: 0px;
+  max-width: 0px;
+  border-radius: 0px;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0px;
+}
 
 /*Centrar el contenido en el centro de la pantalla*/
 .loby {
-    /*background-image: url("../../image/background.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-    /*height: 100vh;*/
+  background-image: url("https://static.radulescu.me/examples/clouds/clouds1000.png");
+  background-repeat: repeat;
+  background-position: random;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .mainContainer {
-    background: var(--color-main-container);
+  background: var(--color-main-container);
 
-    width: 100vh;
-    height: 50vh;
-    /*height: 100%;*/
+  width: 100vh;
+  height: 50vh;
 
-    border: 3px solid black;
-    
+  border: 2px solid black;
+  border-radius: 20px;
 
-    overflow: hidden;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    /*flex-wrap: wrap;*/
-    
-    /*justify-content: center;
-    align-items: center;*/
-    
-    
-    padding-top: 30px;
-    padding-bottom: 10px;
-    box-shadow: 1px 3px 7px -3px rgba(0, 0, 0, 0.703);
+  overflow: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 30px;
+  padding-bottom: 10px;
+  box-shadow: 0px 3px 6px 2px rgba(0, 0, 0, 0.703);
 }
 
 .configurationPanel {
@@ -97,7 +93,6 @@ body {
 
   width: 100%;
 
-  
   justify-content: center;
   align-items: center;
 }
@@ -105,16 +100,47 @@ body {
 .dropdown-btn {
   background-color: var(--color-button-background);
   width: 80%;
-  
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
   font-family: "Pixel";
   font-size: 35px;
   font-weight: 400;
 
-  color: black;
+  color: #333333;
+  padding: 8px;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 15px;
+  box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
+}
+
+.btn-repaso {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+
+  background-color: var(--color-button-background);
+  width: 80%;
+
+  font-family: "Pixel";
+  font-size: 35px;
+  font-weight: 400;
+
+  color: #333333;
   padding: 8px;
   border: 2px solid black;
   margin: 15px;
   box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
+}
+
+.btn-repaso:hover {
+  cursor: pointer;
 }
 
 .dropdown-content {
@@ -125,15 +151,17 @@ body {
   z-index: 1;
 }
 
+/*Botón de los Temas*/
 .dropdown-content-nivel {
   font-family: "Pixel";
   font-size: 16px;
   text-align: center;
-  color: black;
+  color: #333333;
   background-color: var(--color-buttonNivel-background);
-  
+
   border: 1px solid black;
-  
+  border-radius: 5px;
+
   padding: 8px 12px;
   text-decoration: none;
   display: block;
@@ -155,8 +183,9 @@ body {
 .panelConfig {
   z-index: 10;
   position: relative;
-  background-color: var(--color-button-background);
+  background-color: var(--color-main-container);
   border: 2px solid black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 35px 10px 30px 10px;
@@ -175,6 +204,7 @@ body {
 
 .gear:hover {
   cursor: pointer;
+  background-image: url("../../image/gear-hover.png");
 }
 
 /*Cruceta*/
@@ -189,7 +219,8 @@ body {
   cursor: pointer;
 }
 
-.close-button:before, .close-button:after {
+.close-button:before,
+.close-button:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -209,19 +240,23 @@ body {
 }
 
 /*Esto garantiza que el margen solo se aplicará cuando sea necesario y que no se superpondrá en la pantalla antes de que se requiera el desplazamiento.*/
-@media screen and (min-height: calc(50vh + 200px)) {
+/*@media screen and (min-height: calc(50vh + 200px)) {
     .loby {
       padding: 100px 0;
     }
+  }*/
+
+@media (max-width: 912px) {
+  /* Estilos para tablets y dispositivos móviles */
+  .loby {
+    padding: 100px 0;
   }
 
-  @media (max-width: 768px) {
-    /* Estilos para tablets y dispositivos móviles */
-    .mainContainer {
-      width: 80%;
-    }
-    .dropdown-content {
-      grid-template-columns: 1fr 1fr;
-    }
+  .mainContainer {
+    width: 80%;
+    height: 60vh;
   }
-
+  .dropdown-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}

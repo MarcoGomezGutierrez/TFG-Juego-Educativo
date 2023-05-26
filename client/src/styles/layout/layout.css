@@ -1,22 +1,22 @@
 .layout {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 
-    min-height: 100vh;
+  min-height: 120vh;
 
-    background-color: var(--color-background);
+  background-color: var(--color-background);
 }
 
 .children {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    
-    padding: 50px 0;
-    gap: 50px;
-    margin-top: 78px;
-    flex: 1;
-    margin-left: 10px;
-    margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 50px 0;
+  gap: 50px;
+  margin-top: 78px;
+  flex: 1;
+  margin-left: 10px;
+  margin-right: 10px;
 }

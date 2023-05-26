@@ -1,23 +1,24 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import SignIn from './SignIn.js';
-import SignUp from './SignUp.js';
-import Home from './Home.js';
-import Loby from './Loby.js';
-import Game from './Game.js';
-import Edit from './Edit.js';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LogIn from "./LogIn.js";
+import SignUp from "./SignUp.js";
+import Home from "./Home.js";
+import Loby from "./Loby.js";
+import Game from "./Game.js";
+import Edit from "./Edit.js";
+import Verification from "./Verification.js";
 
 function App() {
-
   return (
     <BrowserRouter>
       <Routes path="/">
-        <Route index element={<Home/>}/>
-        <Route path='/sign-in' element={<SignIn/>}/>
-        <Route path='/sign-up' element={<SignUp/>}/>
-        <Route path='/loby' element={<Loby/>}/>
-        <Route path='/edit' element={<Edit/>}/>
-        <Route path='/game/:id' element={<Game/>}/>
+        <Route index element={<Home />} />
+        <Route path="/sign-in" element={<LogIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/loby" element={<Loby />} />
+        <Route path="/edit" element={<Edit />} />
+        <Route path="/verification" element={<Verification />} />
+        <Route path="/game/:id" element={<Game />} />
       </Routes>
     </BrowserRouter>
   );

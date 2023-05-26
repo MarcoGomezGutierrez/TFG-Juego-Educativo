@@ -1,3 +1,13 @@
+.background {
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  z-index: -10;
+}
+
 .circle {
   position: absolute;
   left: 2%;
@@ -7,78 +17,96 @@
   border: 2px solid black;
   background: var(--color-button);
   border-radius: 100%;
-  }
+}
 
-  .arrow {
-    position: relative;
-    top: 25%;
-    left: 35%;
-    width: 20px;
-    height: 20px;
-    border-top: 2px solid black;
-    border-left: 2px solid black;
-    transform: rotate(-45deg);
-  }
+.arrow {
+  position: relative;
+  top: 24%;
+  left: 35%;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  transform: rotate(-45deg);
+}
 
-  .circle:hover {
-    border: 2px solid white;
-    background: var(--color-button-hover);
-  }
+.circle:hover {
+  border: 2px solid white;
+  background: var(--color-button-hover);
+}
 
-  .circle:hover .arrow {
-    border-top: 2px solid white;
-    border-left: 2px solid white;
-  }
+.circle:hover .arrow {
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
 
 .login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-  }
-  
+  width: max-content;
+  height: max-content;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  border: 2px solid var(--color-text);
+  background-color: #f8f4e5;
+  box-shadow: 7px 7px 1px #ffa580, 7px 7px 1px 2px black;
+}
+
+.form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin-top: 2rem;
+  gap: 20px;
+}
+
+.box {
+  display: block;
+  width: 80%;
+  font-size: 14pt;
+  line-height: 28pt;
+  font-family: "Fjalla One";
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 5px solid black;
+  background: #f8f4e5;
+  min-width: 250px;
+  padding-left: 5px;
+  outline: none;
+  color: black;
+}
+
+.buttonLog {
+  background-color: #ffa580;
+  border: none;
+  margin-top: 20px;
+  border: 2px solid black;
+  color: var(--color-text);
+
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.buttonLog:hover {
+  cursor: pointer;
+  background-color: var(--color-button-hover);
+  border-color: black;
+}
+
+@media (max-width: 720px) {
+  /* Estilos para tablets y dispositivos móviles */
+
   .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 300px;
-    margin-top: 2rem;
-    gap: 20px;
+    width: 180px;
   }
-
-  .box {
-    border: 1px solid black;
-    border-radius: 5px;
-
-    width: 100%;
-    height: 50px;
-    text-indent: 10px;
-  }
-  
-  .buttonLog {
-    background-color: var(--color-button);
-    border: none;
-    border-radius: 5px;
-    margin-top: 20px;
-    border: 1px solid var(--color-background-loby);
-
-    font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 17px;
-    font-weight: 500;
-    padding: 10px;
-  }
-
-  .buttonLog:hover {
-    cursor: pointer;
-    background-color: var(--color-button-hover);
-    border-color: black;
-  }
-
-  @media (max-width: 330px) {
-    /* Estilos para tablets y dispositivos móviles */
-    .form {
-      width: 180px;
-    }
-  }
+}

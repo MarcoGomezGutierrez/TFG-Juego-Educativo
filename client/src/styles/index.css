@@ -1,40 +1,51 @@
 :root {
-  --color-background: rgb(218, 196, 173);
+  --color-background: #f5f5f5;
 
   /*Layout, Header*/
-  --color-header: #f0d5b9;
-  --color-button: #f0af53;
-  --color-button-hover: #efd5b1;
-  
-  --color-background-loby: #75c5e6;
-  --color-main-container: #E6B175;
-  --color-main-container-border: #d6b67a;
-  --color-button-background: #B39849;
-  --color-button-border: #f0af53;
-  --color-buttonNivel-background: #75C4E6;
-  --color-buttonNivel-border: #72ad58;
-  /*
-  --color-background: rgb(218, 196, 173);*/
+  --color-header: #cccccc;
+  --color-button: #ff6600;
+  --color-button-hover: #ff944d;
+  --color-text: #343434;
 
-  /*Layout, Header*/
- /* --color-header: #f0d5b9;
-  --color-button: #f0af53;
-  --color-button-hover: #efd5b1;
-  
-  --color-background-loby: #E1F293;
-  --color-main-container: #79CC68;
-  --color-main-container-border: #6AB35B;
-  --color-button-background: #538C48;
-  --color-button-border: #2D4D27;*/
+  /*Color de fondo de la aplicación*/
+  --color-background-loby: #00f9ff;
+  /*Color de fondo del contenedor central de los temarios*/
+  --color-main-container: #0062ff92;
+  /*Color del contenedor de los Temarios*/
+  --color-button-background: #ffc800d0;
+  /*Color del botón de cada Tema*/
+  --color-buttonNivel-background: #00c3ffdb;
+  /*Color de fondo del contenedor central de las preguntas*/
+  --color-contenedor-central-preguntas: #ffa600b5;
+  /*Color del contenedor de cada pregunta*/
+  --color-contenedor-pregunta: #ffffffbf;
+  /*Color del contenedor de selección de respuesta*/
+  --color-contenedor-respuesta: #ffffffbf;
+  /*Color botón siguiente en la sección de preguntas*/
+  --color-boton-siguiente: #ffffffd0;
+
+  --color-respuesta-correcta: green;
+  --color-respuesta-incorrecta: red;
+
+  --color-texto-preguntas: #000000;
+  --color-texto-respuestas: #000000;
 }
 
 body {
   margin: 0;
-  background-color: var(--color-background);
+  /*background-color: var(--color-background);*/
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  background-size: 100% 100%;
+  color: var(--color-text);
+}
+
+button {
+  all: unset;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 

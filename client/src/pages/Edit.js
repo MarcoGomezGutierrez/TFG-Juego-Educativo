@@ -12,6 +12,8 @@ class Edit extends Component {
             temario: "",
             nivel: "",
             pregunta: "",
+            url_imagen: null,
+            archivo_imagen: null,
             respuesta: {
                 res1: {
                     texto: "",
@@ -29,28 +31,25 @@ class Edit extends Component {
                     texto: "",
                     correcta: false
                 }
-            }
+            },
+            cuatroRespuestas: true,
+            imagen: null
         }
+
         this.serverIP = data.serverIP;
+    }
+
+    async componentDidMount() {
         try {
             const users = JSON.parse(localStorage.getItem("user"));
             const token = users.token;
 
-            axios.post(`${this.serverIP}/app/edit`, {
+            const response = await axios.post(`${this.serverIP}/app/verification`, {
                 token
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        console.log(response.data.msg);
-                    } else {
-                        console.log(response.data.msg);
-                        window.location = "./loby"
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    window.location = "./loby"
-                });
+            });
+            if (!response.data.access) {
+                window.location = "./loby";
+            }
         } catch (err) {
             console.error(err);
             window.location = "./loby"
@@ -63,13 +62,30 @@ class Edit extends Component {
         });
     }
 
+    handleImagenChange = (event) => {
+        const archivo = event.target.files[0];
+        const reader = new FileReader();
+        try {
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    this.setState({
+                        archivo_imagen: archivo,
+                        imagen: reader.result,
+                        url_imagen: archivo.name
+                    });
+                }
+            };
+
+            if (archivo) {
+                reader.readAsDataURL(archivo);
+            }
+        } catch (err) { }
+    };
+
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        const temario = this.state.temario;
-        const nivel = this.state.nivel;
-        const pregunta = this.state.pregunta;
-        const respuesta = this.state.respuesta;
+        const { temario, nivel, pregunta, url_imagen, respuesta } = this.state;
 
         const res1 = this.state.respuesta.res1.texto;
         const res2 = this.state.respuesta.res2.texto;
@@ -84,7 +100,7 @@ class Edit extends Component {
         const correctas = [cor1, cor2, cor3, cor4];
         const n_corr = correctas.filter(valor => valor === true).length;
 
-        if (!temario || !nivel || !pregunta || !res1 || !res2 || !res3 || !res4) {
+        if ((!temario || !nivel || !pregunta || !res1 || !res2 || !res3 || !res4) && this.state.cuatroRespuestas) {
             alert("Por favor, rellena todos los campos.");
             return;
         }
@@ -94,16 +110,13 @@ class Edit extends Component {
             return;
         }
 
-        
-
-        const stateJson = JSON.stringify(this.state);
-        console.log(stateJson);
         try {
             const response = await axios.post(`${this.serverIP}/game/insert`, {
-              temario,
-              nivel,
-              pregunta,
-              respuesta
+                temario,
+                nivel,
+                pregunta,
+                respuesta,
+                url_imagen
             });
             if (response.status === 200) {
                 console.log(response.data.msg);
@@ -133,25 +146,45 @@ class Edit extends Component {
                     texto: "",
                     correcta: false
                 }
-            }
+            },
+            url_imagen: null,
+            archivo_imagen: null,
+            imagen: null,
+            cuatroRespuestas: true
         });
     }
 
     BackToLoby() {
         return (
             <Link to="/loby" className="circle">
-                <div className="arrow"/>
+                <div className="arrow" />
             </Link>
         );
     }
 
     render() {
+        const { imagen } = this.state;
         return (
             <main>
                 {this.BackToLoby()}
                 <div className="form-container">
                     <h1>Editar Preguntas</h1>
                     <form onSubmit={this.handleSubmit} className="formEdit">
+                        <div className="form-in-line">
+                            <h2>Obligatorio rellenar todo:</h2>
+                            <input
+                                type="checkbox"
+                                checked={this.state.cuatroRespuestas}
+                                onChange={(e) => {
+                                    this.setState(prevState => ({
+                                        cuatroRespuestas: !prevState.cuatroRespuestas
+                                    }));
+                                }}
+                                className="check"
+                            />
+                            <input type="file" onChange={this.handleImagenChange} />
+                            {imagen && <img src={imagen} style={{ maxWidth: '300px', height: 'auto' }} alt="Vista previa de la imagen" />}
+                        </div>
                         <div className="form-in-line">
                             <h2>Temario:</h2>
                             <input
@@ -305,7 +338,7 @@ class Edit extends Component {
                         <input type="submit" value="Insertar" className="buttonSubmit" />
                     </form>
                 </div>
-                <Outlet/>
+                <Outlet />
             </main>
         )
     }

@@ -1,146 +1,342 @@
-.loby {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
 .mainContainerGame {
-    background: var(--color-main-container);
+  background: var(--color-contenedor-central-preguntas);
 
-    width: 100vh;
-    height: 50vh;
+  width: 100vh;
+  min-height: 50vh;
+  height: auto;
 
-    border: 3px solid black;
+  /*border: 3px solid black;*/
+  border: 2px solid #0a0a0a;
+  border-radius: 20px;
+  overflow: hidden;
+  overflow-y: scroll;
 
-    overflow: hidden;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-    
-    align-items: center;
-    
-    
-    padding-top: 30px;
-    padding-bottom: 10px;
+  align-items: center;
+
+  padding-top: 30px;
+  padding-bottom: 10px;
+  box-shadow: 0px 3px 6px 2px rgba(0, 0, 0, 0.703);
 }
 
 .title {
-    width: 80%;
-    height: 100px;
+  background-color: var(--color-contenedor-pregunta);
+  border: 2px solid #191919;
+  border-radius: 10px;
 
-    background-color: #F28F6F;
-    border: 2px solid black;
+  width: 80%;
+  min-height: 100px;
+  height: auto;
 
-    align-items: center;
-    justify-content: center;
-    display: flex;
+  padding: 0 10px;
+  box-sizing: border-box;
 
-    color: rgb(27, 26, 26);
-    font-family: "Pixel";
-    font-size: 35px;
-    font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: var(--color-texto-preguntas);
+  font-size: 35px;
+  font-weight: 600;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.703);
+}
+
+.title span.highlighted {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.title strong.highlightedBold {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .respuestas-container {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 
-    width: 80%;
+  width: 80%;
 
-    margin: 50px;
+  margin: 50px;
 }
 
 .respuesta {
-    height: 80px;
-    font-family: "Pixel";
-    font-size: 21px;
-    text-align: center;
+  height: 80px;
+  min-height: 20px;
+  font-size: 21px;
+  font-weight: 400;
+  text-align: center;
 
-    color: rgb(27, 26, 26);
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
 
-    border: 1px solid black;
-    background-color: var(--color-buttonNivel-background);
-    
-    margin: 5px;
+  color: var(--color-texto-respuestas);
 
-    padding: 8px 12px;
+  border: 1px solid #000000;
+  background: var(--color-contenedor-respuesta);
+  border-radius: 60px 0px 0px 60px;
+  margin: 5px;
+
+  padding: 5px 0px;
+}
+
+.respuesta div {
+  width: 70px;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px ridge rgba(56, 56, 56, 0.934);
+
+  border-top-left-radius: 90px;
+  border-bottom-left-radius: 90px;
+  margin-left: 5px;
+
+  font-weight: 700;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.703);
+}
+
+.respuesta p {
+  width: 90%;
+  height: 100%;
+
+  border: 1px ridge rgba(56, 56, 56, 0.934);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 4px 0 5px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.703);
 }
 
 .siguiente-pregunta {
-    width: 100%;
-    height: 100px;
+  width: 100%;
+  height: 100px;
 
-    display: flex;
-    align-content: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 .buttonGame {
-    font-family: "Pixel";
-    font-size: 15px;
-    background-color: #6A80E6;
-    border: 2px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  background-color: var(--color-boton-siguiente);
+  border: 2px solid black;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    height: 50px;
+  height: 20px;
 
-    padding: 20px;
+  padding: 20px;
 }
 
 .buttonGame:hover {
-    cursor: pointer;
-    background-color: rgb(176, 194, 104);
-    border-color: #16110d;
+  cursor: pointer;
+  background-color: rgb(176, 194, 104);
+  border-color: #16110d;
 }
 
 .respuesta-hover:hover {
-    cursor: pointer;
-    background-color: yellowgreen;
+  cursor: pointer;
+  background-color: rgb(52, 52, 52);
 }
 
 .incorrecta {
-    background-color: rgb(197, 30, 30);
+  background-color: var(--color-respuesta-incorrecta);
 }
 
 .correcta {
-    background-color: green;
+  background-color: var(--color-respuesta-correcta);
 }
 
-@media (max-width: 768px) {
-    /* Estilos para tablets y dispositivos móviles */
-    .loby {
-        height: 100%;
-        overflow: hidden;
-    }
+.other {
+  visibility: hidden;
+}
 
-    .mainContainerGame{
-        width: 80%;
-        height: 80%;
-        overflow-y: scroll;
-        overflow-x: hidden;
-    }
-    .title {
-        text-align: center;
-        padding: 5px 5px;
-        box-sizing: border-box;
-        font-size: 20px;
-    }
+.image-container {
+  width: 250px;
+  height: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
 
-    .respuesta {
-        width: 85%;
-        height: auto;
-        font-size: 17px;
-    }
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
 
-    .respuestas-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.title-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.button-icon {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  border: none;
+  background-color: transparent;
+}
+
+.icono-svg {
+  width: 35px;
+  height: 35px;
+  fill: none; /* Inicialmente, establece el color de relleno en "none" */
+  border: none;
+}
+
+.icono-svg:hover {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.bolitas {
+  background-color: #a2a2a297;
+  width: 100vh;
+  border: 2px solid #434343b8;
+  border-radius: 20px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.703);
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.resultadoFinal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: #d8d8d8f1;
+  width: 70%;
+  height: 50%;
+}
+
+.resultadoFinal div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 90%;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.resultadoFinal p {
+  max-width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px dashed black;
+  padding: 10px;
+}
+
+@keyframes moveClouds {
+  0% {
+    background-position: 0 0;
   }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes flyBirds {
+  0% {
+    left: -10%;
+  }
+  100% {
+    left: 110%;
+  }
+}
+
+@media (max-width: 1000px) {
+  /* Estilos para tablets y dispositivos móviles */
+  .loby {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .bolitas {
+    width: 80%;
+  }
+
+  .mainContainerGame {
+    width: 80%;
+    min-height: 80%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  .title {
+    text-align: center;
+    padding: 5px 5px;
+    box-sizing: border-box;
+    font-size: 20px;
+  }
+
+  .respuesta {
+    width: 85%;
+    height: 60px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .respuesta div {
+    width: 40px;
+  }
+
+  .respuestas-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .siguiente-pregunta {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .buttonGame {
+    width: 50%;
+  }
+}
