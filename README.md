@@ -1,4 +1,5 @@
 # TFG-Juego-Educativo
+
 Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Informática. Este proyecto será un videojuego educativo, desarrollado con React para todas las plataformas (móvil, tablet, ordenador)
 
 ## Estructura de carpetas del proyecto:
@@ -69,514 +70,601 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 └── 🗎 README.md
 ```
 
-## Ejecutar Proyecto Localmente: ##
+## Ejecutar Proyecto Localmente:
 
 - Docker:
 
-    - Levantar docker:
+  - Levantar docker:
 
-        ```
-        docker-compose up -d
-        ```
+    ```
+    docker-compose up -d
+    ```
 
-    - Salir contenedor docker:
+  - Salir contenedor docker:
 
-        ```
-        docker-compose down
-        ```
+    ```
+    docker-compose down
+    ```
 
-    - Eliminar contenedor docker:
+  - Eliminar contenedor docker:
 
-        ```
-        docker-compose down --rmi all
-        ```
+    ```
+    docker-compose down --rmi all
+    ```
 
-    - Ver contenedores docker:
+  - Ver contenedores docker:
 
-        ```
-        docker ps
-        ```
+    ```
+    docker ps
+    ```
 
-    - Ejecutar contenedor docker en terminal integrada:
+  - Ejecutar contenedor docker en terminal integrada:
 
-        ```
-        docker exec -it <nombre-contenedor> bash
-        ```
+    ```
+    docker exec -it <nombre-contenedor> bash
+    ```
 
-        ```
-        docker exec -it tfg-juego-educativo-db-1 bash
-        ```
+    ```
+    docker exec -it tfg-juego-educativo-db-1 bash
+    ```
 
 - MySQL:
 
-    - Comprobar:
+  - Comprobar:
 
-        ```
-        mysql -u <usuario-base-de-datos> -p <nombre-base-de-datos>
-        ```
+    ```
+    mysql -u <usuario-base-de-datos> -p <nombre-base-de-datos>
+    ```
 
-        ```
-        mysql -u root -p tfg_database
-        ```
+    ```
+    mysql -u root -p tfg_database
+    ```
 
-        - Te pedira la contraseña para verificar tu identidaz
+    - Te pedira la contraseña para verificar tu identidaz
 
 - Servidor:
 
-    - Abrir la carpeta
+  - Abrir la carpeta
 
-        ```
-        cd server
-        ```
+    ```
+    cd server
+    ```
 
-    - Instalar dependencias
+  - Instalar dependencias
 
-        ```
-        npm i
-        ```
+    ```
+    npm i
+    ```
 
-    - Ejecutar el servidor
+  - Creación del certificado:
 
-        ```
-        npm start
-        ```
+    ```
+    npm run certificate
+    ```
+
+  - Ejecutar el servidor
+
+    ```
+    npm start
+    ```
 
 - Aplicación:
 
-    - Abrir la carpeta del proyecto
+  - Abrir la carpeta del proyecto
 
-        ```
-        cd client
-        ```
-    
-    - Instalar dependencias
+    ```
+    cd client
+    ```
 
-        ```
-        npm i
-        ```
+  - Instalar dependencias
 
-    - Iniciar aplicación
+    ```
+    npm i
+    ```
 
-        ```
-        npm start
-        ```
+  - Iniciar aplicación
 
-## Despliegue en AWS Lightsail: Servidor y DB ##
+    ```
+    npm start
+    ```
+
+## Creación del certificado
+
+1. Generar una clave privada:
+
+   ```
+   openssl genpkey -algorithm RSA -out privatekey.pem
+   ```
+
+2. Generar una solicitud de firma de certificado (CSR):
+
+   ```
+   openssl req -new -key privatekey.pem -out csr.pem
+   ```
+
+   ```
+   $ openssl req -new -key privatekey.pem -out csr.pem
+   You are about to be asked to enter information that will be incorporated
+   into your certificate request.
+   What you are about to enter is what is called a Distinguished Name or a DN.
+   There are quite a few fields but you can leave some blank
+   For some fields there will be a default value,
+   If you enter '.', the field will be left blank.
+
+   ---
+
+   Country Name (2 letter code) [AU]:ES
+   State or Province Name (full name) [Some-State]:Cantabria
+   Locality Name (eg, city) []:Santander
+   Organization Name (eg, company) [Internet Widgits Pty Ltd]:UNEAT
+   Organizational Unit Name (eg, section) []:TFG
+   Common Name (e.g. server FQDN or YOUR name) []:localhost
+   Email Address []:mifirmadigital
+
+   Please enter the following 'extra' attributes
+   to be sent with your certificate request
+   A challenge password []:mifirmadigital
+   An optional company name []:
+
+   ```
+
+3. Firmar el certificado con tu propia autoridad de certificación:
+
+   ```
+   openssl x509 -req -in csr.pem -signkey privatekey.pem -out certificate.pem
+   ```
+
+## Despliegue en AWS Lightsail: Servidor y DB
 
 - Amazon Lightsail(creación de una máquina virtual con Debian):
 
-    Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estatica para que cada vez que se reinicie el servidor no cambie la IP.
+Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estatica para que cada vez que se reinicie el servidor no cambie la IP.
 
-    Los pasos a seguir posteriormente es configurar la terminal del servidor:
+Los pasos a seguir posteriormente es configurar la terminal del servidor:
 
-    - Actualizar la lista de paquetes del Sistema Operativo:
+- Actualizar la lista de paquetes del Sistema Operativo:
 
-    ```
-    sudo apt-get update
-    ```
+```
 
-    - Actualizar los paquetes:
-    
-    ```
-    sudo apt-get upgrade
-    ```
+sudo apt-get update
 
-    - Instalar Node js en nuestra versión(v18.12.1):
+```
 
-    ```
-    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-    ```
+- Actualizar los paquetes:
 
-    - Despues te pedira instalar el gestor de paquetes npm:
+```
 
-    ```
-    sudo apt-get install -y nodejs
-    ```
+sudo apt-get upgrade
 
-    - Comprobar tanto si ha sido instalado node y npm:
+```
 
-    ```
-    node --version
-    ```
+- Instalar Node js en nuestra versión(v18.12.1):
 
-    ```
-    npm --version
-    ```
+```
 
-    ![version-node-npm](readme-image/version-node-npm.PNG)
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 
-    Node.js en Debian no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
+```
 
-    ```
-    sudo apt-get install libcap2-bin
-    ```
+- Despues te pedira instalar el gestor de paquetes npm:
 
-    Configurar Node.js para que pueda ejecutar puertos inferiores al 1024.
+```
 
-    ```
-    sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
-    ```
-    En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
+sudo apt-get install -y nodejs
 
-    ![escuchar-puertos-inferiores-1024](readme-image/escuchar-puertos.PNG)
+```
 
-    A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
+- Comprobar tanto si ha sido instalado node y npm:
 
-    ```
-    sudo npm install pm2 -g
-    ```
+```
 
-    Podemos poner el siguiente comando para ver los procesos que esten en ejecución. Por ahora no hay ningún proceso activo:
+node --version
 
-    ```
-    pm2 ls
-    ```
+```
 
-    ![pm2-ls](readme-image/pm2-ls.PNG)
+```
 
-    - Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
+npm --version
 
-        ```
-        pm2 startup
-        ```
+```
 
-        ![pm2-global](readme-image/pm2-global.PNG)
+![version-node-npm](readme-image/version-node-npm.PNG)
 
-        Ejecutamos el comando que nos proporciona pm2:
+Node.js en Debian no podemos escuchar aplicaciones por debajo del puerto 1024. Y queremos dar permisos para que se escuche el puerto 80 que corresponde al puerto (http). Instalaremos una herramienta llamada (libcap2):
 
-        ```
-        sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u admin --hp /home/admin
-        ```
+```
 
-        Nos mostrara que pm2 ya ha sido configurado:
+sudo apt-get install libcap2-bin
 
-        ![pm2-configurado](readme-image/pm2-configurado.PNG)
+```
 
-    - Queda instalar git y clonar nuestro repositorio:
+Configurar Node.js para que pueda ejecutar puertos inferiores al 1024.
 
-        ```
-        sudo apt-get install git
-        ```
-        (Antes de clonar el repositorio instalar Base de Datos MySQL)
-        ```
-        git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
-        ```
+```
 
-    - Instalar MySQL en Debian (https://computingforgeeks.com/how-to-install-mysql-on-debian-linux-system/):
+sudo setcap cap_net_bind_service=+ep `readlink -f \`which node\``
 
-        Instalar el paquete de instalación que soporta Debian 11 y Debian 10:
+```
 
-        ```
-        wget https://dev.mysql.com/get/mysql-apt-config_0.8.18-1_all.deb
-        ```
+En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro sistema operativo y que Node.js ya ha sido configurado correctamente para escuchar puertos por debajo del 1024.
 
-        Instalar el paquete del repositorio que te muestra la consola:
-        
-        ![instalar-paquete-mysql](readme-image/instalar-mysql.PNG)
+![escuchar-puertos-inferiores-1024](readme-image/escuchar-puertos.PNG)
 
-        ```
-        sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
-        ```
+A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
 
-        Cambiar la version de MySQL, por default aparecera la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
+```
 
-        ![configuracion-version-mysql](readme-image/configurar-mysql-1.PNG)
+sudo npm install pm2 -g
 
-        ![configuracion-version-mysql](readme-image/configurar-mysql-2.PNG)
-        
-        ![configuracion-version-mysql](readme-image/configurar-mysql-3.PNG)
+```
 
-        Una vez instalado hay que actualizar los paquetes del sistema:
+Podemos poner el siguiente comando para ver los procesos que esten en ejecución. Por ahora no hay ningún proceso activo:
 
-        ```
-        sudo apt update
-        ```
-        Nos muestra un error de que la firma no se puede verificar:
+```
 
-        ![actualizar-paquetes-mysql](readme-image/actualizar-paquetes-mysql.PNG)
+pm2 ls
 
-        Error que nos muestra (No copiar):
+```
 
-        ```
-        The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 467B942D3A79BD29
-        ```
+![pm2-ls](readme-image/pm2-ls.PNG)
 
-        Importar GPG key(s) que falten donde (467B942D3A79BD29) es la KEY que debemos remplazar por la que nos muestre:
+- Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
 
-        ```
-        sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
-        ```
+  ```
+  pm2 startup
+  ```
 
-        ```
-        sudo apt update
-        ```
+  ![pm2-global](readme-image/pm2-global.PNG)
 
-        Y ya estara configurado las claves:
+  Ejecutamos el comando que nos proporciona pm2:
 
-        ![actualizar-paquetes-mysql](readme-image/keys-actualizadas.PNG)
+  ```
+  sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u admin --hp /home/admin
+  ```
 
-        Instalar MySQL server y te pedira configurar usuario y contraseña de la Base de Datos:
+  Nos mostrara que pm2 ya ha sido configurado:
 
-        ```
-        sudo apt install -y mysql-community-server
-        ```
-        Te pedira introducirla dos veces para que se verifique:
+  ![pm2-configurado](readme-image/pm2-configurado.PNG)
 
-        ![password-mysql](readme-image/root-password.PNG)
+- Queda instalar git y clonar nuestro repositorio:
 
-        Cuando está instalado, el servicio MySQL no se inicia de forma predeterminada. Inícielo y también habilítelo para que se inicie automáticamente cada vez que se reinicie el servidor.
+  ```
+  sudo apt-get install git
+  ```
 
-        ```
-        sudo systemctl restart mysql
-        ```
+  (Antes de clonar el repositorio instalar Base de Datos MySQL)
 
-        ```
-        sudo systemctl enable mysql
-        ```
+  ```
+  git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
+  ```
 
-        ![start-mysql](readme-image/start-mysql.PNG)
+- Instalar MySQL en Debian (https://computingforgeeks.com/how-to-install-mysql-on-debian-linux-system/):
 
-        Hay que verificar si esta activo:
+  Instalar el paquete de instalación que soporta Debian 11 y Debian 10:
 
-        ```
-        systemctl status mysql
-        ```
+  ```
+  wget https://dev.mysql.com/get/mysql-apt-config_0.8.18-1_all.deb
+  ```
 
-        ![verificar-mysql](readme-image/verificar-mysql-activo.PNG)
+  Instalar el paquete del repositorio que te muestra la consola:
 
-        Asegurar su instalación de base de datos MySQL. Como ya habíamos establecido la contraseña de root, se le pedirá que la ingrese para continuar y también se le preguntará si desea cambiarla.
+  ![instalar-paquete-mysql](readme-image/instalar-mysql.PNG)
 
-        ```
-        sudo mysql_secure_installation
-        ```
+  ```
+  sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
+  ```
 
-        En mi caso he dicho que quiero una seguridad Fuerte (Strong), que elimine todos los usuarios y que solo se permita los usuarios root, también que resetee los privilegios de las tablas.
+  Cambiar la version de MySQL, por default aparecera la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
 
-        ![configuracion-mysql](readme-image/configuracion-mysql.PNG)
+  ![configuracion-version-mysql](readme-image/configurar-mysql-1.PNG)
 
-        Ya puedes usar MySQL (siempre te pedira la contraseña):
+  ![configuracion-version-mysql](readme-image/configurar-mysql-2.PNG)
 
-        ```
-        mysql -u root -p
-        ```
+  ![configuracion-version-mysql](readme-image/configurar-mysql-3.PNG)
 
-        ```
-        SHOW DATABASES;
-        ```
-        ![ver-mysql-db](readme-image/mysql-databases.PNG)
+  Una vez instalado hay que actualizar los paquetes del sistema:
 
-        Ver la version que se haya instalado correctamente:
+  ```
+  sudo apt update
+  ```
 
-        ![ver-mysql-version](readme-image/ver-version.PNG)
+  Nos muestra un error de que la firma no se puede verificar:
 
-        Para habilitar que MySQL se pueda acceder remotamente:
+  ![actualizar-paquetes-mysql](readme-image/actualizar-paquetes-mysql.PNG)
 
-        - open MySQL port 3306 on the firewall
+  Error que nos muestra (No copiar):
 
-        ```
-        sudo ufw allow mysql
-        ```
+  ```
+  The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 467B942D3A79BD29
+  ```
 
-        - Permitir una dirección especifica para conectarte a MySQL, la IP tiene que ser local.
+  Importar GPG key(s) que falten donde (467B942D3A79BD29) es la KEY que debemos remplazar por la que nos muestre:
 
-        ```
-        sudo ufw allow from 172.26.2.23 to any port 3306
-        ```
+  ```
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 467B942D3A79BD29
+  ```
 
-    - Crear Base de Datos:
+  ```
+  sudo apt update
+  ```
 
-        ```
-        CREATE DATABASE tfg_database;
-        ```
+  Y ya estara configurado las claves:
 
-        ```
-        SHOW DATABASES;
-        ```
+  ![actualizar-paquetes-mysql](readme-image/keys-actualizadas.PNG)
 
-        ![crear-base-datos](readme-image/crear-base-de-datos.PNG)
+  Instalar MySQL server y te pedira configurar usuario y contraseña de la Base de Datos:
 
-        Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
+  ```
+  sudo apt install -y mysql-community-server
+  ```
 
-        Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
+  Te pedira introducirla dos veces para que se verifique:
 
-        ![exportar-base-datos](readme-image/exportar-base-datos.PNG)
+  ![password-mysql](readme-image/root-password.PNG)
 
-        Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
+  Cuando está instalado, el servicio MySQL no se inicia de forma predeterminada. Inícielo y también habilítelo para que se inicie automáticamente cada vez que se reinicie el servidor.
 
-        ```
-        mysql -u root -p tfg_database < database.sql
-        ```
+  ```
+  sudo systemctl restart mysql
+  ```
 
-        ![ver-mysql-version](readme-image/base-datos-exportada.PNG)
+  ```
+  sudo systemctl enable mysql
+  ```
 
-        Configuración de MySQL:
+  ![start-mysql](readme-image/start-mysql.PNG)
 
-        ```
-        sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
-        ```
+  Hay que verificar si esta activo:
 
-        Y cambiar por:
+  ```
+  systemctl status mysql
+  ```
 
-        ```
-        bind-address = 127.0.0.1
-        port = 3306
-        ```
+  ![verificar-mysql](readme-image/verificar-mysql-activo.PNG)
 
-        Reiniciar y levantar MySQL de nuevo para que se apliquen los cambios:
-        
-        ```
-        sudo systemctl restart mysql
-        sudo netstat -tuln | grep mysql
-        ```
+  Asegurar su instalación de base de datos MySQL. Como ya habíamos establecido la contraseña de root, se le pedirá que la ingrese para continuar y también se le preguntará si desea cambiarla.
 
-    - Clonar el repositorio:
+  ```
+  sudo mysql_secure_installation
+  ```
 
-        ```
-        git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
-        ```
+  En mi caso he dicho que quiero una seguridad Fuerte (Strong), que elimine todos los usuarios y que solo se permita los usuarios root, también que resetee los privilegios de las tablas.
 
-        Clonamos y editamos el archivo .env(entramos a la ruta):
+  ![configuracion-mysql](readme-image/configuracion-mysql.PNG)
 
-        Ver directorio:
+  Ya puedes usar MySQL (siempre te pedira la contraseña):
 
-        ```
-        pwd
-        ```
+  ```
+  mysql -u root -p
+  ```
 
-        Ver carpetas del directorio:
+  ```
+  SHOW DATABASES;
+  ```
 
-        ```
-        ls
-        ```
+  ![ver-mysql-db](readme-image/mysql-databases.PNG)
 
-        Ver carpetas y archivos ocultos:
+  Ver la version que se haya instalado correctamente:
 
-        ```
-        ls -a
-        ```
+  ![ver-mysql-version](readme-image/ver-version.PNG)
 
-        Para ubicarnos en la carpeta(TFG-Juego-Educativo/server)
-        ```
-        cd nombre_carpeta
-        ```
+  Para habilitar que MySQL se pueda acceder remotamente:
 
-        Si no esta creado:
+  - open MySQL port 3306 on the firewall
 
-        ```
-        touch .env
-        ```
+  ```
+  sudo ufw allow mysql
+  ```
 
-        Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
+  - Permitir una dirección especifica para conectarte a MySQL, la IP tiene que ser local.
 
-        **- Importante: El archivo .env no puede tener espacios entre "=", saltos de línea, ect. El formato del documento tiene que estar todo junto, sino dejara de funcionar y el servidor no encontrara el archivo .env**
-        
-        ```
-        nano .env
-        ```
+  ```
+  sudo ufw allow from 172.26.2.23 to any port 3306
+  ```
 
-        (ctrl+x, y, enter) para guardar y salir
+- Crear Base de Datos:
 
-        Dentro de la carpeta server instalamos los paquetes de Node.js:
+  ```
+  CREATE DATABASE tfg_database;
+  ```
 
-        ```
-        npm install
-        ```
+  ```
+  SHOW DATABASES;
+  ```
 
-        Entramos en src y ejecutamos pm2 para correr nuestro proyecto:
+  ![crear-base-datos](readme-image/crear-base-de-datos.PNG)
 
-        ```
-        pm2 start index.js
-        ```
+  Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
 
-        Ver nuestros procesos corriendo:
+  Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
 
-        ```
-        pm2 ls
-        ```
+  ![exportar-base-datos](readme-image/exportar-base-datos.PNG)
 
-        ![pm2-ls](readme-image/pm2-connection.PNG)
+  Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
 
-## Gestionar Paquetes de Instalación ##
+  ```
+  mysql -u root -p tfg_database < database.sql
+  ```
+
+  ![ver-mysql-version](readme-image/base-datos-exportada.PNG)
+
+  Configuración de MySQL:
+
+  ```
+  sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+  ```
+
+  Y cambiar por:
+
+  ```
+  bind-address = 127.0.0.1
+  port = 3306
+  ```
+
+  Reiniciar y levantar MySQL de nuevo para que se apliquen los cambios:
+
+  ```
+  sudo systemctl restart mysql
+  sudo netstat -tuln | grep mysql
+  ```
+
+- Clonar el repositorio:
+
+  ```
+  git clone https://github.com/MarcoGomezGutierrez/TFG-Juego-Educativo.git
+  ```
+
+  Clonamos y editamos el archivo .env(entramos a la ruta):
+
+  Ver directorio:
+
+  ```
+  pwd
+  ```
+
+  Ver carpetas del directorio:
+
+  ```
+  ls
+  ```
+
+  Ver carpetas y archivos ocultos:
+
+  ```
+  ls -a
+  ```
+
+  Para ubicarnos en la carpeta(TFG-Juego-Educativo/server)
+
+  ```
+  cd nombre_carpeta
+  ```
+
+  Si no esta creado:
+
+  ```
+  touch .env
+  ```
+
+  Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
+
+  **- Importante: El archivo .env no puede tener espacios entre "=", saltos de línea, ect. El formato del documento tiene que estar todo junto, sino dejara de funcionar y el servidor no encontrara el archivo .env**
+
+  ```
+  nano .env
+  ```
+
+  (ctrl+x, y, enter) para guardar y salir
+
+  Dentro de la carpeta server instalamos los paquetes de Node.js:
+
+  ```
+  npm install
+  ```
+
+  Entramos en src y ejecutamos pm2 para correr nuestro proyecto:
+
+  ```
+  pm2 start index.js
+  ```
+
+  Ver nuestros procesos corriendo:
+
+  ```
+  pm2 ls
+  ```
+
+  ![pm2-ls](readme-image/pm2-connection.PNG)
+
+## Gestionar Paquetes de Instalación
 
 - Librerias Cliente:
 
-    - Entrelazar diferentes páginas manteniendo los estados de los componentes:
+- Entrelazar diferentes páginas manteniendo los estados de los componentes:
 
-        ```
-        npm install react-router-dom
-        ```
+  ```
+  npm install react-router-dom
+  ```
 
-    - Leer variables de entorno:
+- Leer variables de entorno:
 
-        ```
-        npm install dotenv
-        ```
+  ```
+  npm install dotenv
+  ```
 
-    - Instalar Sockets para React y conectarse al servidor:
+- Instalar Sockets para React y conectarse al servidor:
 
-        ```
-        npm install socket.io-client
-        npm install axios
-        ```
-    
-    - Instalar crypto para utilizar sha256 para sacar el codigo hash de la contraseña:
+  ```
+  npm install socket.io-client
+  npm install axios
+  ```
 
-        ```
-        npm install crypto-js
-        ```
+- Instalar crypto para utilizar sha256 para sacar el codigo hash de la contraseña:
 
+  ```
+  npm install crypto-js
+  ```
 
 - Librerias Servidor:
 
-    - Express:
+- Express:
 
-        ```
-        npm install express@4
-        ```
+  ```
+  npm install express@4
+  ```
 
-    - Sockets:
+- Manejo de Base de Datos MySQL:
 
-        ```
-        npm install socket.io
-        ```
+  ```
+  npm install mysql
+  ```
 
-    - Manejo de Base de Datos MySQL:
+- Actualización del servidor sin reiniciar el servidor:
 
-        ```
-        npm install mysql
-        ```
+  ```
+  npm install --save-dev nodemon
+  ```
 
-    - Actualización del servidor sin reiniciar el servidor:
+- Generación del Token:
 
-        ```
-        npm install --save-dev nodemon
-        ```
-    
-    - Generación del Token:
+  ```
+  npm install jsonwebtoken
+  ```
 
-        ```
-        npm install jsonwebtoken
-        ```
-    
-    - Politica de cors para procesar json en una respuesta post:
+- Politica de cors para procesar json en una respuesta post:
 
-        ```
-        npm install cors
-        ```
-        
-    - Texto json formato Pretty:
+  ```
+  npm install cors
+  ```
 
-        ```
-        npm install express-prettify
-        ```
-    
-    - Instalación de modulo para gestionar variables de entorno:
+- Texto json formato Pretty:
 
-        ```
-        npm install dotenv -D
-        ```
-    - Instalar gestor para subir imagenes al servidor:
+  ```
+  npm install express-prettify
+  ```
 
-        ```
-        npm install express-fileupload
-        ```
+- Instalación de modulo para gestionar variables de entorno:
+
+  ```
+  npm install dotenv -D
+  ```
+
+- Instalar gestor para subir imagenes al servidor:
+
+  ```
+  npm install express-fileupload
+  ```
+
+- Creación de Certificado:
+
+  ```
+  npm install openssl
+  ```
+
+  ```
+  npm install https
+  ```
+
+```
+
+```

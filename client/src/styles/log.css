@@ -21,7 +21,7 @@
 
 .arrow {
   position: relative;
-  top: 25%;
+  top: 24%;
   left: 35%;
   width: 20px;
   height: 20px;
@@ -55,7 +55,6 @@
   background-color: #f8f4e5;
   box-shadow: 7px 7px 1px #ffa580, 7px 7px 1px 2px black;
 }
-
 
 .form {
   position: relative;
@@ -91,7 +90,7 @@
   border: 2px solid black;
   color: var(--color-text);
 
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   font-size: 17px;
   font-weight: 500;
   text-decoration: none;
@@ -105,11 +104,9 @@
 }
 
 @media (max-width: 720px) {
-
   /* Estilos para tablets y dispositivos móviles */
 
   .form {
     width: 180px;
   }
-
 }

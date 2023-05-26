@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ReactComponent as IconoSvg } from '../image/icons/icono-image.svg';
+import React, { useState, useEffect, useCallback } from "react";
+import { ReactComponent as IconoSvg } from "../image/icons/icono-image.svg";
 import "../styles/app/game.css";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 //import { encryptDataJson, decryptDataJson } from '../other/encrypt';
-import { Outlet, Link } from 'react-router-dom';
-import Matematicas from '../other/Matematicas';
-import { methodMap } from '../other/mathMethods.js';
-import BarraHistorial from '../components/BarraHistorial';
-import jsonData from '../data/config.json';
+import { Outlet, Link } from "react-router-dom";
+import Matematicas from "../other/Matematicas";
+import { methodMap } from "../other/mathMethods.js";
+import BarraHistorial from "../components/BarraHistorial";
+import jsonData from "../data/config.json";
 import axios from "axios";
 
 function Game(porps) {
@@ -17,10 +17,12 @@ function Game(porps) {
   const [question, setQuestion] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [showImage, setShowImage] = useState(false); //Visualizar la imagen en pantalla
-  const [selectedImageUrl, setSelectedImageUrl] = useState('');
+  const [selectedImageUrl, setSelectedImageUrl] = useState("");
   const start = 0; // Índice inicial
   const end = 4; // Índice final (exclusivo)
-  const [indices, setIndices] = useState(Array.from({ length: end - start }, (_, index) => index + start));
+  const [indices, setIndices] = useState(
+    Array.from({ length: end - start }, (_, index) => index + start)
+  );
   const [handleSort, setHandleSort] = useState(true); //Manejar el desorden de las preguntas
   const { state } = useLocation(); //Traer los datos de props
   const { temario, nivel, preguntas } = state || {}; //Traer los datos y guardarlos en su tabla correspondiente
@@ -30,9 +32,25 @@ function Game(porps) {
   const [idPreguntasFalladas, setIdPreguntasFalladas] = useState([]); // Números de preguntas falladas
   const [preguntasAcertadas, setPreguntasAcertadas] = useState([]); // Números de preguntas acertadass
   const [idPreguntasAcertadas, setIdPreguntasAcertadas] = useState([]); // Números de preguntas falladas
+  const [showResult, setShowResult] = useState(false);
+  const letters = ["A", "B", "C", "D"];
+  const colors = ["#00ff1e", "#eaff00", "#ff9900", "#008cff"];
 
   // Encriptar el contenido e insertarlo en el local storage para guardar la selección del usuario
-  const transformDataToJson = (preguntaActual, hover, respuestaSeleccionada, mostrar, question, answer, indices, handleSort, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas, idPreguntasAcertadas) => {
+  const transformDataToJson = (
+    preguntaActual,
+    hover,
+    respuestaSeleccionada,
+    mostrar,
+    question,
+    answer,
+    indices,
+    handleSort,
+    preguntasAcertadas,
+    preguntasFalladas,
+    idPreguntasFalladas,
+    idPreguntasAcertadas
+  ) => {
     const data = {
       preguntaActual: preguntaActual,
       hover: hover,
@@ -45,7 +63,7 @@ function Game(porps) {
       preguntasAcertadas: preguntasAcertadas,
       preguntasFalladas: preguntasFalladas,
       idPreguntasFalladas: idPreguntasFalladas,
-      idPreguntasAcertadas: idPreguntasAcertadas
+      idPreguntasAcertadas: idPreguntasAcertadas,
     };
     //return encryptDataJson(data);
     return JSON.stringify(data);
@@ -54,7 +72,8 @@ function Game(porps) {
   useEffect(() => {
     // Recuperar la respuesta seleccionada del Local Storage al cargar la página
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
-    if (respuestaGuardada) { // Si habia una pregunta ya realizada cargarla
+    if (respuestaGuardada) {
+      // Si habia una pregunta ya realizada cargarla
       //const jsonResponse = decryptDataJson(respuestaGuardada);
       const jsonResponse = JSON.parse(respuestaGuardada);
       setPreguntaActual(jsonResponse.preguntaActual);
@@ -72,58 +91,82 @@ function Game(porps) {
   }, [temario, nivel]);
 
   // Función callback para refactorizar el código
-  const generateMathAnswer = useCallback((callback) => {
-    const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
-    let jsonResponse = "";
-    if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
-      //jsonResponse = decryptDataJson(respuestaGuardada);
-      jsonResponse = JSON.parse(respuestaGuardada);
-      if (jsonResponse.mostrarNumeroAleatorio) { // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
-        setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
-        setQuestion(jsonResponse.question);
-        setAnswers(jsonResponse.answers);
-        return;
-      } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
-    }
-    setMostrarNumeroAleatorio(true);
-    const { question, answer } = callback; //Genero una pregunta nueva y sus respuestas
-    setQuestion(question);
-    setAnswers(answer);
-    localStorage.setItem(
-      `${temario + nivel}`,
-      transformDataToJson(
-        respuestaGuardada ? jsonResponse.preguntaActual : preguntaActual,
-        hoverEnabled,
-        respuestaSeleccionada,
-        true,
-        question,
-        answer,
-        respuestaGuardada ? jsonResponse.indices : indices,
-        respuestaGuardada ? jsonResponse.handleSort : handleSort,
-        respuestaGuardada ? jsonResponse.preguntasAcertadas : preguntasAcertadas,
-        respuestaGuardada ? jsonResponse.preguntasFalladas : preguntasFalladas,
-        respuestaGuardada ? jsonResponse.idPreguntasFalladas : idPreguntasFalladas,
-        respuestaGuardada ? jsonResponse.idPreguntasAcertadas : idPreguntasAcertadas,
-      )
-    ); // Las guardo en el local storage para evitar que al recargar la página se pierda
-  }, [nivel, temario, hoverEnabled, respuestaSeleccionada, preguntaActual, handleSort, indices, preguntasAcertadas, preguntasFalladas, idPreguntasFalladas, idPreguntasAcertadas]);
-
+  const generateMathAnswer = useCallback(
+    (callback) => {
+      const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
+      let jsonResponse = "";
+      if (respuestaGuardada) {
+        // Compruebo que exista el elemento en el Local Storage
+        //jsonResponse = decryptDataJson(respuestaGuardada);
+        jsonResponse = JSON.parse(respuestaGuardada);
+        if (jsonResponse.mostrarNumeroAleatorio) {
+          // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
+          setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
+          setQuestion(jsonResponse.question);
+          setAnswers(jsonResponse.answers);
+          return;
+        } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
+      }
+      setMostrarNumeroAleatorio(true);
+      const { question, answer } = callback; //Genero una pregunta nueva y sus respuestas
+      setQuestion(question);
+      setAnswers(answer);
+      localStorage.setItem(
+        `${temario + nivel}`,
+        transformDataToJson(
+          respuestaGuardada ? jsonResponse.preguntaActual : preguntaActual,
+          hoverEnabled,
+          respuestaSeleccionada,
+          true,
+          question,
+          answer,
+          respuestaGuardada ? jsonResponse.indices : indices,
+          respuestaGuardada ? jsonResponse.handleSort : handleSort,
+          respuestaGuardada
+            ? jsonResponse.preguntasAcertadas
+            : preguntasAcertadas,
+          respuestaGuardada
+            ? jsonResponse.preguntasFalladas
+            : preguntasFalladas,
+          respuestaGuardada
+            ? jsonResponse.idPreguntasFalladas
+            : idPreguntasFalladas,
+          respuestaGuardada
+            ? jsonResponse.idPreguntasAcertadas
+            : idPreguntasAcertadas
+        )
+      ); // Las guardo en el local storage para evitar que al recargar la página se pierda
+    },
+    [
+      nivel,
+      temario,
+      hoverEnabled,
+      respuestaSeleccionada,
+      preguntaActual,
+      handleSort,
+      indices,
+      preguntasAcertadas,
+      preguntasFalladas,
+      idPreguntasFalladas,
+      idPreguntasAcertadas,
+    ]
+  );
 
   useEffect(() => {
     // Manejar temarios de Matemáticas
     const pregunta = preguntas[preguntaActual];
     const text = pregunta.pregunta;
     const metodo = text.match(/(\$.*?\$)/); // Buscar en el texto una sentencia que este entre simbolos del $mitexto$
-    // 
+    //
     /**
-     * Mirar que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo 
+     * Mirar que no sea null y que el valor de dentro sea $descomposicion$ e importante compruebo
      * el valor de mostrarNumeroAleatorio para cuando se clica en una respuesta y no cambie.
      * Simplificación del código, atraves de un objeto  compruebo todo. De esta forma tengo mejor
      * legibilidad en mi código.
      */
     if (metodo !== null && metodo[1] !== undefined) {
       const methodName = metodo[1];
-      const cleanMethodName = methodName.replace(/\$/g, ''); // Eliminar los símbolos de dólar
+      const cleanMethodName = methodName.replace(/\$/g, ""); // Eliminar los símbolos de dólar
 
       if (methodMap.hasOwnProperty(cleanMethodName)) {
         const { method, args } = methodMap[cleanMethodName];
@@ -132,9 +175,19 @@ function Game(porps) {
         }
       }
     }
-  }, [preguntas, preguntaActual, hoverEnabled, respuestaSeleccionada, mostrarNumeroAleatorio, temario, nivel, generateMathAnswer]);
+  }, [
+    preguntas,
+    preguntaActual,
+    hoverEnabled,
+    respuestaSeleccionada,
+    mostrarNumeroAleatorio,
+    temario,
+    nivel,
+    generateMathAnswer,
+  ]);
 
-  const handleAnswer = (event, respuesta, id_pregunta) => { //Cuando el usuario selecciona alguna respuesta
+  const handleAnswer = (event, respuesta, id_pregunta) => {
+    //Cuando el usuario selecciona alguna respuesta
     if (respuestaSeleccionada === null) {
       setRespuestaSeleccionada(respuesta);
       setHoverEnabled(false);
@@ -147,7 +200,8 @@ function Game(porps) {
       }
       const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
       let jsonResponse = "";
-      if (respuestaGuardada) { // Compruebo que exista el elemento en el Local Storage
+      if (respuestaGuardada) {
+        // Compruebo que exista el elemento en el Local Storage
         //jsonResponse = decryptDataJson(respuestaGuardada);
         jsonResponse = JSON.parse(respuestaGuardada);
       } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
@@ -162,10 +216,18 @@ function Game(porps) {
           respuestaGuardada ? jsonResponse.answers : answers,
           indices,
           handleSort,
-          respuesta.correcta ? [...preguntasAcertadas, preguntaActual + 1] : [...preguntasAcertadas],
-          !respuesta.correcta ? [...preguntasFalladas, preguntaActual + 1] : [...preguntasFalladas],
-          !respuesta.correcta ? [...idPreguntasFalladas, id_pregunta] : [...idPreguntasFalladas],
-          respuesta.correcta ? [...idPreguntasAcertadas, id_pregunta] : [...idPreguntasAcertadas]
+          respuesta.correcta
+            ? [...preguntasAcertadas, preguntaActual + 1]
+            : [...preguntasAcertadas],
+          !respuesta.correcta
+            ? [...preguntasFalladas, preguntaActual + 1]
+            : [...preguntasFalladas],
+          !respuesta.correcta
+            ? [...idPreguntasFalladas, id_pregunta]
+            : [...idPreguntasFalladas],
+          respuesta.correcta
+            ? [...idPreguntasAcertadas, id_pregunta]
+            : [...idPreguntasAcertadas]
         )
       );
     }
@@ -176,15 +238,19 @@ function Game(porps) {
   */
   const detectarCorrecta = (respuesta) => {
     if (respuestaSeleccionada != null) {
-      if (!respuesta.correcta && respuesta.respuesta === respuestaSeleccionada.respuesta) {
-        return 'incorrecta';
+      if (
+        !respuesta.correcta &&
+        respuesta.respuesta === respuestaSeleccionada.respuesta
+      ) {
+        return "incorrecta";
       } else if (respuesta.correcta) {
-        return 'correcta';
+        return "correcta";
+      } else {
+        return "other";
       }
     }
-    return '';
+    return "";
   };
-
 
   /* Controlador para seleccionar la respuesta siguiente, si es la última pregunta retorna a la página anterior, 
   si no lo es carga la siguiente pregunta*/
@@ -200,7 +266,8 @@ function Game(porps) {
       setHandleSort(true);
       localStorage.setItem(
         `${temario + nivel}`,
-        transformDataToJson(preguntaActual + 1,
+        transformDataToJson(
+          preguntaActual + 1,
           true,
           null,
           false,
@@ -215,33 +282,37 @@ function Game(porps) {
         )
       );
     } else if (temario !== "repaso") {
-      try { // Guardar las preguntas falladas en la Base de Datos
+      try {
+        // Guardar las preguntas falladas en la Base de Datos
         const { token, serverIP } = getIpServerAndToken();
         const response = await axios.post(`${serverIP}/game/incorrectas`, {
           token,
-          idPreguntasFalladas
+          idPreguntasFalladas,
         });
         if (response.status === 200) {
           localStorage.removeItem(`${temario + nivel}`);
-          window.location = '/loby';
+          window.location = "/loby";
         }
-      } catch (err) { }
+      } catch (err) {}
     } else {
       try {
         const { token, serverIP } = getIpServerAndToken();
         console.log(idPreguntasAcertadas);
-        const response = await axios.delete(`${serverIP}/game/preguntas-repaso`, {
-          data: {},
-          params: {
-            token: token,
-            idPreguntasAcertadas: idPreguntasAcertadas
+        const response = await axios.delete(
+          `${serverIP}/game/preguntas-repaso`,
+          {
+            data: {},
+            params: {
+              token: token,
+              idPreguntasAcertadas: idPreguntasAcertadas,
+            },
           }
-        });
+        );
         if (response.status === 200) {
           localStorage.removeItem(`${temario + nivel}`);
-          window.location = '/loby';
+          window.location = "/loby";
         }
-      } catch (err) { }
+      } catch (err) {}
     }
   };
 
@@ -253,7 +324,9 @@ function Game(porps) {
       users = JSON.parse(localStorage.getItem("user"));
       token = users.token;
       serverIP = jsonData.serverIP;
-    } catch (err) { window.location = '/'; }
+    } catch (err) {
+      window.location = "/";
+    }
     return { token, serverIP };
   }
 
@@ -264,28 +337,54 @@ function Game(porps) {
         <div className="arrow" />
       </Link>
     );
-  }
+  };
 
   // Pinta en blanco en caso de no tener 4 respuestas
-  const preguntasNivel = (pregunta, index) => {
-    if (answers.length !== 0 && answers[index]) pregunta.respuestas[index].respuesta = answers[index];
-    if (pregunta.respuestas[index].respuesta !== "") {
+  const preguntasNivel = (pregunta, value, letter, color) => {
+    if (answers.length !== 0 && answers[value])
+      pregunta.respuestas[value].respuesta = answers[value];
+    if (pregunta.respuestas[value].respuesta !== "") {
       return (
-        <button key={index} className={`respuesta ${hoverEnabled ? 'respuesta-hover' : ''} ${detectarCorrecta(pregunta.respuestas[index])}`}
-          onClick={
-            (event) => handleAnswer(event, pregunta.respuestas[index], pregunta.id_pregunta)
-          } disabled={respuestaSeleccionada === null ? false : true}>
-          {pregunta.respuestas[index].respuesta}
+        <button
+          key={value}
+          className={`respuesta ${
+            hoverEnabled ? "respuesta-hover" : ""
+          } ${detectarCorrecta(pregunta.respuestas[value])}`}
+          onClick={(event) =>
+            handleAnswer(
+              event,
+              pregunta.respuestas[value],
+              pregunta.id_pregunta
+            )
+          }
+          disabled={respuestaSeleccionada === null ? false : true}
+        >
+          <div
+            style={{
+              backgroundColor: color,
+            }}
+          >
+            {letter}
+          </div>
+          <p
+            style={{
+              backgroundColor: color,
+            }}
+          >
+            {pregunta.respuestas[value].respuesta}
+          </p>
         </button>
       );
-    } else return (<></>); //Devolver campo vacio, no hay respuesta
-  }
+    } else return <></>; //Devolver campo vacio, no hay respuesta
+  };
 
   const ImageContainer = ({ imageUrl, onClose }) => {
     return (
       <div className="image-container">
         <img src={require(`../image/preguntas/${imageUrl}`)} alt="Imagen" />
-        <span className="close" onClick={onClose}>&times;</span>
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
       </div>
     );
   };
@@ -297,7 +396,33 @@ function Game(porps) {
 
   const handleCloseImage = () => {
     setShowImage(false);
-    setSelectedImageUrl('');
+    setSelectedImageUrl("");
+  };
+
+  const handleResult = () => {
+    setShowResult(true);
+  };
+
+  const renderResult = () => {
+    const porcentajeNota = (preguntasAcertadas.length / numeroPreguntas) * 100;
+    const nota = porcentajeNota / 10;
+    const color = nota >= 5 ? "green" : "red";
+    const textFinal =
+      nota >= 5
+        ? "¡Muy bien has aprobado!"
+        : "¡Vaya! Lo siento, has suspendido.";
+    return (
+      <div className="resultadoFinal">
+        <div>Porcentaje de aciertos:</div>
+        <p style={{ borderColor: color, color: color }}>{porcentajeNota}%</p>
+        <div>Nota Final:</div>
+        <p style={{ borderColor: color, color: color }}>{nota}</p>
+        <p>{textFinal}</p>
+        <button className="buttonGame" onClick={handleSiguientePregunta}>
+          Finalizar
+        </button>
+      </div>
+    );
   };
 
   const renderPregunta = () => {
@@ -306,6 +431,9 @@ function Game(porps) {
       setHandleSort(false);
       setIndices([...indices.sort(() => Math.random() - 0.5)]); //Desordenar los índices
     }
+    const filteredIndices = indices.filter(
+      (index) => pregunta.respuestas[index].respuesta !== ""
+    );
     // Buscar el símbolo ~ para subrayar el texto
     const text = pregunta.pregunta;
     var highlightedText = text
@@ -318,42 +446,81 @@ function Game(porps) {
           return "";
         }
       });
-    highlightedText = highlightedText + (pregunta.url_imagen !== null ? `<strong class="highlightedBold">${temario === "Inglés" ? "(See the picture)" : "(Ver la imagen)"}</strong>` : '')
+    highlightedText =
+      highlightedText +
+      (pregunta.url_imagen !== null
+        ? `<strong class="highlightedBold">${
+            temario === "Inglés" ? "(See the picture)" : "(Ver la imagen)"
+          }</strong>`
+        : "");
     return (
       <div className="mainContainerGame">
-        <div className='title-image'>
+        <div className="title-image">
           <div className="title">
             <span dangerouslySetInnerHTML={{ __html: highlightedText }}></span>
           </div>
         </div>
         <div className="respuestas-container">
-          {indices.map((index) => { return preguntasNivel(pregunta, index) })}
+          {filteredIndices.map((value, index) => {
+            const letter = letters[index];
+            const color = colors[index];
+            return preguntasNivel(pregunta, value, letter, color);
+          })}
         </div>
         {respuestaSeleccionada !== null && (
           <div className="siguiente-pregunta">
-            <button className="buttonGame" onClick={handleSiguientePregunta}>
-              {preguntaActual + 1 !== numeroPreguntas ? "Siguiente" : "Finalizar"}
-            </button>
+            {!showResult ? (
+              <button className="buttonGame" onClick={handleSiguientePregunta}>
+                {preguntaActual + 1 !== numeroPreguntas
+                  ? "Siguiente"
+                  : "Finalizar"}
+              </button>
+            ) : (
+              <></>
+            )}
+            {preguntaActual + 1 === numeroPreguntas && !showResult ? (
+              <button className="buttonGame" onClick={handleResult}>
+                Resultados
+              </button>
+            ) : (
+              <></>
+            )}
           </div>
         )}
       </div>
     );
-  }
+  };
 
   return (
     <main className="loby">
       {back()}
-      {preguntas[preguntaActual].url_imagen !== null ?
-        <button className='button-icon' onClick={() => handleImageClick(preguntas[preguntaActual].url_imagen)}>
-          <IconoSvg className="icono-svg" />
-        </button> : ""}
-      {showImage && <ImageContainer imageUrl={selectedImageUrl} onClose={handleCloseImage} />}
+
       <BarraHistorial
         preguntaActual={preguntaActual + 1}
         numeroPreguntas={numeroPreguntas}
         preguntasFalladas={preguntasFalladas}
         preguntasAcertadas={preguntasAcertadas}
-      />
+      >
+        {preguntas[preguntaActual].url_imagen !== null ? (
+          <button
+            className="button-icon"
+            onClick={() =>
+              handleImageClick(preguntas[preguntaActual].url_imagen)
+            }
+          >
+            <IconoSvg className="icono-svg" />
+          </button>
+        ) : (
+          ""
+        )}
+        {showImage && (
+          <ImageContainer
+            imageUrl={selectedImageUrl}
+            onClose={handleCloseImage}
+          />
+        )}
+      </BarraHistorial>
+      {showResult ? renderResult() : <></>}
       {renderPregunta()}
       <Outlet />
     </main>

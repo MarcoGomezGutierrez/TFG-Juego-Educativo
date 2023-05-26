@@ -1,55 +1,63 @@
 body {
-    background-color: var(--color-background-loby);
+  background-color: #007ced;
+  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
+  height: 120vh;
 }
 
 /* Webkit */
 ::-webkit-scrollbar {
-    background-color: transparent;
-    width: 0px;
-    border-radius: 0px;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 0px;
-  }
-  
-  /* Firefox */
-  ::-moz-scrollbar {
-    background-color: transparent;
-    min-width: 0px;
-    max-width: 0px;
-    border-radius: 0px;
-  }
-  
-  ::-moz-scrollbar-thumb {
-    background-color: transparent;
-    border-radius: 0px;
-  }
+  background-color: transparent;
+  width: 0px;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0px;
+}
+
+/* Firefox */
+::-moz-scrollbar {
+  background-color: transparent;
+  min-width: 0px;
+  max-width: 0px;
+  border-radius: 0px;
+}
+
+::-moz-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 0px;
+}
 
 /*Centrar el contenido en el centro de la pantalla*/
 .loby {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-image: url("https://static.radulescu.me/examples/clouds/clouds1000.png");
+  background-repeat: repeat;
+  background-position: random;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .mainContainer {
-    background: var(--color-main-container);
+  background: var(--color-main-container);
 
-    width: 100vh;
-    height: 50vh;
+  width: 100vh;
+  height: 50vh;
 
-    border: 3px solid black;
-    
+  border: 2px solid black;
+  border-radius: 20px;
 
-    overflow: hidden;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    
-    padding-top: 30px;
-    padding-bottom: 10px;
+  overflow: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+
+  padding-top: 30px;
+  padding-bottom: 10px;
+  box-shadow: 0px 3px 6px 2px rgba(0, 0, 0, 0.703);
 }
 
 .configurationPanel {
@@ -85,7 +93,6 @@ body {
 
   width: 100%;
 
-  
   justify-content: center;
   align-items: center;
 }
@@ -93,7 +100,12 @@ body {
 .dropdown-btn {
   background-color: var(--color-button-background);
   width: 80%;
-  
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
   font-family: "Pixel";
   font-size: 35px;
   font-weight: 400;
@@ -101,6 +113,7 @@ body {
   color: #333333;
   padding: 8px;
   border: 2px solid black;
+  border-radius: 10px;
   margin: 15px;
   box-shadow: 1px 3px 7px -2px rgba(0, 0, 0, 0.703);
 }
@@ -114,7 +127,7 @@ body {
 
   background-color: var(--color-button-background);
   width: 80%;
-  
+
   font-family: "Pixel";
   font-size: 35px;
   font-weight: 400;
@@ -145,9 +158,10 @@ body {
   text-align: center;
   color: #333333;
   background-color: var(--color-buttonNivel-background);
-  
+
   border: 1px solid black;
-  
+  border-radius: 5px;
+
   padding: 8px 12px;
   text-decoration: none;
   display: block;
@@ -169,8 +183,9 @@ body {
 .panelConfig {
   z-index: 10;
   position: relative;
-  background-color: var(--color-button-background);
+  background-color: var(--color-main-container);
   border: 2px solid black;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   padding: 35px 10px 30px 10px;
@@ -204,7 +219,8 @@ body {
   cursor: pointer;
 }
 
-.close-button:before, .close-button:after {
+.close-button:before,
+.close-button:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -230,17 +246,17 @@ body {
     }
   }*/
 
-  @media (max-width: 768px) {
-    /* Estilos para tablets y dispositivos móviles */
-    .loby {
-      padding: 100px 0;
-    }
-
-    .mainContainer {
-      width: 80%;
-    }
-    .dropdown-content {
-      grid-template-columns: 1fr 1fr;
-    }
+@media (max-width: 912px) {
+  /* Estilos para tablets y dispositivos móviles */
+  .loby {
+    padding: 100px 0;
   }
 
+  .mainContainer {
+    width: 80%;
+    height: 60vh;
+  }
+  .dropdown-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}

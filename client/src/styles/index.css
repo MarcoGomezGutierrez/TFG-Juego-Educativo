@@ -1,40 +1,51 @@
 :root {
-  --color-background: #F5F5F5;
+  --color-background: #f5f5f5;
 
   /*Layout, Header*/
-  --color-header: #CCCCCC;
-  --color-button: #FF6600;
-  --color-button-hover: #FF944D;
+  --color-header: #cccccc;
+  --color-button: #ff6600;
+  --color-button-hover: #ff944d;
   --color-text: #343434;
-  
+
   /*Color de fondo de la aplicación*/
-  --color-background-loby: #9ad0e6;
+  --color-background-loby: #00f9ff;
   /*Color de fondo del contenedor central de los temarios*/
-  --color-main-container: #6ca8c7;
+  --color-main-container: #0062ff92;
   /*Color del contenedor de los Temarios*/
-  --color-button-background: #ffd56a;
+  --color-button-background: #ffc800d0;
   /*Color del botón de cada Tema*/
-  --color-buttonNivel-background: #76c8e0;
+  --color-buttonNivel-background: #00c3ffdb;
   /*Color de fondo del contenedor central de las preguntas*/
-  --color-contenedor-central-preguntas: #F5F5F5;
+  --color-contenedor-central-preguntas: #ffa600b5;
   /*Color del contenedor de cada pregunta*/
-  --color-contenedor-pregunta: #B5B5B5;
+  --color-contenedor-pregunta: #ffffffbf;
   /*Color del contenedor de selección de respuesta*/
-  --color-contenedor-respuesta: #DBDBDB;
+  --color-contenedor-respuesta: #ffffffbf;
   /*Color botón siguiente en la sección de preguntas*/
-  --color-boton-siguiente: #c5e8f3;
+  --color-boton-siguiente: #ffffffd0;
+
+  --color-respuesta-correcta: green;
+  --color-respuesta-incorrecta: red;
+
+  --color-texto-preguntas: #000000;
+  --color-texto-respuestas: #000000;
 }
 
 body {
   margin: 0;
   background-color: var(--color-background);
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
+  background-size: 100% 100%;
   color: var(--color-text);
 }
 
+button {
+  all: unset;
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
