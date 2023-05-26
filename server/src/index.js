@@ -24,9 +24,6 @@ const allowedOrigins = [
   "http://172.20.48.1:3000",
 ];
 
-const SECRET_KEY =
-  "2ae1e4c9d2f529906e37094f9ef0318a205a5339d790eff35bf9e536dd594317";
-
 const IP = process.env.SERVERIP || "192.168.0.11";
 const puerto = process.env.PORT || 443;
 

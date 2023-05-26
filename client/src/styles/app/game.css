@@ -1,8 +1,3 @@
-body {
-  background-color: #007ced;
-  background: linear-gradient(to bottom, #007ced 1%, #cce7ff 100%);
-}
-
 .mainContainerGame {
   background: var(--color-contenedor-central-preguntas);
 

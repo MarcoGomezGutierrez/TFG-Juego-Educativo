@@ -32,7 +32,6 @@ class SignUp extends React.Component {
         token,
       });
       if (response.status === 200) {
-        console.log(response.data.msg);
         window.location = "./loby";
       }
     } catch (err) {}
@@ -60,15 +59,15 @@ class SignUp extends React.Component {
         password,
       });
       if (response.status === 200) {
-        const user = {
+        /*const user = {
           token: response.data.token,
           username: response.data.username,
           email: response.data.email,
           id: response.data.id,
           msg: response.data.msg,
-        };
-        localStorage.setItem("user", JSON.stringify(user));
-        window.location = "./loby";
+        };*/
+        //localStorage.setItem("user", JSON.stringify(user));
+        window.location = `/verification`;
       } else {
         this.setState({ error: true });
       }

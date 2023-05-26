@@ -1,8 +1,7 @@
-import React, { useEffect, useState} from "react";
-import { ReactComponent as IconoWebSvg } from '../image/icons/icono-web.svg';
-import { Outlet, Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { ReactComponent as IconoWebSvg } from "../image/icons/icono-web.svg";
+import { Outlet, Link } from "react-router-dom";
 import "../styles/layout/header.css";
-
 
 function Header() {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -25,19 +24,30 @@ function Header() {
 
   return (
     <>
-      <header className={`navbar ${
-          showHeader === true ? "fade-out-down" : showHeader === false ? "fade-out-up" : ""
-        }`}>
-        <IconoWebSvg className="item icon-web"/>
+      <header
+        className={`navbar ${
+          showHeader === true
+            ? "fade-out-down"
+            : showHeader === false
+            ? "fade-out-up"
+            : ""
+        }`}
+      >
+        <Link className="item" to="/">
+          <IconoWebSvg className="item icon-web" />
+        </Link>
         <div className="item">
-          <Link to="/sign-in" className="underline-animation">Iniciar Sesión</Link>
-          <Link to="/sign-up" className="buttonHeader">Registrarse</Link>
+          <Link to="/sign-in" className="underline-animation">
+            Iniciar Sesión
+          </Link>
+          <Link to="/sign-up" className="buttonHeader">
+            Registrarse
+          </Link>
         </div>
       </header>
-      <Outlet/>
+      <Outlet />
     </>
   );
-  
 }
 
 export default Header;

@@ -576,6 +576,27 @@ pm2 ls
 
   ![pm2-ls](readme-image/pm2-connection.PNG)
 
+## Contraseñas de aplicación (Gestión de correo electrónico)
+
+- Página web para gestión de correos: [Nodemailer](https://nodemailer.com/about/)
+
+- Para realizar esto hay que iniciar sesión en Google y activar la verificación en dos pasos.
+
+- Una vez activada la verificación en dos pasos hay que crear una contraseña de aplición. Simplemente desde el panel de Gestionar tu cuenta de Google buscamos en la lupa:
+
+  ```
+  Contraseñas de aplicaciones
+  ```
+
+  ![gestion-contraseñas](readme-image/contrase%C3%B1as-aplicacion-google.PNG)
+
+  - Seleccionar otro nombre:
+    ![otro-nombre](readme-image/otro-nombre.PNG)
+  - En mi caso puse adminAPI y le damos a Generar:
+    ![nombre-api](readme-image/admin-API.PNG)
+  - Y genera una contraseña que debemos guardar:
+    ![contraseña-copiar](readme-image/copiar-contrase%C3%B1a.png)
+
 ## Gestionar Paquetes de Instalación
 
 - Librerias Cliente:
@@ -665,6 +686,8 @@ pm2 ls
   npm install https
   ```
 
-```
+- Nodemailer para enviar correos electronicos:
 
-```
+  ```
+  npm install nodemailer
+  ```

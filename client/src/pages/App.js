@@ -6,6 +6,7 @@ import Home from "./Home.js";
 import Loby from "./Loby.js";
 import Game from "./Game.js";
 import Edit from "./Edit.js";
+import Verification from "./Verification.js";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/loby" element={<Loby />} />
         <Route path="/edit" element={<Edit />} />
+        <Route path="/verification" element={<Verification />} />
         <Route path="/game/:id" element={<Game />} />
       </Routes>
     </BrowserRouter>

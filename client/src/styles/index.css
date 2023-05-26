@@ -33,7 +33,7 @@
 
 body {
   margin: 0;
-  background-color: var(--color-background);
+  /*background-color: var(--color-background);*/
   font-family: "Roboto", sans-serif;
   font-weight: 500;
   background-size: 100% 100%;
