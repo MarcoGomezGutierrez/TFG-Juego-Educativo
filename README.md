@@ -597,6 +597,20 @@ pm2 ls
   - Y genera una contraseña que debemos guardar:
     ![contraseña-copiar](readme-image/copiar-contrase%C3%B1a.png)
 
+## Configuración de DNS:
+
+- Para configurar una DNS hay que ir a Lightsail, ir al apartado HOME y luego a Domains & DNS. Le damos a Create DNS zone. Ponemos el nombre del dominio que queremos tener:
+
+![contraseña-copiar](readme-image/dns.png)
+
+- Luego hay que clicar en el apartado que dice DNS records y agregar la IP de nuestro sitio:
+
+![contraseña-copiar](readme-image/dns-registration.png)
+
+En este caso hemos puesto que la ruta de trafico es A record que utiiza IPv4 para gestionar el trafico de rutas. Y subdominio debe ser www, por último la IP debe ser la de nuestro debian. Y le damos a guardar.
+
+![contraseña-copiar](readme-image/dns-trafic.png)
+
 ## Gestionar Paquetes de Instalación
 
 - Librerias Cliente:
