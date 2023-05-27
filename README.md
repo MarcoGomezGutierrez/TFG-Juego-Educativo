@@ -611,6 +611,263 @@ En este caso hemos puesto que la ruta de trafico es A record que utiiza IPv4 par
 
 ![contraseña-copiar](readme-image/dns-trafic.png)
 
+- Permitir Bitnami para la creación de un certificado para poder utilizar https:
+
+  ```
+  sudo apt-get update
+  sudo apt-get install gnome-core
+  ```
+
+1. Intalar nginx y ufw para configurar el puerto del firewall HTTPS (443). [Cómo instalar Nginx en Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/como-instalar-nginx-en-ubuntu-18-04-es) (Debian 10 en nuestro caso, pero es igual) [Debian 10](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-10):
+
+```
+sudo apt update
+```
+
+```
+sudo apt install nginx
+```
+
+![contraseña-copiar](readme-image/proxy1.png)
+
+```
+sudo apt install ufw
+```
+
+![contraseña-copiar](readme-image/proxy2.png)
+
+Luego, puedes configurar las reglas de firewall según tus necesidades específicas. Por ejemplo, puedes permitir el tráfico para servicios como SSH, HTTP o HTTPS con los siguientes comandos:
+
+```
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
+```
+
+![contraseña-copiar](readme-image/proxy3.png)
+
+Ver la lista de aplicaciones disponibles que se puedan utilizar ufw y hay que ver las de nginx.
+
+```
+sudo ufw app list
+```
+
+![contraseña-copiar](readme-image/proxy4.png)
+
+Verificar que Nginx esta conectado correctamente:
+
+```
+systemctl status nginx
+```
+
+![contraseña-copiar](readme-image/proxy5.png)
+
+Puedes probar en el navegador poniendo tu IP pública si esta funcionando correctamente.
+
+![contraseña-copiar](readme-image/proxy6.png)
+
+```
+sudo mkdir -p /var/www/tfgprimary.ddns.net/html
+sudo chown -R $USER:$USER /var/www/tfgprimary.ddns.net/html
+sudo chmod -R 755 /var/www/tfgprimary.ddns.net
+nano /var/www/tfgprimary.ddns.net/html/index.html
+```
+
+Para que Nginx le proporcione servicios a este contenido, se debe crear un bloque del servidor usando las directivas correctas. En vez de modificar el archivo de configuración predeterminado directamente, vamos a hacer uno nuevo en /etc/nginx/sites-available/tfgprimary.ddns.net:
+
+```
+<html>
+    <head>
+        <title>Welcome to tfgprimary.ddns.net!</title>
+    </head>
+    <body>
+        <h1>Success!  The tfgprimary.ddns.net server block is working!</h1>
+    </body>
+</html>
+```
+
+```
+sudo nano /etc/nginx/sites-available/tfgprimary.ddns.net
+```
+
+Pegue el siguiente bloque de configuración, el cual se parece al predeterminado, pero que se ha actualizado para nuestro nuevo directorio y nombre de dominio:
+
+```
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/tfgprimary.ddns.net/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name tfgprimary.ddns.net www.tfgprimary.ddns.net;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+```
+
+Después, vamos a habilitar el archivo creando un enlace desde el mismo al directorio sites-enabled (habilitado para sitios), el cual Nginx usa para leer durante el inicio:
+
+```
+sudo ln -s /etc/nginx/sites-available/tfgprimary.ddns.net /etc/nginx/sites-enabled/
+```
+
+Solamente debe ajustar un solo valor en el archivo /etc/nginx/nginx.conf para evitar un posible problema de memoria de hash bucket, el que puede surgir al agregar nombres de servidores adicionales. Abra el archivo:
+
+```
+sudo nano /etc/nginx/nginx.conf
+```
+
+Busque la directiva server_names_hash_bucket_size y quite el símbolo # para descomentar la línea:
+
+```
+http {
+    ...
+    server_names_hash_bucket_size 64;
+    ...
+}
+```
+
+![contraseña-copiar](readme-image/proxy7.png)
+
+2. [Cómo configurar una aplicación de Node.js para producción en Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/como-configurar-una-aplicacion-de-node-js-para-produccion-en-ubuntu-18-04-es):
+
+Instalar node y npm en su sistema. Si ha seguido los pasos anteriores no hace falta instalar node ni npm.
+
+Para que algunos paquetes de npm funcionen (por ejemplo, aquellos para los cuales se seba compilar código de una fuente), deberá instalar el paquete build-essential:
+
+```
+sudo apt install build-essential
+```
+
+3. Instalar pm2 o si lo tienes instalado y configurado seguir estos pasos:
+
+Cambiar el puerto
+
+```
+PUERTO: 3000
+```
+
+```
+pm2 start index.js
+```
+
+```
+sudo systemctl start pm2-admin
+```
+
+```
+systemctl status pm2-admin
+```
+
+Comprobar conexión:
+
+```
+curl http://172.26.2.23:3000
+```
+
+4. Cnfigurar Nginx como servidor proxy inverso:
+
+```
+sudo nano /etc/nginx/sites-available/tfgprimary.ddns.net
+```
+
+Cambiar el contenido de location para que nginx sepa cual es nuestro servidor y levantarlo:
+
+```
+server {
+...
+    location / {
+        proxy_pass http://172.26.2.3:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+...
+}
+```
+
+Verificar el código para prevenir errores de sintaxis:
+
+```
+sudo nginx -t
+```
+
+Reiniciar nginx para que levante la nueva instancia:
+
+```
+sudo systemctl restart nginx
+```
+
+Ya podemos acceder a nuestra API con el nombre de nuestro dominio:
+
+```
+tfgprimary.ddns.net
+```
+
+![contraseña-copiar](readme-image/proxy8.png)
+
+6. Configuración de Cerbot certificado gratis con Let's Encrypt
+
+```
+sudo apt update
+sudo apt install certbot
+sudo apt install python3-certbot-nginx
+```
+
+Crear el certificado firmado por Let's Encrypt verificando el dominio (te pedira que ingreses los datos necesarios para crear el certificado):
+
+```
+sudo certbot --nginx -d tfgprimary.ddns.net -d tfgprimary.ddns.net
+```
+
+```
+admin@ip-172-26-2-23:~$ sudo certbot --nginx -d tfgprimary.ddns.net -d tfgprimary.ddns.net
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator nginx, Installer nginx
+Obtaining a new certificate
+Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/tfgprimary.ddns.net
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/tfgprimary.ddns.net
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations! You have successfully enabled https://tfgprimary.ddns.net
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=tfgprimary.ddns.net
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/tfgprimary.ddns.net/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/tfgprimary.ddns.net/privkey.pem
+   Your cert will expire on 2023-08-25. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```
+
+Cerbot ya se ancarga de realizar los cambios necesarios en nuestro servidor y redirige todo el tráfico a https.
+
+![contraseña-copiar](readme-image/proxy11.png)
+
 ## Gestionar Paquetes de Instalación
 
 - Librerias Cliente:
