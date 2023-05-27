@@ -847,7 +847,7 @@ Congratulations! You have successfully enabled https://tfgprimary.ddns.net
 
 You should test your configuration at:
 https://www.ssllabs.com/ssltest/analyze.html?d=tfgprimary.ddns.net
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 IMPORTANT NOTES:
  - Congratulations! Your certificate and chain have been saved at:
