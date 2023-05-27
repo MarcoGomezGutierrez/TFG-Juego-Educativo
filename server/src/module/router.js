@@ -12,6 +12,9 @@ const SECRET_KEY =
   process.env.SECRET_KEY ||
   "c60b50511cd15feebbd52bb7f73bd45e17a99f9754be336551066c49033b1b43";
 
+const REDIRECT =
+  process.env.REDIRECT || "https://main.d30sq375nx7964.amplifyapp.com";
+
 router.get("/users", (req, res) => {
   db.query("SELECT * FROM users", (error, results, fields) => {
     if (error) throw error;
@@ -129,10 +132,24 @@ router.get("/verificacion", (req, res) => {
     const password = decoded.password;
     try {
       db.query(
-        `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
-        [username, email, password]
+        `SELECT * FROM users WHERE username = ? || email = ?;`,
+        [username, email],
+        (err, result) => {
+          // Usuario no existe
+          if (err) {
+            return res.status(400).send({
+              msg: err,
+            });
+          }
+          if (!result.length) {
+            db.query(
+              `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`,
+              [username, email, password]
+            );
+          }
+        }
       );
-      res.redirect("http://localhost:3000/sign-in");
+      res.redirect(REDIRECT);
     } catch (err) {
       res.send("Error de verificación");
     }

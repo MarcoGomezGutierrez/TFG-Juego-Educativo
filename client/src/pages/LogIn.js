@@ -32,7 +32,7 @@ class LogIn extends Component {
       });
       if (response.status === 200) {
         console.log(response.data.msg);
-        window.location = "./loby";
+        window.location = "/loby";
       }
     } catch (err) {}
   }
@@ -67,7 +67,7 @@ class LogIn extends Component {
           msg: response.data.msg,
         };
         localStorage.setItem("user", JSON.stringify(user));
-        window.location = "./loby";
+        window.location = "/loby";
       } else {
         this.setState({ error: true });
       }
