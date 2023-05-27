@@ -1,7 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const https = require("https");
-const fs = require("fs");
 const router = require("./module/router");
 const { verification } = require("./module/verification");
 const game = require("./module/game");
@@ -10,19 +8,23 @@ require("dotenv").config();
 
 const connection = require("./module/connection");
 
-/* Lectura del certificado */
-const privateKey = fs.readFileSync("./certificate/privatekey.pem", "utf8");
-const certificate = fs.readFileSync("./certificate/certificate.pem", "utf8");
-const credentials = { key: privateKey, cert: certificate };
+const NODE_ENV = process.env.NODE_ENV || "development";
 
 const app = express();
 
+let allowedOrigins;
+
+if (NODE_ENV === "development") {
+  allowedOrigins = [
+    "http://localhost:3000",
+    "http://192.168.0.11:3000",
+    "http://172.20.48.1:3000",
+  ];
+} else {
+  allowedOrigins =
+    process.env.CLIENT_DOMAIN || "https://main.d30sq375nx7964.amplifyapp.com";
+}
 //Permitir direcciones y dominios
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://192.168.0.11:3000",
-  "http://172.20.48.1:3000",
-];
 
 const IP = process.env.SERVERIP || "192.168.0.11";
 const puerto = process.env.PORT || 443;
@@ -72,9 +74,7 @@ app.get("*", function (req, res) {
   res.status(404).send("Error 404 - Recurso no encontrado");
 });
 
-const httpsServer = https.createServer(credentials, app);
-
 // Inicia el servidor en el puerto 8080
-httpsServer.listen(puerto, IP, () => {
-  console.log(`Servidor iniciado https://${IP}:${puerto}/`);
+app.listen(puerto, IP, () => {
+  console.log(`Servidor iniciado http://${IP}:${puerto}/`);
 });

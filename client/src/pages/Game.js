@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { ReactComponent as IconoSvg } from "../image/icons/icono-image.svg";
 import "../styles/app/game.css";
 import { useLocation } from "react-router-dom";
-//import { encryptDataJson, decryptDataJson } from '../other/encrypt';
+import { encryptDataJson, decryptDataJson } from "../other/encrypt";
 import { Outlet, Link } from "react-router-dom";
 import Matematicas from "../other/Matematicas";
 import { methodMap } from "../other/mathMethods.js";
@@ -65,8 +65,8 @@ function Game(porps) {
       idPreguntasFalladas: idPreguntasFalladas,
       idPreguntasAcertadas: idPreguntasAcertadas,
     };
-    //return encryptDataJson(data);
-    return JSON.stringify(data);
+    return encryptDataJson(data);
+    //return JSON.stringify(data);
   };
 
   useEffect(() => {
@@ -74,8 +74,14 @@ function Game(porps) {
     const respuestaGuardada = localStorage.getItem(`${temario + nivel}`);
     if (respuestaGuardada) {
       // Si habia una pregunta ya realizada cargarla
-      //const jsonResponse = decryptDataJson(respuestaGuardada);
-      const jsonResponse = JSON.parse(respuestaGuardada);
+      let jsonResponse;
+      try {
+        jsonResponse = decryptDataJson(respuestaGuardada);
+      } catch (err) {
+        localStorage.removeItem(`${temario + nivel}`);
+        window.location.reload();
+      }
+      //const jsonResponse = JSON.parse(respuestaGuardada);
       setPreguntaActual(jsonResponse.preguntaActual);
       setHoverEnabled(jsonResponse.hover);
       setRespuestaSeleccionada(jsonResponse.respuestaSeleccionada);
@@ -97,8 +103,13 @@ function Game(porps) {
       let jsonResponse = "";
       if (respuestaGuardada) {
         // Compruebo que exista el elemento en el Local Storage
-        //jsonResponse = decryptDataJson(respuestaGuardada);
-        jsonResponse = JSON.parse(respuestaGuardada);
+        try {
+          jsonResponse = decryptDataJson(respuestaGuardada);
+        } catch (err) {
+          localStorage.removeItem(`${temario + nivel}`);
+          window.location.reload();
+        }
+        //jsonResponse = JSON.parse(respuestaGuardada);
         if (jsonResponse.mostrarNumeroAleatorio) {
           // Y guardar los estados en caso de tener, si recargas tienes que almacenarlos
           setMostrarNumeroAleatorio(jsonResponse.mostrarNumeroAleatorio);
@@ -202,8 +213,13 @@ function Game(porps) {
       let jsonResponse = "";
       if (respuestaGuardada) {
         // Compruebo que exista el elemento en el Local Storage
-        //jsonResponse = decryptDataJson(respuestaGuardada);
-        jsonResponse = JSON.parse(respuestaGuardada);
+        try {
+          jsonResponse = decryptDataJson(respuestaGuardada);
+        } catch (err) {
+          localStorage.removeItem(`${temario + nivel}`);
+          window.location.reload();
+        }
+        //jsonResponse = JSON.parse(respuestaGuardada);
       } // Verifico que no haya guardado ya un respuesta, si existe salgo y no sigo
       localStorage.setItem(
         `${temario + nivel}`,
@@ -340,13 +356,13 @@ function Game(porps) {
   };
 
   // Pinta en blanco en caso de no tener 4 respuestas
-  const preguntasNivel = (pregunta, value, letter, color) => {
+  const preguntasNivel = (pregunta, value, letter, color, index) => {
     if (answers.length !== 0 && answers[value])
       pregunta.respuestas[value].respuesta = answers[value];
     if (pregunta.respuestas[value].respuesta !== "") {
       return (
         <button
-          key={value}
+          key={index}
           className={`respuesta ${
             hoverEnabled ? "respuesta-hover" : ""
           } ${detectarCorrecta(pregunta.respuestas[value])}`}
@@ -375,7 +391,7 @@ function Game(porps) {
           </p>
         </button>
       );
-    } else return <></>; //Devolver campo vacio, no hay respuesta
+    } else return null; //Devolver campo vacio, no hay respuesta
   };
 
   const ImageContainer = ({ imageUrl, onClose }) => {
@@ -431,11 +447,15 @@ function Game(porps) {
       setHandleSort(false);
       setIndices([...indices.sort(() => Math.random() - 0.5)]); //Desordenar los índices
     }
+    const text = pregunta.pregunta;
+
     const filteredIndices = indices.filter(
-      (index) => pregunta.respuestas[index].respuesta !== ""
+      (index) =>
+        pregunta.respuestas[index].respuesta !== "" ||
+        (temario === "Matemáticas" && text.match(/(\$.*?\$)/) !== null)
     );
     // Buscar el símbolo ~ para subrayar el texto
-    const text = pregunta.pregunta;
+
     var highlightedText = text
       .replace(/~(.*?)~/g, '<span class="highlighted">$1</span>') // Subrayado
       .replace(/\*(.*?)\*/g, '<strong class="highlightedBold">$1</strong>') // Negrita (Subrayado por el tipo de letra)
@@ -464,7 +484,7 @@ function Game(porps) {
           {filteredIndices.map((value, index) => {
             const letter = letters[index];
             const color = colors[index];
-            return preguntasNivel(pregunta, value, letter, color);
+            return preguntasNivel(pregunta, value, letter, color, index);
           })}
         </div>
         {respuestaSeleccionada !== null && (
