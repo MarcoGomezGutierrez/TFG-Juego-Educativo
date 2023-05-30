@@ -66,7 +66,7 @@ router.post("/incorrectas", (req, res) => {
 });
 
 /**
- * Eliminación de las preguntas de repaso que el usario acierte
+ * Eliminación de las preguntas de repaso que el usuario acierte
  */
 router.delete("/preguntas-repaso", (req, res) => {
   const { token, idPreguntasAcertadas } = req.query;
@@ -124,9 +124,9 @@ router.get("/temarios-agrupados", (req, res) => {
   });
 });
 
-/* Respuesta para comprobar datos rapidamente */
+/* Respuesta para comprobar datos rápidamente */
 if (process.env.NODE_ENV === "development") {
-  // Solo en entorno de desarrollo, nunca en produccion
+  // Solo en entorno de desarrollo, nunca en producción
   router.get("/test", (req, res) => {
     const id_user = 7;
 

@@ -11,10 +11,151 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 │       └── 🗎 index.html
 |   └── 📁 src
 |       └── 📁 components
+|           ├── 🗎 BarraHistorial.js
 |           ├── 🗎 Footer.js
 |           ├── 🗎 Header.js
+|           ├── 🗎 home.components.js
 |           └── 🗎 Layout.js
+|       └── 📁 data
+|           ├── 🗎 config.json
+|           ├── 🗎 home.data.json
+|           └── 🗎 math.json
 |       └── 📁 image
+|           └── 📁 icons
+|               ├── 🗎 icon-book.svg
+|               ├── 🗎 icono-image.svg
+|               ├── 🗎 icon-web.svg
+|               ├── 🗎 imagen.svg
+|               └── 🗎 primary.svg
+|           └── 📁 preguntas
+|               ├── 🗎 1.10.paintpictures.webp
+|               ├── 🗎 1.14.Ashley-yes.webp
+|               ├── 🗎 1.15.Alex-not.webp
+|               ├── 🗎 1.16.Alex-yes.webp
+|               ├── 🗎 1.17.Ashley-not.webp
+|               ├── 🗎 1.1playgames.webp
+|               ├── 🗎 1.2.listentomusic.webp
+|               ├── 🗎 1.3.webp
+|               ├── 🗎 1.4.Makethings.webp
+|               ├── 🗎 1.5.watchfilms.webp
+|               ├── 🗎 1.6.takephotos.webp
+|               ├── 🗎 1.7.helppeople.webp
+|               ├── 🗎 1.8.dosports.webp
+|               ├── 🗎 1.9.goonexcursions.webp
+|               ├── 🗎 1.collectingshells.webp
+|               ├── 🗎 1.dive.webp
+|               ├── 🗎 1.fruitjuice.webp
+|               ├── 🗎 1.getup.webp
+|               ├── 🗎 1.tortoise.webp
+|               ├── 🗎 10.gotobed.webp
+|               ├── 🗎 10.hamster.webp
+|               ├── 🗎 10.icecream.webp
+|               ├── 🗎 10.lyingintheshade.webp
+|               ├── 🗎 10.row.webp
+|               ├── 🗎 11.banana.webp
+|               ├── 🗎 11.playfootball.webp
+|               ├── 🗎 11.playingtag.jpg
+|               ├── 🗎 12.cookie.webp
+|               ├── 🗎 12.playbasketball.webp
+|               ├── 🗎 12.playinghopscotch.webp
+|               ├── 🗎 13.apple.webp
+|               ├── 🗎 13.playinghideandseek.webp
+|               ├── 🗎 13.swim.webp
+|               ├── 🗎 14.cheese.webp
+|               ├── 🗎 14.dance.webp
+|               ├── 🗎 14.playingcards.webp
+|               ├── 🗎 15.icelolly.webp
+|               ├── 🗎 15.playtennis.webp
+|               ├── 🗎 16.Alex-yes.webp
+|               ├── 🗎 16.vegetablesticks.webp
+|               ├── 🗎 17.Ashley-not.webp
+|               ├── 🗎 17.fruitsalad.webp
+|               ├── 🗎 18.Alex-not.webp
+|               ├── 🗎 19.Ashley-yes.webp
+|               ├── 🗎 2.havebreakfast.webp
+|               ├── 🗎 2.makingasandcastle.webp
+|               ├── 🗎 2.rabbit.webp
+|               ├── 🗎 2.sandwich.webp
+|               ├── 🗎 2.tabletennis.webp
+|               ├── 🗎 20.Alex-yes.webp
+|               ├── 🗎 20.walkonthespot.webp
+|               ├── 🗎 21.Ashley-not.webp
+|               ├── 🗎 21.turnaround.webp
+|               ├── 🗎 22.touchyourtoes.webp
+|               ├── 🗎 23.rollyourarms.webp
+|               ├── 🗎 24.tapyourlegs.webp
+|               ├── 🗎 25.stretch.webp
+|               ├── 🗎 3.brushyourteeth.webp
+|               ├── 🗎 3.dokarate.webp
+|               ├── 🗎 3.playingvolleyball.webp
+|               ├── 🗎 3.tiger.webp
+|               ├── 🗎 3.water.webp
+|               ├── 🗎 4.chicken.webp
+|               ├── 🗎 4.dojudo.webp
+|               ├── 🗎 4.frog.webp
+|               ├── 🗎 4.gotoschool.webp
+|               ├── 🗎 4.playingfrisbee.webp
+|               ├── 🗎 5.cocodrile.webp
+|               ├── 🗎 5.havelunch.webp
+|               ├── 🗎 5.playingwitharacket.webp
+|               ├── 🗎 5.rideabike.webp
+|               ├── 🗎 5.salad.webp
+|               ├── 🗎 6.gohome.webp
+|               ├── 🗎 6.Lion.webp
+|               ├── 🗎 6.rideahorse.webp
+|               ├── 🗎 6.swimminginthesea.webp
+|               ├── 🗎 6.yoghurt.jpg
+|               ├── 🗎 7.crisp.webp
+|               ├── 🗎 7.fish.webp
+|               ├── 🗎 7.fishing.webp
+|               ├── 🗎 7.havedinner.webp
+|               ├── 🗎 7.skateboard.webp
+|               ├── 🗎 8.chocolate.webp
+|               ├── 🗎 8.haveashower.webp
+|               ├── 🗎 8.rollerblade.webp
+|               ├── 🗎 8.snorkelling.webp
+|               ├── 🗎 8cat.webp
+|               ├── 🗎 9.bird.webp
+|               ├── 🗎 9.iceskate.webp
+|               ├── 🗎 9.putonyourpyjama (1).webp
+|               ├── 🗎 9.puttingonsuncream.webp
+|               ├── 🗎 9.strawberries.webp
+|               ├── 🗎 angulo-agudo.webp
+|               ├── 🗎 angulo-obtuso.webp
+|               ├── 🗎 angulo-recto.webp
+|               ├── 🗎 angulo.webp
+|               ├── 🗎 arista.webp
+|               ├── 🗎 base.webp
+|               ├── 🗎 cara.webp
+|               ├── 🗎 cilindro.webp
+|               ├── 🗎 circunferencia.webp
+|               ├── 🗎 cono.webp
+|               ├── 🗎 cuadrado.webp
+|               ├── 🗎 esfera.webp
+|               ├── 🗎 heptagono.webp
+|               ├── 🗎 hexagono.webp
+|               ├── 🗎 lado.webp
+|               ├── 🗎 octagono.webp
+|               ├── 🗎 paralelogramo.webp
+|               ├── 🗎 pentagono.webp
+|               ├── 🗎 perpendiculares.webp
+|               ├── 🗎 piramide-hexagonal.webp
+|               ├── 🗎 piramide-triangular.webp
+|               ├── 🗎 prisma-cuadrangular.webp
+|               ├── 🗎 prisma-pentagonal.webp
+|               ├── 🗎 rectas_paralelas.webp
+|               ├── 🗎 secante.webp
+|               ├── 🗎 segmento.webp
+|               ├── 🗎 simetria.webp
+|               ├── 🗎 trapecio.webp
+|               ├── 🗎 trapezoide.webp
+|               ├── 🗎 traslacion.webp
+|               ├── 🗎 triangulo-equilatero.webp
+|               ├── 🗎 triangulo-escaleno.webp
+|               ├── 🗎 triangulo-isosceles.webp
+|               ├── 🗎 triangulo.webp
+|               ├── 🗎 vertice.webp
+|               └── 🗎 verticesPrisma.webp
 |           ├── 🗎 04B_30__.TTF
 |           ├── 🗎 background.jpg
 |           ├── 🗎 gear.png
@@ -22,19 +163,23 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 |           └── 🗎 upheavtt.ttf
 |       └── 📁 other
 |           ├── 🗎 encrypt.js
-|           └── 🗎 generateKey.js
+|           ├── 🗎 generateKey.js
+|           ├── 🗎 Matematicas.js
+|           └── 🗎 mathMethods.js
 |       └── 📁 pages
 |           ├── 🗎 App.js
 |           ├── 🗎 Edit.js
 |           ├── 🗎 Game.js
 |           ├── 🗎 Home.js
 |           ├── 🗎 Loby.js
-|           ├── 🗎 SignIn.js
-|           └── 🗎 SignUp.js
+|           ├── 🗎 LogIn.js
+|           ├── 🗎 SignUp.js
+|           └── 🗎 Verification.js
 |       └── 📁 styles
 |           └── 📁 app
 |               ├── 🗎 edit.css
 |               ├── 🗎 game.css
+|               ├── 🗎 home.css
 |               └── 🗎 loby.css
 |           └── 📁 layout
 |               ├── 🗎 footer.css
@@ -43,6 +188,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 |           ├── 🗎 index.css
 |           └── 🗎 log.css
 |       └── 🗎 index.js
+│   ├── 🗎 .dockerignore
 │   ├── 🗎 Dockerfile
 │   ├── 🗎 package-lock.json
 |   └── 🗎 package.json
@@ -51,6 +197,9 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 |   └── 🗎 ...
 ├── 📁 server
 |   └── 📁 src
+|       └── 📁 config
+|           ├── 🗎 mailer.js
+|           └── 🗎 mailer.test.js
 |       └── 📁 db
 |           └── 📁 export
 |               └── 🗎 database.sql
@@ -120,7 +269,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
     mysql -u root -p tfg_database
     ```
 
-    - Te pedira la contraseña para verificar tu identidaz
+    - Te pedirá la contraseña para verificar tu identidad
 
 - Servidor:
 
@@ -218,7 +367,7 @@ Proyecto desarrollado en el segundo semestre de cuarto año de Ingeniería Infor
 
 - Amazon Lightsail(creación de una máquina virtual con Debian):
 
-Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estatica para que cada vez que se reinicie el servidor no cambie la IP.
+Lo primero que hay que hacer es crear una máquina con Debian, y configurar una IP estática para que cada vez que se reinicie el servidor no cambie la IP.
 
 Los pasos a seguir posteriormente es configurar la terminal del servidor:
 
@@ -246,7 +395,7 @@ curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 
 ```
 
-- Despues te pedira instalar el gestor de paquetes npm:
+- Después te pedirá instalar el gestor de paquetes npm:
 
 ```
 
@@ -290,7 +439,7 @@ En la siguiente imagen se puede ver como libcap ya viene instalado en nuestro si
 
 ![escuchar-puertos-inferiores-1024](readme-image/escuchar-puertos.PNG)
 
-A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuvieramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automaticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
+A continuación, no ejecutaremos la aplicación normal como solemos hacer con Node.js "npm start", "node index.js", etc. Instalaremos un módulo de Node.js llamado pm2. Pm2 es un gestor de procesos para producción, nos permite ejecutar nuestra aplicación como si estuviéramos en local pero nos garantiza que si nuestro servidor se cae o se reinicia, o ocurra algún error que nos haga que nuestra aplicación se caiga, nos levante automáticamente nuestro servidor. Añadiremos -g al final para especificar que se instale de manera Global.
 
 ```
 
@@ -298,7 +447,7 @@ sudo npm install pm2 -g
 
 ```
 
-Podemos poner el siguiente comando para ver los procesos que esten en ejecución. Por ahora no hay ningún proceso activo:
+Podemos poner el siguiente comando para ver los procesos que estén en ejecución. Por ahora no hay ningún proceso activo:
 
 ```
 
@@ -308,7 +457,7 @@ pm2 ls
 
 ![pm2-ls](readme-image/pm2-ls.PNG)
 
-- Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejute automáticamente en tu sistema.
+- Comando para que pm2 te de el comando que tienes que ejecutar para que se pm2 se ejecute automáticamente en tu sistema.
 
   ```
   pm2 startup
@@ -354,7 +503,7 @@ pm2 ls
   sudo dpkg -i mysql-apt-config_0.8.18-1_all.deb
   ```
 
-  Cambiar la version de MySQL, por default aparecera la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
+  Cambiar la version de MySQL, por default aparecerá la 8.0 y hay que cambiarlo a la 5.7 que es la que yo estoy usando en mi Base de Datos (Yo ya lo hice antes de hacer las capturas):
 
   ![configuracion-version-mysql](readme-image/configurar-mysql-1.PNG)
 
@@ -388,17 +537,17 @@ pm2 ls
   sudo apt update
   ```
 
-  Y ya estara configurado las claves:
+  Y ya estará configurado las claves:
 
   ![actualizar-paquetes-mysql](readme-image/keys-actualizadas.PNG)
 
-  Instalar MySQL server y te pedira configurar usuario y contraseña de la Base de Datos:
+  Instalar MySQL server y te pedirá configurar usuario y contraseña de la Base de Datos:
 
   ```
   sudo apt install -y mysql-community-server
   ```
 
-  Te pedira introducirla dos veces para que se verifique:
+  Te pedirá introducirla dos veces para que se verifique:
 
   ![password-mysql](readme-image/root-password.PNG)
 
@@ -432,7 +581,7 @@ pm2 ls
 
   ![configuracion-mysql](readme-image/configuracion-mysql.PNG)
 
-  Ya puedes usar MySQL (siempre te pedira la contraseña):
+  Ya puedes usar MySQL (siempre te pedirá la contraseña):
 
   ```
   mysql -u root -p
@@ -474,13 +623,13 @@ pm2 ls
 
   ![crear-base-datos](readme-image/crear-base-de-datos.PNG)
 
-  Exportar en MySQL Workbench un fichero unico para exportar la Base de Datos:
+  Exportar en MySQL Workbench un fichero único para exportar la Base de Datos:
 
   Ubicado en Server, Data Export. Seleccionar (Export to Self-Contained File) clicar en el Checkbox que dice (Create Dump in Single Transaction) y exportar:
 
   ![exportar-base-datos](readme-image/exportar-base-datos.PNG)
 
-  Ubicarte en la siguiente direccion (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
+  Ubicarte en la siguiente dirección (admin@ip-172-26-2-23:~/TFG-Juego-Educativo/server/src/db/export) e importar la base de datos con el siguiente comando:
 
   ```
   mysql -u root -p tfg_database < database.sql
@@ -546,7 +695,7 @@ pm2 ls
   touch .env
   ```
 
-  Editar el archivo cambiando IPs, Puertos, Contraseñas, Usarios, etc.:
+  Editar el archivo cambiando IPs, Puertos, Contraseñas, Usuarios, etc.:
 
   **- Importante: El archivo .env no puede tener espacios entre "=", saltos de línea, ect. El formato del documento tiene que estar todo junto, sino dejara de funcionar y el servidor no encontrara el archivo .env**
 
@@ -582,7 +731,7 @@ pm2 ls
 
 - Para realizar esto hay que iniciar sesión en Google y activar la verificación en dos pasos.
 
-- Una vez activada la verificación en dos pasos hay que crear una contraseña de aplición. Simplemente desde el panel de Gestionar tu cuenta de Google buscamos en la lupa:
+- Una vez activada la verificación en dos pasos hay que crear una contraseña de aplicación. Simplemente desde el panel de Gestionar tu cuenta de Google buscamos en la lupa:
 
   ```
   Contraseñas de aplicaciones
@@ -607,18 +756,11 @@ pm2 ls
 
 ![contraseña-copiar](readme-image/dns-registration.png)
 
-En este caso hemos puesto que la ruta de trafico es A record que utiiza IPv4 para gestionar el trafico de rutas. Y subdominio debe ser www, por último la IP debe ser la de nuestro debian. Y le damos a guardar.
+En este caso hemos puesto que la ruta de trafico es A record que utilizar IPv4 para gestionar el trafico de rutas. Y subdominio debe ser www, por último la IP debe ser la de nuestro debian. Y le damos a guardar.
 
 ![contraseña-copiar](readme-image/dns-trafic.png)
 
-- Permitir Bitnami para la creación de un certificado para poder utilizar https:
-
-  ```
-  sudo apt-get update
-  sudo apt-get install gnome-core
-  ```
-
-1. Intalar nginx y ufw para configurar el puerto del firewall HTTPS (443). [Cómo instalar Nginx en Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/como-instalar-nginx-en-ubuntu-18-04-es) (Debian 10 en nuestro caso, pero es igual) [Debian 10](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-10):
+1. Instalar nginx y ufw para configurar el puerto del firewall HTTPS (443). [Cómo instalar Nginx en Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/como-instalar-nginx-en-ubuntu-18-04-es) (Debian 10 en nuestro caso, pero es igual) [Debian 10](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-10):
 
 ```
 sudo apt update
@@ -736,7 +878,7 @@ http {
 
 Instalar node y npm en su sistema. Si ha seguido los pasos anteriores no hace falta instalar node ni npm.
 
-Para que algunos paquetes de npm funcionen (por ejemplo, aquellos para los cuales se seba compilar código de una fuente), deberá instalar el paquete build-essential:
+Para que algunos paquetes de npm funcionen (por ejemplo, aquellos para los cuales se va a compilar código de una fuente), deberá instalar el paquete build-essential:
 
 ```
 sudo apt install build-essential
@@ -768,7 +910,7 @@ Comprobar conexión:
 curl http://172.26.2.23:3000
 ```
 
-4. Cnfigurar Nginx como servidor proxy inverso:
+4. Configurar Nginx como servidor proxy inverso:
 
 ```
 sudo nano /etc/nginx/sites-available/tfgprimary.ddns.net
@@ -811,7 +953,7 @@ tfgprimary.ddns.net
 
 ![contraseña-copiar](readme-image/proxy8.png)
 
-6. Configuración de Cerbot certificado gratis con Let's Encrypt
+6. Configuración de Certbot certificado gratis con Let's Encrypt
 
 ```
 sudo apt update
@@ -864,13 +1006,13 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-Cerbot ya se ancarga de realizar los cambios necesarios en nuestro servidor y redirige todo el tráfico a https.
+Certbot ya se encarga de realizar los cambios necesarios en nuestro servidor y redirige todo el tráfico a https.
 
 ![contraseña-copiar](readme-image/proxy11.png)
 
 ## Gestionar Paquetes de Instalación
 
-- Librerias Cliente:
+- Librerías Cliente:
 
 - Entrelazar diferentes páginas manteniendo los estados de los componentes:
 
@@ -891,13 +1033,13 @@ Cerbot ya se ancarga de realizar los cambios necesarios en nuestro servidor y re
   npm install axios
   ```
 
-- Instalar crypto para utilizar sha256 para sacar el codigo hash de la contraseña:
+- Instalar crypto para utilizar sha256 para sacar el código hash de la contraseña:
 
   ```
   npm install crypto-js
   ```
 
-- Librerias Servidor:
+- Librerías Servidor:
 
 - Express:
 
@@ -923,7 +1065,7 @@ Cerbot ya se ancarga de realizar los cambios necesarios en nuestro servidor y re
   npm install jsonwebtoken
   ```
 
-- Politica de cors para procesar json en una respuesta post:
+- Política de cors para procesar json en una respuesta post:
 
   ```
   npm install cors
@@ -941,7 +1083,7 @@ Cerbot ya se ancarga de realizar los cambios necesarios en nuestro servidor y re
   npm install dotenv -D
   ```
 
-- Instalar gestor para subir imagenes al servidor:
+- Instalar gestor para subir imágenes al servidor:
 
   ```
   npm install express-fileupload
