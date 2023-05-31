@@ -10,7 +10,7 @@ const SECRET_KEY =
 
 router.post("/verification", (req, res) => {
   const { token } = req.body;
-  let verification = verificationToken(token); // Verificacion de sesion
+  let verification = verificationToken(token); // Verificación de sesión
   if (verification === null) {
     // Devuelve cuando el token ha expirado o no existe ningún token
     // El token no es válido
@@ -26,7 +26,7 @@ router.post("/verification", (req, res) => {
 });
 
 /**
- * Verificación de que un token es válido y es el usario de administrador para que tenga acceso a editar la base de datos desde el cliente.
+ * Verificación de que un token es válido y es el usuario de administrador para que tenga acceso a editar la base de datos desde el cliente.
  */
 function verificationToken(token) {
   var access = false;
