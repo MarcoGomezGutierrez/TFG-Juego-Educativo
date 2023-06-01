@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "bookicon",
+        "cacheable",
         "certbot",
         "Certbot",
         "certonly",
@@ -8,6 +10,7 @@
         "debian",
         "descomentar",
         "dpkg",
+        "firefox",
         "fullchain",
         "genpkey",
         "habilítelo",
@@ -20,6 +23,9 @@
         "mysqld",
         "nginx",
         "openssl",
+        "precache",
+        "precached",
+        "precaching",
         "privkey",
         "PUBKEY",
         "rainyhearts",

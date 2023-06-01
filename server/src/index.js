@@ -19,6 +19,8 @@ if (NODE_ENV === "development") {
     "http://localhost:3000",
     "http://192.168.0.11:3000",
     "http://172.20.48.1:3000",
+    "http://127.0.0.1:8080",
+    "http://127.0.0.1:8081",
   ];
 } else {
   allowedOrigins =
