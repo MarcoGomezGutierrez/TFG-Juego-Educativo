@@ -2,7 +2,7 @@ import CryptoJS from 'crypto-js';
 
 const encryptionKey = 'clave-secreta';
 
-// Sacar el codigo hash de la contraseña
+// Sacar el código hash de la contraseña
 function sha256(password) {
     const encryptedPassword = CryptoJS.SHA256(password).toString();
     return encryptedPassword;

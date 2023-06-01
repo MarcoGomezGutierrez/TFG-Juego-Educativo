@@ -33,14 +33,22 @@ function Header() {
             : ""
         }`}
       >
-        <Link className="item" to="/">
+        <Link className="item" to="/" aria-label="Ir a la página principal">
           <IconoWebSvg className="item icon-web" />
         </Link>
         <div className="item">
-          <Link to="/sign-in" className="underline-animation">
+          <Link
+            to="/sign-in"
+            className="underline-animation"
+            aria-label="Ir a iniciar sesión"
+          >
             Iniciar Sesión
           </Link>
-          <Link to="/sign-up" className="buttonHeader">
+          <Link
+            to="/sign-up"
+            className="buttonHeader"
+            aria-label="Ir a registrarse"
+          >
             Registrarse
           </Link>
         </div>
