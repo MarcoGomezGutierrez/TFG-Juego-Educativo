@@ -6,6 +6,7 @@ import Home from "./Home.js";
 import Loby from "./Loby.js";
 import Game from "./Game.js";
 import Edit from "./Edit.js";
+import Admin from "./Admin.js";
 import Verification from "./Verification.js";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/loby" element={<Loby />} />
         <Route path="/edit" element={<Edit />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/verification" element={<Verification />} />
         <Route path="/game/:id" element={<Game />} />
       </Routes>
