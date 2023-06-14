@@ -124,11 +124,30 @@ router.get("/temarios-agrupados", (req, res) => {
   });
 });
 
+router.get("/control", (req, res) => {
+  const { token } = req.query;
+  let verification = verificationToken(token);
+  if (verification === null || verification === false) {
+    return res.status(401).send({
+      msg: "Token no válido, sesión expirada",
+    });
+  }
+  // Obtener las preguntas falladas del usuario
+  getTodosFallosUsuarios((data) => {
+    const response = {
+      access: verification,
+      data: data,
+    };
+
+    return res.status(200).send(response);
+  });
+});
+
 /* Respuesta para comprobar datos rápidamente */
 if (process.env.NODE_ENV === "development") {
   // Solo en entorno de desarrollo, nunca en producción
   router.get("/test", (req, res) => {
-    const id_user = 7;
+    const id_user = 1;
 
     // Obtener las preguntas falladas del usuario
     getPreguntasFalladas(id_user, (preguntasFalladas) => {
@@ -174,6 +193,46 @@ function getTemariosAgrupados(callback) {
   } catch (err) {
     console.error("Error al ejecutar la consulta:", err);
     callback(null);
+  }
+}
+
+// Traer una tabla con todos los fallos de los usuarios
+function getTodosFallosUsuarios(callback) {
+  try {
+    db.query(
+      `SELECT u.username AS username,
+      p.enunciado AS pregunta,
+      n.nombre AS nivel,
+      t.nombre AS temario
+      FROM preguntas_falladas pf
+      INNER JOIN preguntas p ON pf.id_pregunta = p.id
+      INNER JOIN users u ON pf.id_user = u.id
+      INNER JOIN niveles n ON n.id = p.id_nivel
+      INNER JOIN temarios t ON t.id = n.id_temario
+      ORDER BY u.username;`,
+      (err, results) => {
+        if (err) {
+          console.error("Error al ejecutar la consulta:", err);
+          callback([]);
+          return;
+        }
+
+        // Procesar los resultados y generar el JSON
+        const groupedData = {};
+        results.forEach((row) => {
+          const { username, pregunta, nivel, temario } = row;
+          if (!groupedData[username]) {
+            groupedData[username] = [];
+          }
+          groupedData[username].push({ pregunta, nivel, temario });
+        });
+
+        callback(groupedData);
+      }
+    );
+  } catch (err) {
+    console.error("Error al ejecutar la consulta:", err);
+    callback([]);
   }
 }
 

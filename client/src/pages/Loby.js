@@ -77,12 +77,18 @@ class Loby extends Component {
   }
 
   // Método que comprueba si el usuario tiene acceso al apartado de edición de la base de datos
+  // Ver el resultado de los usuarios
   editAccess() {
     if (this.state.access) {
       return (
-        <Link to="/edit" className="dropdown-content-nivel">
-          Edit Page
-        </Link>
+        <>
+          <Link to="/edit" className="dropdown-content-nivel">
+            Edit Page
+          </Link>
+          <Link to="/admin" className="dropdown-content-nivel">
+            Control Users
+          </Link>
+        </>
       );
     } else {
       return <></>;
